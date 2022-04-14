@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emma.galzio.simulaciones_tp1_javafx.fxController.RandomsGeneradosFxController">
+   <children>
+      <HBox layoutX="14.0" layoutY="119.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox prefHeight="600.0" prefWidth="224.0" HBox.hgrow="NEVER">
+               <children>
+                  <Button fx:id="btn_back" mnemonicParsing="false" onAction="#btnBackMain" text="&lt;" />
+                  <TitledPane animated="false" collapsible="false" prefHeight="215.0" prefWidth="230.0" text="Metodo Generador">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="177.0" prefWidth="228.0">
+                           <padding>
+                              <Insets bottom="10.0" />
+                           </padding>
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
+                                 <children>
+                                    <RadioButton fx:id="rbt_congruencial" mnemonicParsing="false" onAction="#generarLineal" text="Congruencial Lineal" VBox.vgrow="ALWAYS">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="metodo_generador" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="rbt_multiplicativo" mnemonicParsing="false" onAction="#generarMultiplicativo" text="Congruencial Multiplicativo" toggleGroup="$metodo_generador" VBox.vgrow="ALWAYS" />
+                                    <RadioButton fx:id="rbt_lenguaje" mnemonicParsing="false" onAction="#generarLenguaje" text="Lenguaje" toggleGroup="$metodo_generador" VBox.vgrow="ALWAYS" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="20.0" left="10.0" right="10.0" top="20.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                  </TitledPane>
+                  <TitledPane animated="false" collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Variables" VBox.vgrow="ALWAYS">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox alignment="TOP_CENTER" layoutX="19.6" layoutY="20.6" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label minWidth="30.0" prefHeight="17.0" prefWidth="18.0" text="n:">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets left="5.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="tf_n" onKeyPressed="#validarNumero" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label minWidth="30.0" prefHeight="17.0" prefWidth="18.0" text="X0:">
+                                             <padding>
+                                                <Insets left="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="tf_x0" onKeyPressed="#validarNumero" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label minWidth="30.0" prefHeight="17.0" prefWidth="18.0" text="g:">
+                                             <padding>
+                                                <Insets left="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="tf_g" onKeyTyped="#validarNumero" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label minWidth="30.0" prefHeight="17.0" prefWidth="18.0" text="k:">
+                                             <padding>
+                                                <Insets left="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="tf_k" onKeyTyped="#validarNumero" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label minWidth="30.0" prefHeight="17.0" prefWidth="18.0" text="c:">
+                                             <padding>
+                                                <Insets left="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="tf_c" onKeyTyped="#validarNumero" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label minWidth="30.0" prefHeight="17.0" prefWidth="18.0" text="a:">
+                                             <padding>
+                                                <Insets left="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="tf_a" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label minWidth="30.0" prefHeight="17.0" prefWidth="18.0" text="m:">
+                                             <padding>
+                                                <Insets left="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="tf_m" />
+                                       </children>
+                                    </HBox>
+                                    <FlowPane alignment="CENTER_RIGHT" prefHeight="109.0" prefWidth="168.0">
+                                       <children>
+                                          <Button fx:id="btn_generarPseudo" mnemonicParsing="false" onAction="#generarPseudoAleatoreo" text="Generar" />
+                                       </children>
+                                    </FlowPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="603.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Pseudo-Aleatorios Generados">
+                     <padding>
+                        <Insets bottom="20.0" top="30.0" />
+                     </padding>
+                     <font>
+                        <Font name="Arial Black" size="20.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="tv_randoms_gen" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </TableView>
+                  <FlowPane alignment="CENTER_RIGHT" columnHalignment="RIGHT" prefHeight="32.0" prefWidth="570.0" VBox.vgrow="NEVER">
+                     <children>
+                        <Button fx:id="btn_siguiente" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnSiguienteRandom" prefHeight="41.0" prefWidth="153.0" text="Siguiente Random" />
+                     </children>
+                  </FlowPane>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emma.galzio.simulaciones_tp1_javafx.fxController.PruebaChiCuadradoController">
+   <children>
+      <HBox layoutX="14.0" layoutY="119.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox prefHeight="600.0" prefWidth="224.0" HBox.hgrow="NEVER">
+               <children>
+                  <Button fx:id="btn_back" mnemonicParsing="false" onAction="#btnBackMain" text="&lt;" />
+                  <TitledPane animated="false" collapsible="false" prefHeight="121.0" prefWidth="230.0" text="Metodo Generador">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="177.0" prefWidth="228.0">
+                           <padding>
+                              <Insets bottom="10.0" />
+                           </padding>
+                           <children>
+                              <VBox alignment="CENTER" layoutX="20.0" layoutY="30.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <ComboBox fx:id="cb_distribucionComp" onAction="#seleccionDistribucionComparacion" prefWidth="150.0" VBox.vgrow="ALWAYS" />
+                                    <ComboBox fx:id="cb_metodoGenerador" onAction="#seleccionMetodoGenerador" prefWidth="150.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="30.0" VBox.vgrow="ALWAYS" />
+                                    <Label contentDisplay="RIGHT" text="K (Int.):">
+                                       <graphic>
+                                          <TextField fx:id="tf_intervalos" nodeOrientation="RIGHT_TO_LEFT" prefHeight="21.0" prefWidth="137.0" />
+                                       </graphic>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                  </TitledPane>
+                  <TitledPane animated="false" collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Variables" VBox.vgrow="ALWAYS">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox alignment="TOP_CENTER" layoutX="19.6" layoutY="20.6" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label minWidth="30.0" prefHeight="17.0" prefWidth="18.0" text="n:">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets left="5.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="tf_n" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label minWidth="30.0" prefHeight="17.0" prefWidth="18.0" text="X0:">
+                                             <padding>
+                                                <Insets left="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="tf_x0" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label minWidth="30.0" prefHeight="17.0" prefWidth="18.0" text="g:">
+                                             <padding>
+                                                <Insets left="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="tf_g" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label minWidth="30.0" prefHeight="17.0" prefWidth="18.0" text="k:">
+                                             <padding>
+                                                <Insets left="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="tf_k" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label minWidth="30.0" prefHeight="17.0" prefWidth="18.0" text="c:">
+                                             <padding>
+                                                <Insets left="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="tf_c" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label minWidth="30.0" prefHeight="17.0" prefWidth="18.0" text="a:">
+                                             <padding>
+                                                <Insets left="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="tf_a" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label minWidth="30.0" prefHeight="17.0" prefWidth="18.0" text="m:">
+                                             <padding>
+                                                <Insets left="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="tf_m" />
+                                       </children>
+                                    </HBox>
+                                    <FlowPane alignment="CENTER_RIGHT" prefHeight="109.0" prefWidth="168.0">
+                                       <children>
+                                          <Button fx:id="btn_generarDistribucion" mnemonicParsing="false" onAction="#generarDistribucionFrecuencia" text="Generar" />
+                                       </children>
+                                    </FlowPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="603.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <top>
+                              <Label text="Distribución de frecuencias" BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </BorderPane.margin>
+                                 <font>
+                                    <Font name="DejaVu Sans Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                           </top>
+                           <center>
+                              <TableView fx:id="tv_dist_frecuencia" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                           </center>
+                           <bottom>
+                              <FlowPane alignment="CENTER_RIGHT" maxHeight="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Label text="Nivel de Significancia: 0,95">
+                                       <FlowPane.margin>
+                                          <Insets right="70.0" />
+                                       </FlowPane.margin>
+                                    </Label>
+                                    <Label nodeOrientation="RIGHT_TO_LEFT" text="Estadistico Tabla:">
+                                       <graphic>
+                                          <TextField fx:id="tf_est_esp" editable="false" prefHeight="25.0" prefWidth="140.0" />
+                                       </graphic>
+                                    </Label>
+                                 </children>
+                                 <BorderPane.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </BorderPane.margin>
+                              </FlowPane>
+                           </bottom>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <top>
+                              <Label text="Histograma" BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </BorderPane.margin>
+                                 <font>
+                                    <Font name="DejaVu Sans Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                           </top>
+                           <center>
+                              <BarChart fx:id="bc_histograma" BorderPane.alignment="CENTER">
+                                <xAxis>
+                                  <CategoryAxis side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis side="LEFT" />
+                                </yAxis>
+                                 <BorderPane.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </BorderPane.margin>
+                              </BarChart>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
