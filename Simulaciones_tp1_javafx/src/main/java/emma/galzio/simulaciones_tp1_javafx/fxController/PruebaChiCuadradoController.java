@@ -24,6 +24,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
@@ -172,6 +174,7 @@ public class PruebaChiCuadradoController implements Initializable {
 
 
     }
+
 
     private ParametrosGenerador obtenerParametrosTf(){
         int n = !tf_n.getText().trim().isBlank() ? Integer.parseInt(tf_n.getText()): 0;
