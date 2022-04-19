@@ -1,7 +1,8 @@
-package k1.simulaciones.simulacionestp3.controller;
+package k1.simulaciones.simulacionestp3.controller.bondadAjuste;
 
 import k1.simulaciones.simulacionestp3.modelo.Intervalo;
 import k1.simulaciones.simulacionestp3.modelo.ParametrosCambioDistribucion;
+import k1.simulaciones.simulacionestp3.modelo.ResultadoBondadAjuste;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +16,14 @@ public interface IPruebaChiCuadrado {
     * Generar una distribución de frecuencias inicial para la nueva serie de números (Con PO, PE, PoAc, PeAc.
     * Realizar la prueba de chi cuadrado sobre la distribución generada en el punto anterior
     * Para realizar la prueba de chi cuadrado se debe primero reagrupar la distribución de frecuencias
-    * para segurar que en cada intervalo la Fe sea de 5 o más, usando el algoritmo.
+    * para asegurar que en cada intervalo la Fe sea de 5 o más, usando el algoritmo.
     *
     * */
-    List<Intervalo> generarPruebaChiCuadrado(List<Intervalo> distFrecuencia, ParametrosCambioDistribucion parametros);
+    /*
+    * La distribución de frecuencias inicial, la que se recibe como parámetro en este método, se debe
+    * generar directamente en la clase controlador que coordina to-do el trabajo práctico
+    * */
+    ResultadoBondadAjuste generarPruebaChiCuadrado(List<Intervalo> distFrecuencia, ParametrosCambioDistribucion parametros);
 
     default List<Intervalo> calcularIntervalosChiCuadrado(Intervalo[] intervalos){
 
