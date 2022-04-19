@@ -60,4 +60,14 @@ public class Pseudoaleatorio {
     public void setSemilla(int semilla) {
         this.semilla = semilla;
     }
+
+    @Override
+    public String toString() {
+        return "Pseudoaleatorio{" +
+                "i=" + i +
+                ", random=" + random +
+                ", axi=" + axi +
+                ", semilla=" + semilla +
+                '}';
+    }
 }
