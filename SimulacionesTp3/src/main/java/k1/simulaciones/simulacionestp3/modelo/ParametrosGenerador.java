@@ -11,6 +11,7 @@ public class ParametrosGenerador {
     private int k;
     private int c;
     private int presicion;
+    private String metodoGeneradorRandom;
 
     public ParametrosGenerador() {
     }

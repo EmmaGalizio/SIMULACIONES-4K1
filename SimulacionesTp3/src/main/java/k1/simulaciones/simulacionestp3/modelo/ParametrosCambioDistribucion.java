@@ -11,4 +11,5 @@ public class ParametrosCambioDistribucion {
     private float lambda;
     private float presicion;
     private float kInicial;
+    private int n;
 }
