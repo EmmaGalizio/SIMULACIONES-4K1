@@ -9,4 +9,5 @@ public interface IGeneradorRandom {
     Pseudoaleatorio[] generar(ParametrosGenerador parametros);
     Pseudoaleatorio siguientePseudoAleatoreo(Pseudoaleatorio pseudoaleatorio, ParametrosGenerador parametros);
 
+
 }

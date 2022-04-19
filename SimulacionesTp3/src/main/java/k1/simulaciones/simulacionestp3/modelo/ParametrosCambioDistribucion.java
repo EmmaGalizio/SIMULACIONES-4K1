@@ -5,11 +5,12 @@ import lombok.Data;
 @Data
 public class ParametrosCambioDistribucion {
 
+    private int n;
     private float unifA, unifB;
     private float media;
     private float desvEst;
     private float lambda;
     private float presicion;
     private float kInicial;
-    private int n;
+
 }
