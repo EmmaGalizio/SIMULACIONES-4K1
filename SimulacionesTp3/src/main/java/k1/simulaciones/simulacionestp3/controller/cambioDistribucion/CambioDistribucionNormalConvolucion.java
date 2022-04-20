@@ -65,6 +65,8 @@ public class CambioDistribucionNormalConvolucion implements ICambioDistribucion 
             randomNormalDistribuido = (float) aux/multiplicador;
             vectorRandomNormal[i] = new Pseudoaleatorio(i, randomNormalDistribuido);
 
+            sumatoria = 0;
+
         }
 
         return vectorRandomNormal;
