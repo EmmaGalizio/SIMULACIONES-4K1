@@ -10,7 +10,7 @@ public class ParametrosCambioDistribucion {
     private float media;
     private float desvEst;
     private float lambda;
-    private float presicion;
-    private float kInicial;
+    private int presicion;
+    private int kInicial;
 
 }
