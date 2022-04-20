@@ -2,6 +2,7 @@ package k1.simulaciones.simulacionestp3.controller.cambioDistribucion;
 
 import k1.simulaciones.simulacionestp3.controller.generadorRandom.IGeneradorRandom;
 import k1.simulaciones.simulacionestp3.controller.utils.ConstantesCambioDistribucion;
+import k1.simulaciones.simulacionestp3.modelo.Intervalo;
 import k1.simulaciones.simulacionestp3.modelo.ParametrosCambioDistribucion;
 import k1.simulaciones.simulacionestp3.modelo.ParametrosGenerador;
 import k1.simulaciones.simulacionestp3.modelo.Pseudoaleatorio;
@@ -39,4 +40,81 @@ public class CambioDistribucionUniformeAB implements ICambioDistribucion{
 
         return pseudosRandomAB;
     }
+    @Override
+    public Intervalo[] generarDistFrecuenciaInicial(Pseudoaleatorio[] randoms,
+                                                    ParametrosCambioDistribucion parametrosCambioDistribucion){
+
+        float[]minYMax = buscarMinYMax(randoms);
+        Intervalo[] distFrecInicial = inicializarDistFrecuencia(minYMax,
+                parametrosCambioDistribucion.getKInicial(),parametrosCambioDistribucion.getPresicion());
+        int multiplicador = (int)Math.pow(10, parametrosCambioDistribucion.getPresicion());
+        float probEsp = (float)distFrecInicial.length/randoms.length;
+        int probEspAux = (int)(probEsp*multiplicador);
+        probEsp = (float)probEspAux/multiplicador;
+        for(int i = 0; i < distFrecInicial.length; i++){
+
+            distFrecInicial[i].setProbEsp(probEsp);
+            float frecEsp = distFrecInicial[i].getProbEsp()*randoms.length;
+            int frecEspAux = (int)(frecEsp*multiplicador);
+            distFrecInicial[i].setFrecEsp((float)frecEspAux/multiplicador);
+        }
+        llenarDistribucionFrecuencia(randoms,distFrecInicial, parametrosCambioDistribucion.getPresicion());
+        return distFrecInicial;
+    }
+    private void llenarDistribucionFrecuencia(Pseudoaleatorio[] randoms, Intervalo[] distFrecuencia,int presicion){
+
+        for(Pseudoaleatorio random : randoms){
+
+            for(int i = 0 ; i < distFrecuencia.length;i++){
+                if((random.getRandom() >= distFrecuencia[i].getLimInf()
+                        && random.getRandom() < distFrecuencia[i].getLimSup())||
+                        ((i == (distFrecuencia.length-1))&&
+                                random.getRandom()==distFrecuencia[i].getLimSup())){
+                    distFrecuencia[i].incrementarFrecObservada();
+                }
+            }
+
+        }
+        int multiplicador = (int)Math.pow(10,presicion);
+        for(Intervalo intervalo: distFrecuencia){
+            float probObs = ((float)intervalo.getFrecObs()/ randoms.length);
+            probObs = ((int)(probObs*multiplicador))/(float)multiplicador;
+            intervalo.setProbObs(probObs);
+        }
+    }
+    private Intervalo[] inicializarDistFrecuencia(float[]minYMax, int k, int presicion ){
+
+        int multiplicador = (int)Math.pow(10,presicion);
+        float amplitudIntervalo = (minYMax[1]-minYMax[0])/k;
+        int limInfAux = (int)(minYMax[0]*multiplicador);
+        float limInf = (float)limInfAux/multiplicador;
+        float limSup;
+        Intervalo [] distFrecuencia = new Intervalo[k];
+        for(int i = 0; i < distFrecuencia.length; i++){
+            Intervalo intervalo = new Intervalo();
+            intervalo.setLimInf(limInf);
+            limSup = limInf + amplitudIntervalo;
+            limSup = ((int)(limSup*multiplicador)/(float)multiplicador);
+            intervalo.setLimSup(limSup);
+            float marcaClase = ((int)(((limSup+limInf)/2)*multiplicador))/(float)multiplicador;
+            intervalo.setMarcaClase(marcaClase);
+            distFrecuencia[i] = intervalo;
+
+            limInf = limSup;
+            limInf = ((int)(limInf*multiplicador)/(float)multiplicador);
+        }
+        return distFrecuencia;
+    }
+    private float[] buscarMinYMax(Pseudoaleatorio[] randoms){
+        float max = 0;
+        float min = randoms[0].getRandom();
+
+        for(int i = 0; i< randoms.length; i++){
+            max = Math.max(randoms[i].getRandom(), max);
+            min = Math.min(randoms[i].getRandom(),min);
+        }
+        return new float[]{min, max};
+    }
+
+
 }

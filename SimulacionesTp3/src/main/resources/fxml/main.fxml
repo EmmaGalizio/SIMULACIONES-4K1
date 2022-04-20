@@ -1,31 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="k1.simulaciones.simulacionestp3.fxController.MainSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="k1.simulaciones.simulacionestp3.fxController.MainFxController">
    <children>
-      <VBox alignment="CENTER" layoutX="14.0" layoutY="64.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="btn_generarRandoms" mnemonicParsing="false" onAction="#btnGenerarRandoms" text="Generar Randoms" VBox.vgrow="ALWAYS">
-               <VBox.margin>
-                  <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
-               </VBox.margin>
-               <padding>
-                  <Insets bottom="30.0" left="50.0" right="50.0" top="30.0" />
-               </padding>
-            </Button>
-            <Button fx:id="btn_chiCuadrado" mnemonicParsing="false" onAction="#btnChiCuadrado" text="Test Chi Cuadrado" VBox.vgrow="ALWAYS">
-               <VBox.margin>
-                  <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
-               </VBox.margin>
-               <padding>
-                  <Insets bottom="30.0" left="50.0" right="50.0" top="30.0" />
-               </padding>
-            </Button>
+            <AnchorPane prefHeight="89.0" prefWidth="600.0">
+               <children>
+                  <TitledPane animated="false" collapsible="false" text="Selección Métodos" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <FlowPane alignment="CENTER_LEFT" hgap="10.0" prefHeight="200.0" prefWidth="200.0" vgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label text="Metodo Generador:" />
+                                    <ComboBox fx:id="cb_metodoGenerador" onAction="#seleccionMetodoGenerador" prefWidth="150.0" />
+                                    <Label text="Distribucion Esperada:" />
+                                    <ComboBox fx:id="cb_distribucionEsperada" onAction="#seleccionDistribucion" prefWidth="150.0" />
+                                    <Button fx:id="btn_cargarDatos" mnemonicParsing="false" onAction="#mostrarModalCargaDatos" text="Cargar Datos" />
+                                 </children>
+                              </FlowPane>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+            <HBox prefHeight="286.0" prefWidth="800.0">
+               <children>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <TitledPane animated="false" collapsible="false" text="Tabla Prueba Chi Cuadrado" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TableView fx:id="tv_chiCuadrado" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </TitledPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <TitledPane animated="false" collapsible="false" text="Tabla Prueba K-S" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TableView fx:id="tv_pruebaKS" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </TitledPane>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <AnchorPane prefHeight="61.0" prefWidth="800.0">
+                     <children>
+                        <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label text="Histograma">
+                                 <font>
+                                    <Font name="DejaVu Sans Bold" size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </FlowPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <BarChart fx:id="ch_histograma" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </BarChart>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
          </children>
       </VBox>
    </children>

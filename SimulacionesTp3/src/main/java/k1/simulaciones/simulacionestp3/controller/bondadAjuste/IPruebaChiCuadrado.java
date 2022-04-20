@@ -23,7 +23,7 @@ public interface IPruebaChiCuadrado {
     * La distribución de frecuencias inicial, la que se recibe como parámetro en este método, se debe
     * generar directamente en la clase controlador que coordina to-do el trabajo práctico
     * */
-    ResultadoBondadAjuste generarPruebaChiCuadrado(List<Intervalo> distFrecuencia, ParametrosCambioDistribucion parametros);
+    ResultadoBondadAjuste generarPruebaChiCuadrado(Intervalo[] distFrecuencia, ParametrosCambioDistribucion parametros);
 
     default List<Intervalo> calcularIntervalosChiCuadrado(Intervalo[] intervalos){
 

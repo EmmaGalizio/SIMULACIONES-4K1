@@ -14,6 +14,8 @@ public class DistribucionEsperadaChiCuadrado {
     private String distribucion;
     private String id;
 
+
+
     private DistribucionEsperadaChiCuadrado(String distribucion, String id) {
         this.distribucion = distribucion;
         this.id = id;
@@ -23,9 +25,13 @@ public class DistribucionEsperadaChiCuadrado {
         return new DistribucionEsperadaChiCuadrado("Dist. Uniforme",
                 ConstantesCambioDistribucion.UNIFORME);
     }
-    public static DistribucionEsperadaChiCuadrado getInstanceNormal(){
-        return new DistribucionEsperadaChiCuadrado("Dist. Normal",
-                ConstantesCambioDistribucion.NORMAL);
+    public static DistribucionEsperadaChiCuadrado getInstanceNormalBoxMuller(){
+        return new DistribucionEsperadaChiCuadrado("Dist. Normal Box Muller",
+                ConstantesCambioDistribucion.NORMAL_BOXMULLER);
+    }
+    public static DistribucionEsperadaChiCuadrado getInstanceNormalConvolucion(){
+        return new DistribucionEsperadaChiCuadrado("Dist. Normal Convolucion",
+                ConstantesCambioDistribucion.NORMAL_CONVOLUCION);
     }
     public static DistribucionEsperadaChiCuadrado getInstanceExpNegativa(){
         return new DistribucionEsperadaChiCuadrado("Dist. Exp. Negativa",
