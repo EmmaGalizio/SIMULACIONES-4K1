@@ -14,9 +14,32 @@ public class PruebaChiCuadrado implements IPruebaChiCuadrado{
 
         List<Intervalo> intervalosChiCuadrado = calcularIntervalosChiCuadrado(distFrecuencia);
         ResultadoBondadAjuste resultadoBondadAjuste = new ResultadoBondadAjuste();
+        resultadoBondadAjuste.setDistFrecuencia(distFrecuencia);
 
+        float estChiCuadradoCalc = generarEstadisticoChiCuadrado(intervalosChiCuadrado,
+                                                                                parametros.getPresicion());
+        float estTabulado = obtenerValorChiCuadrado(intervalosChiCuadrado.size());
+        resultadoBondadAjuste.setDistribucionChiCuadrado(intervalosChiCuadrado);
+        resultadoBondadAjuste.setEstadisticoObsChiCuadrado(estChiCuadradoCalc);
+        resultadoBondadAjuste.setEstatisticoEspChiCuadrado(estTabulado);
 
-        return null;
+        return resultadoBondadAjuste;
+    }
+
+    private float generarEstadisticoChiCuadrado(List<Intervalo> distFrecuencia, int presicion){
+//Probar por que mostraba tantos decimales!!!
+        float estAcum = 0.0f;
+        int multiplicador = (int)Math.pow(10,presicion);
+
+        for(Intervalo intervalo : distFrecuencia){
+            float numerador = ((int)(Math.pow(intervalo.getFrecEsp()- intervalo.getFrecObs(),2)*multiplicador))/(float)multiplicador;
+            float est = ((int)(numerador/ intervalo.getFrecEsp()*multiplicador))/(float)multiplicador;
+            estAcum+=est;
+            estAcum = ((int)(estAcum*multiplicador))/(float)multiplicador;
+            intervalo.setEstadistico(est);
+            intervalo.setEstadisticoAcumulado(estAcum);
+        }
+        return estAcum;
     }
 
 

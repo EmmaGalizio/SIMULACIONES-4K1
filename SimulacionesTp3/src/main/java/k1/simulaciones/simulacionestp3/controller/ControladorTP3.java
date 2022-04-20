@@ -1,5 +1,6 @@
 package k1.simulaciones.simulacionestp3.controller;
 
+import k1.simulaciones.simulacionestp3.controller.bondadAjuste.IPruebaChiCuadrado;
 import k1.simulaciones.simulacionestp3.controller.cambioDistribucion.ICambioDistribucion;
 import k1.simulaciones.simulacionestp3.controller.utils.DistribucionEsperadaChiCuadrado;
 import k1.simulaciones.simulacionestp3.modelo.*;
@@ -13,6 +14,7 @@ import java.util.Map;
 public class ControladorTP3 {
 
     private final Map<String, ICambioDistribucion> metodosCambioDistribucion;
+    private final IPruebaChiCuadrado pruebaChiCuadrado;
 
     public ResultadoBondadAjuste generarDistribucionFrecuencia(ParametrosCambioDistribucion parametrosCambioDistribucion,
                                                                DistribucionEsperadaChiCuadrado distEsperada,
@@ -34,7 +36,12 @@ public class ControladorTP3 {
         //Por lo que se puede implementar solo una clase de IPruebaChiCuadrado
         //Hay que ver bien el tema de llenar la distribución inicial en cada cambio de distribución
         //Y calcular bien la probabilidad esperada de cada intervalo dependiendo de la distribucion
-        return null;
+        ResultadoBondadAjuste resultadoBondadAjuste = pruebaChiCuadrado
+                                .generarPruebaChiCuadrado(distFrecuenciaInicial, parametrosCambioDistribucion);
+
+        //Faltaría solo K-S
+
+        return resultadoBondadAjuste;
 
     }
 
