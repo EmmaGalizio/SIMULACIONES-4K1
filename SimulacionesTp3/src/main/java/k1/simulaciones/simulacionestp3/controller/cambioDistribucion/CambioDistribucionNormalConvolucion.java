@@ -31,22 +31,43 @@ public class CambioDistribucionNormalConvolucion implements ICambioDistribucion 
         parametrosGenerador1.setN(nUniforme);
         Pseudoaleatorio vectorRandomUniforme[] = generadorRandom1.generar(parametrosGenerador1);
 
-        //CORREGIR
+        Pseudoaleatorio vectorRandomNormal[] = new Pseudoaleatorio[n];
 
-        float media = ( n / 2 );
-        float varianza = ( n / 12 );
+        /*
+        float media = (float) ( n / 2 );
+        float varianza = (float) ( n / 12 );
         double desviacionEstandar = Math.sqrt(varianza);
+         */
+
+        float media = parametros.getMedia();
+        float desviacionEstandar = parametros.getDesvEst();
+
         float sumatoria = 0;
+        int contUninf = 0;
+        int contAux = 0;
+
+        int aux;
+        int multiplicador = (int)Math.pow(10, parametros.getPresicion());
+
         for(int i = 0; i < n ; i++){
 
-            for(int j= i; j < i+12 ; j++){
+            //saco 12 randoms del vector de uninformes
+            for(int j = contUninf; j < contUninf+12 ; j++){
                 sumatoria += vectorRandomUniforme[j].getRandom();
+                contAux = j;
             }
+            //establece el contador en el ultimo numero que quedo valiendo j asi saca los proximos 12
+            contUninf = contAux;
+
+            float randomNormalDistribuido = (float) (((sumatoria - 6)* desviacionEstandar) + media);
+
+            aux = (int) (randomNormalDistribuido*multiplicador);
+            randomNormalDistribuido = (float) aux/multiplicador;
+            vectorRandomNormal[i] = new Pseudoaleatorio(i, randomNormalDistribuido);
+
         }
 
-        double randomNormalDistribuido = (((sumatoria - 6)* desviacionEstandar) + media);
-
-        return new Pseudoaleatorio[0];
+        return vectorRandomNormal;
     }
 
     @Override

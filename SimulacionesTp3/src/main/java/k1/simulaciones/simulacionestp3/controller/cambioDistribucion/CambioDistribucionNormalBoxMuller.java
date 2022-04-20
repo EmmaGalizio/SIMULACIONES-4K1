@@ -24,7 +24,7 @@ public class CambioDistribucionNormalBoxMuller implements ICambioDistribucion{
         if(parametros.getPresicion() <= 0 || parametros.getPresicion() > 9) parametros.setPresicion(4);
 
         int n = parametros.getN();
-        int nUninforme = n/2;
+        int nUninforme = n/2+1;
 
         //primer generador de uninformes
         ParametrosGenerador parametrosGenerador1 = Arrays.stream(parametrosGenerador).iterator().next();
@@ -32,7 +32,7 @@ public class CambioDistribucionNormalBoxMuller implements ICambioDistribucion{
         //defino vector de randoms uninformes y genero randoms uninformes
         parametrosGenerador1.setN(nUninforme);
         Pseudoaleatorio randomsUnif1[] = generadorRandom1.generar(parametrosGenerador1);
-        Pseudoaleatorio randomUnif1;
+        float randomUnif1;
 
         //primer generador de uninformes
         ParametrosGenerador parametrosGenerador2 = Arrays.stream(parametrosGenerador).iterator().next();
@@ -40,32 +40,45 @@ public class CambioDistribucionNormalBoxMuller implements ICambioDistribucion{
         //defino vector de randoms uninformes y genero randoms uninformes
         parametrosGenerador2.setN(nUninforme);
         Pseudoaleatorio randomsUnif2[] = generadorRandom2.generar(parametrosGenerador2);
-        Pseudoaleatorio randomUnif2;
+        float randomUnif2;
 
         //defino vector de randoms normales
         Pseudoaleatorio pseudoaleatoriosNormalesBoxMuller[] = new Pseudoaleatorio[n];
 
         // genero randoms normales Box Muller
-        float pseudoAleatorioENormalesBoxMuller;
+        float pseudoAleatorioENormalBoxMuller;
         int multiplicador = (int)Math.pow(10, parametros.getPresicion());
         int aux;
         boolean band = false;
+        int contUninf = 0;
+
+        //obtengo parametros de la distribucion
+        float desvEst = parametros.getDesvEst();
+        float media = parametros.getMedia();
 
         for(int i = 0; i < n; i++){
-            /*
-            randomUnif = randomsUnif[i];
-            if(!band){
 
+            randomUnif1 = randomsUnif1[contUninf].getRandom();
+            randomUnif2 = randomsUnif2[contUninf].getRandom();
+
+            if (!band){
+                pseudoAleatorioENormalBoxMuller =
+                        (float)(((Math.sqrt(-2*Math.log(randomUnif1)))*Math.cos(2*Math.PI*randomUnif2))*desvEst+media);
+                band = true;
             }
-            randomUnif = randomsUnif[i];
-            pseudoAleatorioExpNeg = (float) ((-1/parametros.getLambda())*Math.log(1-randomUnif.getRandom()));
-            aux = (int) (pseudoAleatorioExpNeg*multiplicador);
-            pseudoAleatorioExpNeg = (float)aux/multiplicador;
-            pseudoaleatoriosExpNeg[i] = new Pseudoaleatorio(i,pseudoAleatorioExpNeg);
-            */
+            else{
+                pseudoAleatorioENormalBoxMuller =
+                        (float)(((Math.sqrt(-2*Math.log(randomUnif1)))*Math.sin(2*Math.PI*randomUnif2))*desvEst+media);
+                band = false;
+                contUninf++;
+            }
+            aux = (int) (pseudoAleatorioENormalBoxMuller*multiplicador);
+            pseudoAleatorioENormalBoxMuller = (float) aux/multiplicador;
+            pseudoaleatoriosNormalesBoxMuller[i] = new Pseudoaleatorio(i, pseudoAleatorioENormalBoxMuller);
+
         }
 
-        return new Pseudoaleatorio[0];
+        return pseudoaleatoriosNormalesBoxMuller;
 
     }
 
