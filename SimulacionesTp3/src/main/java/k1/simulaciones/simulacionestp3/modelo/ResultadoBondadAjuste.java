@@ -1,19 +1,21 @@
 package k1.simulaciones.simulacionestp3.modelo;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Data;
 
 import java.util.List;
 
-@RequiredArgsConstructor
-@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class ResultadoBondadAjuste {
 
-    private final Intervalo[] distFrecuencia;
-    private final List<Intervalo> distribucionChiCuadrado;
-    private final Pseudoaleatorio[] valoresGenerados;
-    private final float estadisticoObsChiCuadrado;
-    private final float estatisticoEspChiCuadrado;
+    private  Intervalo[] distFrecuencia;
+    private  List<Intervalo> distribucionChiCuadrado;
+    private  Pseudoaleatorio[] valoresGenerados;
+    private  float estadisticoObsChiCuadrado;
+    private  float estatisticoEspChiCuadrado;
 
     public int getN(){
         return valoresGenerados.length;
