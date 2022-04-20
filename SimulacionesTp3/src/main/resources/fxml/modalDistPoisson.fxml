@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="k1.simulaciones.simulacionestp3.fxController.ModalPoissonFxController">
+   <children>
+      <HBox layoutX="31.0" layoutY="150.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <TitledPane animated="false" collapsible="false" text="Generador Random 0-1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label prefHeight="15.0" prefWidth="51.0" text="X0:" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="tf_x0" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label prefHeight="15.0" prefWidth="51.0" text="g:" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="tf_g" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label prefHeight="15.0" prefWidth="51.0" text="K: " HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="tf_k" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label prefHeight="15.0" prefWidth="51.0" text="C:" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="tf_c" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label prefHeight="15.0" prefWidth="51.0" text="a:" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="tf_a" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label prefHeight="15.0" prefWidth="51.0" text="m:" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="tx_m" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <TitledPane animated="false" collapsible="false" text="Distribucion Poisson" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label prefHeight="15.0" prefWidth="73.0" text="Lambda:" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="tf_lambda" prefHeight="25.0" prefWidth="104.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label prefHeight="15.0" prefWidth="76.0" text="N:" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="tf_N" prefHeight="25.0" prefWidth="91.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <AnchorPane VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Button fx:id="btn_aceptar" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#aceptarParametros" text="Aceptar" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
