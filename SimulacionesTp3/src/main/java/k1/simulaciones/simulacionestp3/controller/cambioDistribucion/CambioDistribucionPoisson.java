@@ -155,9 +155,9 @@ public class CambioDistribucionPoisson implements ICambioDistribucion{
     private float calcularProbEsperada(ParametrosCambioDistribucion parametrosCambioDistribucion, Intervalo intervalo) {
 
         float probEsp = (float)Math.pow(parametrosCambioDistribucion.getLambda(),intervalo.getMarcaClase());
-        probEsp*=(float)Math.exp(-parametrosCambioDistribucion.getLambda());
+        probEsp*=(float)Math.exp((-1)*parametrosCambioDistribucion.getLambda());
         long factorialX=1;
-        int x = intervalo.getFrecObs();
+        int x = (int)intervalo.getMarcaClase();
         while(x > 0){
             factorialX*=x;
             x--;
