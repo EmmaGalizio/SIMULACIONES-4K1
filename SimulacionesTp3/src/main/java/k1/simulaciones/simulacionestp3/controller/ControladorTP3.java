@@ -41,7 +41,7 @@ public class ControladorTP3 {
         //Y calcular bien la probabilidad esperada de cada intervalo dependiendo de la distribucion
         ResultadoBondadAjuste resultadoBondadAjuste = pruebaChiCuadrado
                                 .generarPruebaChiCuadrado(distFrecuenciaInicial, parametrosCambioDistribucion);
-
+        resultadoBondadAjuste.setValoresGenerados(randomsGenerados);
         pruebaKS.generarPruebaKS(resultadoBondadAjuste,parametrosCambioDistribucion);
         return resultadoBondadAjuste;
 
