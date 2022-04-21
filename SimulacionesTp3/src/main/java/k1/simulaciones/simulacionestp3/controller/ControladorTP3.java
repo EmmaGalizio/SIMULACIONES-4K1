@@ -1,6 +1,7 @@
 package k1.simulaciones.simulacionestp3.controller;
 
 import k1.simulaciones.simulacionestp3.controller.bondadAjuste.IPruebaChiCuadrado;
+import k1.simulaciones.simulacionestp3.controller.bondadAjuste.IPruebaKS;
 import k1.simulaciones.simulacionestp3.controller.cambioDistribucion.ICambioDistribucion;
 import k1.simulaciones.simulacionestp3.controller.utils.DistribucionEsperadaChiCuadrado;
 import k1.simulaciones.simulacionestp3.modelo.*;
@@ -15,6 +16,8 @@ public class ControladorTP3 {
 
     private final Map<String, ICambioDistribucion> metodosCambioDistribucion;
     private final IPruebaChiCuadrado pruebaChiCuadrado;
+
+    private final IPruebaKS pruebaKS;
 
     public ResultadoBondadAjuste generarDistribucionFrecuencia(ParametrosCambioDistribucion parametrosCambioDistribucion,
                                                                DistribucionEsperadaChiCuadrado distEsperada,
@@ -39,8 +42,7 @@ public class ControladorTP3 {
         ResultadoBondadAjuste resultadoBondadAjuste = pruebaChiCuadrado
                                 .generarPruebaChiCuadrado(distFrecuenciaInicial, parametrosCambioDistribucion);
 
-        //Faltaría solo K-S
-
+        pruebaKS.generarPruebaKS(resultadoBondadAjuste,parametrosCambioDistribucion);
         return resultadoBondadAjuste;
 
     }

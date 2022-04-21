@@ -4,8 +4,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="k1.simulaciones.simulacionestp3.fxController.ModalNormalFxController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="k1.simulaciones.simulacionestp3.fxController.ModalNormalFxController">
    <children>
       <HBox layoutX="31.0" layoutY="150.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -15,44 +14,104 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <VBox layoutX="10.399999618530273" layoutY="10.399999618530273" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <HBox prefHeight="100.0" prefWidth="200.0">
-                                       <children>
-                                          <Label prefHeight="15.0" prefWidth="51.0" text="X0:" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="tf_x0" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
-                                    <HBox prefHeight="100.0" prefWidth="200.0">
-                                       <children>
-                                          <Label prefHeight="15.0" prefWidth="51.0" text="g:" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="tf_g" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
-                                    <HBox prefHeight="100.0" prefWidth="200.0">
-                                       <children>
-                                          <Label prefHeight="15.0" prefWidth="51.0" text="K: " HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="tf_k" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
-                                    <HBox prefHeight="100.0" prefWidth="200.0">
-                                       <children>
-                                          <Label prefHeight="15.0" prefWidth="51.0" text="C:" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="tf_c" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
-                                    <HBox prefHeight="100.0" prefWidth="200.0">
-                                       <children>
-                                          <Label prefHeight="15.0" prefWidth="51.0" text="a:" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="tf_a" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
-                                    <HBox prefHeight="100.0" prefWidth="200.0">
-                                       <children>
-                                          <Label prefHeight="15.0" prefWidth="51.0" text="m:" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="tx_m" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
+                                    <TitledPane animated="false" collapsible="false" text="Generador 1" VBox.vgrow="ALWAYS">
+                                       <content>
+                                          <AnchorPane>
+                                             <children>
+                                                <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+                                                   <children>
+                                                      <HBox prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label prefHeight="15.0" prefWidth="51.0" text="X0:" HBox.hgrow="ALWAYS" />
+                                                            <TextField fx:id="tf_x0_1" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label prefHeight="15.0" prefWidth="51.0" text="g:" HBox.hgrow="ALWAYS" />
+                                                            <TextField fx:id="tf_g_1" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label prefHeight="15.0" prefWidth="51.0" text="K: " HBox.hgrow="ALWAYS" />
+                                                            <TextField fx:id="tf_k_1" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label prefHeight="15.0" prefWidth="51.0" text="C:" HBox.hgrow="ALWAYS" />
+                                                            <TextField fx:id="tf_c_1" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label prefHeight="15.0" prefWidth="51.0" text="a:" HBox.hgrow="ALWAYS" />
+                                                            <TextField fx:id="tf_a_1" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label prefHeight="15.0" prefWidth="51.0" text="m:" HBox.hgrow="ALWAYS" />
+                                                            <TextField fx:id="tx_m_1" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </TitledPane>
+                                    <TitledPane collapsible="false" text="Generador 2" VBox.vgrow="ALWAYS">
+                                       <content>
+                                          <AnchorPane>
+                                             <children>
+                                                <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+                                                   <children>
+                                                      <HBox prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label prefHeight="15.0" prefWidth="51.0" text="X0:" HBox.hgrow="ALWAYS" />
+                                                            <TextField fx:id="tf_x0_2" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label prefHeight="15.0" prefWidth="51.0" text="g:" HBox.hgrow="ALWAYS" />
+                                                            <TextField fx:id="tf_g_2" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label prefHeight="15.0" prefWidth="51.0" text="K: " HBox.hgrow="ALWAYS" />
+                                                            <TextField fx:id="tf_k_2" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label prefHeight="15.0" prefWidth="51.0" text="C:" HBox.hgrow="ALWAYS" />
+                                                            <TextField fx:id="tf_c_2" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label prefHeight="15.0" prefWidth="51.0" text="a:" HBox.hgrow="ALWAYS" />
+                                                            <TextField fx:id="tf_a_2" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label prefHeight="15.0" prefWidth="51.0" text="m:" HBox.hgrow="ALWAYS" />
+                                                            <TextField fx:id="tx_m_2" prefHeight="25.0" prefWidth="131.0" HBox.hgrow="ALWAYS" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </TitledPane>
                                  </children>
                               </VBox>
                            </children>

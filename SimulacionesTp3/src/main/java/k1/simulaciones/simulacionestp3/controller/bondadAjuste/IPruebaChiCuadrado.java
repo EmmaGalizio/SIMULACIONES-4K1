@@ -27,13 +27,15 @@ public interface IPruebaChiCuadrado {
 
     default List<Intervalo> calcularIntervalosChiCuadrado(Intervalo[] intervalos){
 
-        float espAcumI = 0, acumJ = 0;
+        float espAcumI = 0, acumJ = 0,probEspAcum=0,probObsAcum=0;
         int li = 0, obsAcumI=0;
         List<Intervalo> intervalosChiCuadrado = new ArrayList<>();
         boolean creaIntervalo;
         for(int i = 0; i < intervalos.length; i++){
             espAcumI += intervalos[i].getFrecEsp();
+            probEspAcum+= intervalos[i].getProbEsp();
             obsAcumI += intervalos[i].getFrecObs();
+            probObsAcum +=intervalos[i].getProbObs();
             if(espAcumI >= 5){
                 int j;
                 if(i+1!=intervalos.length){
@@ -50,11 +52,17 @@ public interface IPruebaChiCuadrado {
                     Intervalo intervalo = new Intervalo();
                     intervalo.setLimInf(intervalos[li].getLimInf());
                     intervalo.setLimSup(intervalos[i].getLimSup());
+                   intervalo.setMarcaClase((intervalos[i].getLimSup()+intervalos[li].getLimInf())/2);
+
                     intervalo.setFrecEsp(espAcumI);
                     intervalo.setFrecObs(obsAcumI);
+                    intervalo.setProbEsp(probEspAcum);
+                    intervalo.setProbObs(probObsAcum);
                     intervalosChiCuadrado.add(intervalo);
                     espAcumI = 0;
                     obsAcumI = 0;
+                    probEspAcum=0;
+                    probObsAcum=0;
                     acumJ = 0;
                     li = i+1;
                 }
