@@ -14,6 +14,8 @@ public class IntervaloKS {
     private float probEsp;
     private float probObsAC;
     private float probEspAC;
+    private float difAbs;
+
 
     private float estadistico;
     private float estadisticoAcumulado;
