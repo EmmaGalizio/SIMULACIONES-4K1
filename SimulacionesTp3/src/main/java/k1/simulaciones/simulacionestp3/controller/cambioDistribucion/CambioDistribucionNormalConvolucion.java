@@ -43,21 +43,24 @@ public class CambioDistribucionNormalConvolucion implements ICambioDistribucion 
         float desviacionEstandar = parametros.getDesvEst();
 
         float sumatoria = 0;
-        int contUninf = 0;
-        int contAux = 0;
+        //int contUninf = 0;
+        //int contAux = 0;
 
         int aux;
         int multiplicador = (int)Math.pow(10, parametros.getPresicion());
+        Pseudoaleatorio randomUniforme = vectorRandomUniforme[0];
 
         for(int i = 0; i < n ; i++){
 
             //saco 12 randoms del vector de uninformes
-            for(int j = contUninf; j < contUninf+12 ; j++){
-                sumatoria += vectorRandomUniforme[j].getRandom();
-                contAux = j;
+            for(int j = 0; j < 12 ; j++){
+                //sumatoria += vectorRandomUniforme[j].getRandom();
+                sumatoria+= randomUniforme.getRandom();
+                //contAux = j;
+                randomUniforme = generadorRandom1.siguientePseudoAleatoreo(randomUniforme,parametrosGenerador1);
             }
             //establece el contador en el ultimo numero que quedo valiendo j asi saca los proximos 12
-            contUninf = contAux;
+            //contUninf = contAux;
 
             float randomNormalDistribuido = (float) (((sumatoria - 6)* desviacionEstandar) + media);
 

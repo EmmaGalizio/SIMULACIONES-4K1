@@ -1,5 +1,6 @@
 package k1.simulaciones.simulacionestp3.controller.cambioDistribucion;
 
+import jdk.jfr.Unsigned;
 import k1.simulaciones.simulacionestp3.controller.generadorRandom.IGeneradorRandom;
 import k1.simulaciones.simulacionestp3.controller.utils.ConstantesCambioDistribucion;
 import k1.simulaciones.simulacionestp3.modelo.Intervalo;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -154,15 +156,21 @@ public class CambioDistribucionPoisson implements ICambioDistribucion{
 
     private float calcularProbEsperada(ParametrosCambioDistribucion parametrosCambioDistribucion, Intervalo intervalo) {
 
-        float probEsp = (float)Math.pow(parametrosCambioDistribucion.getLambda(),intervalo.getMarcaClase());
-        probEsp*=(float)Math.exp((-1)*parametrosCambioDistribucion.getLambda());
+        double probEsp = Math.pow(parametrosCambioDistribucion.getLambda(),intervalo.getMarcaClase());
+        probEsp*=Math.exp((-1)*parametrosCambioDistribucion.getLambda());
         long factorialX=1;
         int x = (int)intervalo.getMarcaClase();
         while(x > 0){
             factorialX*=x;
             x--;
         }
-        probEsp = probEsp/factorialX;
+        long overflow = 0;
+        if(factorialX<0){
+            overflow= Long.MAX_VALUE + factorialX;
+        }
+
+
+        probEsp = (float)((probEsp/Math.abs(factorialX))+(probEsp/Math.abs(overflow)));
         int multiplicador = (int)Math.pow(10, parametrosCambioDistribucion.getPresicion());
         int probAux = (int)(probEsp*multiplicador);
         return ((float)probAux/multiplicador);
