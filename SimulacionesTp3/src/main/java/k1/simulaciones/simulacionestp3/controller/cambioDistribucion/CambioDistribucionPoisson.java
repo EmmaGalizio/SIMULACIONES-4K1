@@ -160,17 +160,9 @@ public class CambioDistribucionPoisson implements ICambioDistribucion{
         probEsp*=Math.exp((-1)*parametrosCambioDistribucion.getLambda());
         long factorialX=1;
         int x = (int)intervalo.getMarcaClase();
-        while(x > 0){
-            factorialX*=x;
-            x--;
+        while(x > 1){
+            probEsp/=x--;
         }
-        long overflow = 0;
-        if(factorialX<0){
-            overflow= Long.MAX_VALUE + factorialX;
-        }
-
-
-        probEsp = (float)((probEsp/Math.abs(factorialX))+(probEsp/Math.abs(overflow)));
         int multiplicador = (int)Math.pow(10, parametrosCambioDistribucion.getPresicion());
         int probAux = (int)(probEsp*multiplicador);
         return ((float)probAux/multiplicador);
