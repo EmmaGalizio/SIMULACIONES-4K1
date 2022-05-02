@@ -171,8 +171,6 @@ public class PruebaChiCuadradoController implements Initializable {
                     intervalo.getFrecObs()));
         }
         histograma.getData().add(serie);
-
-
     }
 
 
