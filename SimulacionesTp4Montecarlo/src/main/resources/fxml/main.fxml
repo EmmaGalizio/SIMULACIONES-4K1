@@ -8,57 +8,75 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="p.grupo.simulacionestp4montecarlo.fxController.MainFxController">
    <children>
-      <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="600.0" prefWidth="215.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox prefHeight="600.0" prefWidth="183.0">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <children>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <TitledPane animated="false" collapsible="false" text="Simulacion Puerto Unico" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                          </content>
-                        </TitledPane>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <TitledPane animated="false" collapsible="false" text="Simulacion Dos Puertos" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                          </content>
-                        </TitledPane>
-                     </children>
-                  </AnchorPane>
+                  <TitledPane animated="false" collapsible="false" text="Simulacion Puerto Unico" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="193.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="92.0" text="Generador:" HBox.hgrow="ALWAYS" />
+                                          <ComboBox fx:id="cb_metodoGenerador" maxWidth="200.0" onAction="#seleccionMetodoGenerador" prefHeight="25.0" prefWidth="118.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="193.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="105.0" text="Media Costo de Descarga:" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="tf_mediaCostoDescarga" maxWidth="200.0" prefHeight="25.0" prefWidth="88.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="193.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="121.0" text="Desviacion Estandar Costo Desc.:" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="tf_devEstCostoDescarga" maxWidth="200.0" prefHeight="25.0" prefWidth="72.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="193.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="121.0" text="Numero de Dias:" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="tf_nroDiasSimulacion" maxWidth="200.0" prefHeight="25.0" prefWidth="72.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="193.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="121.0" text="Cantidad de Filas:" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="tf_cantFilasMostrar" maxWidth="200.0" prefHeight="25.0" prefWidth="72.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="193.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="121.0" text="Fila Desde:" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="tf_filaDesde" maxWidth="200.0" prefHeight="25.0" prefWidth="72.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="193.0">
+                                       <children>
+                                          <Button fx:id="btn_generarUnMuelle" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#generarSimulacionUnMuelle" text="Generar" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
                </children>
-            </VBox>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <TitledPane animated="false" collapsible="false" text="Montecarlo - Puerto Unico" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                </content>
-                              </TitledPane>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <TitledPane animated="false" collapsible="false" text="Montecarlo - Dos Puertos" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                </content>
-                              </TitledPane>
-                           </children>
-                        </AnchorPane>
-                     </children>
-                  </VBox>
+                  <TitledPane animated="false" collapsible="false" text="Simulacion Dos Puertos" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                  </TitledPane>
                </children>
             </AnchorPane>
          </children>
-      </HBox>
+      </VBox>
    </children>
 </AnchorPane>

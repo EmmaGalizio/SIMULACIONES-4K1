@@ -31,7 +31,7 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
             Stage stage = event.getStage();
             StageManager stageManager = applicationContext.getBean(StageManager.class,stage,applicationContext);
 
-            stageManager.loadStageParentScene(sceneResource.getURL(),1240,720);
+            stageManager.loadStageParentScene(sceneResource.getURL(),500,700);
             stageManager.showStage();
 
         } catch (IOException e) {

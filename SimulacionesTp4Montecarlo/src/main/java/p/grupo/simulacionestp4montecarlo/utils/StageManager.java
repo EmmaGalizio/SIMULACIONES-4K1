@@ -41,6 +41,7 @@ public class StageManager {
 
         stage.setScene(new Scene(parent, width ,height));
         stage.centerOnScreen();
+        //stage.setMaximized(true);
 
     }
 

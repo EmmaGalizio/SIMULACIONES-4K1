@@ -24,9 +24,6 @@ public class TestMontecarloUnMuelle {
     @Test
     public void testMontecarlo(){
 
-        ParametrosGenerador[] parametrosGeneradors =
-                {parametrosGeneradorIngresos(),parametrosGeneradorDescargas()
-                        ,parametrosGeneradorCostoDescUnif()};
         ParametrosCambioDistribucion parametrosCostoDescarga = parametrosGeneradorCostoDescarga();
 
         ParametrosMontecarlo parametrosMontecarlo = new ParametrosMontecarlo();
@@ -36,7 +33,9 @@ public class TestMontecarloUnMuelle {
 
         List<VectorEstadoMontecarloPuerto> simulacionPuerto =
                 controladorTp4.generarSimulacionEstActual(parametrosCostoDescarga
-                        ,parametrosGeneradors,parametrosMontecarlo);
+                        ,parametrosGeneradorIngresos(),
+                        parametrosGeneradorDescargas(),
+                        parametrosGeneradorCostoDescUnif(),parametrosMontecarlo);
 
         assertThat(simulacionPuerto).isNotNull();
         assertThat(simulacionPuerto.size()).isEqualTo(parametrosMontecarlo.getCantFilasMostrar()+1);

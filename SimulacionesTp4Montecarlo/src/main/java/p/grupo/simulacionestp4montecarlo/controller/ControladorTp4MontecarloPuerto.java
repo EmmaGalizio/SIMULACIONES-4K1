@@ -19,14 +19,13 @@ public class ControladorTp4MontecarloPuerto {
     private final Map<String, IGeneradorRandom> generadorRandomMap;
     private final Map<String, ICambioDistribucion> cambioDistribucionMap;
 
-
+    //CAMBIAR TODOS LOS FLOATS DE LOS COSTOS Y ACUMULADORES POR DOUBLE
     public List<VectorEstadoMontecarloPuerto> generarSimulacionEstActual(
             ParametrosCambioDistribucion parametrosCostoDesc,
-            ParametrosGenerador[] parametrosGenerador, ParametrosMontecarlo parametrosMontecarlo){
+            ParametrosGenerador parametrosGeneradorArribos,
+            ParametrosGenerador parametrosGeneradorDescargas,
+            ParametrosGenerador parametrosGeneradorCostoDesc, ParametrosMontecarlo parametrosMontecarlo){
 
-        if(parametrosGenerador == null || parametrosGenerador.length != 3)
-            throw new IllegalArgumentException("Se deben utilizar 3 generadores random uniformes 0-1" +
-                    " para la simulación");
         if(parametrosCostoDesc == null)
             throw new IllegalArgumentException("Debe indicar los parametros para optener los costos de descarga");
 
@@ -36,10 +35,6 @@ public class ControladorTp4MontecarloPuerto {
         float[] nroLlegadas = {0.13f,0.3f,0.45f,0.7f,0.9f,1 };
         float[] nroDescargas = {0.05f, 0.2f,0.7f,0.9f,1};
 
-        ParametrosGenerador parametrosGeneradorArribos = parametrosGenerador[0];
-        ParametrosGenerador parametrosGeneradorDescargas = parametrosGenerador[1];
-        ParametrosGenerador parametrosGeneradorCostoDesc = parametrosGenerador[2];
-
         IGeneradorRandom generadorRandomArribos = generadorRandomMap
                 .get(parametrosGeneradorArribos.getMetodoGeneradorRandom());
         IGeneradorRandom generadorRandomDescargas = generadorRandomMap
@@ -48,13 +43,14 @@ public class ControladorTp4MontecarloPuerto {
                 .get(parametrosGeneradorCostoDesc.getMetodoGeneradorRandom());
         ICambioDistribucion generadorCostoDescargaNormal = cambioDistribucionMap
                 .get(ConstantesCambioDistribucion.NORMAL_CONVOLUCION);
-
+        //Randoms para los primeros arribos y descargas
         Pseudoaleatorio randomArribos = generadorRandomArribos
                 .siguientePseudoAleatoreo(parametrosGeneradorArribos);
         Pseudoaleatorio randomDescargas = generadorRandomDescargas
                 .siguientePseudoAleatoreo(parametrosGeneradorDescargas);
         Pseudoaleatorio randomCostoDescarga = generadorRandomCostoDesc
                             .siguientePseudoAleatoreo(parametrosGeneradorCostoDesc);
+        //Primer costo de descarga
         VaribaleAleatoria costoDescargaNormalRnd = generadorCostoDescargaNormal
                 .siguienteRandom(parametrosCostoDesc,parametrosGeneradorCostoDesc,randomCostoDescarga);
         //Representa la fila anterior de la tabla de montecarlo, en un primer instante

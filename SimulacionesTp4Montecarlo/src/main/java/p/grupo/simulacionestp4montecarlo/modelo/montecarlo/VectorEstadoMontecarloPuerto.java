@@ -15,10 +15,10 @@ public class VectorEstadoMontecarloPuerto {
     private int cantDescargasPostergadas;
     private float costoDemora;
     private float costoTotalDia;
-    private float costoAcumulado;
-    private float costoDemoraAcumulado;
+    private double costoAcumulado;
+    private double costoDemoraAcumulado;
     private long diasDemoraAcumulada;
-    private int barcosPostergadosAcum;
+    private long barcosPostergadosAcum;
 
     public void calcularCostoTotalDia(){
         costoTotalDia = costoDescarga+costoDemora;
