@@ -34,13 +34,15 @@ public class ControladorTp4MontecarloPuerto {
 
         float[] nroLlegadas = {0.13f,0.3f,0.45f,0.7f,0.9f,1 };
         float[] nroDescargas = {0.05f, 0.2f,0.7f,0.9f,1};
-
+        //Obtiene los generadores random uniformes 0-1 para ingresos, descargas y costo de descarga, cada uno necesita
+        //Una serie independiente
         IGeneradorRandom generadorRandomArribos = generadorRandomMap
                 .get(parametrosGeneradorArribos.getMetodoGeneradorRandom());
         IGeneradorRandom generadorRandomDescargas = generadorRandomMap
                 .get(parametrosGeneradorDescargas.getMetodoGeneradorRandom());
         IGeneradorRandom generadorRandomCostoDesc = generadorRandomMap
                 .get(parametrosGeneradorCostoDesc.getMetodoGeneradorRandom());
+        //Obtiene el generador random normal por método de convolución para calcular el costo de descarga
         ICambioDistribucion generadorCostoDescargaNormal = cambioDistribucionMap
                 .get(ConstantesCambioDistribucion.NORMAL_CONVOLUCION);
         //Randoms para los primeros arribos y descargas
@@ -88,7 +90,7 @@ public class ControladorTp4MontecarloPuerto {
                  //Usa el random generado por adelantado
                  costoDescargas+=costoDescargaNormalRnd.getRandomGenerado();
                  randomCostoDescarga = costoDescargaNormalRnd.getSiguienteRandomBase();
-                 //Actualiza el random generado
+                 //Actualiza el random generado para utilizarlo como siguiente costo
                  costoDescargaNormalRnd = generadorCostoDescargaNormal.siguienteRandom(parametrosCostoDesc,
                          parametrosGeneradorCostoDesc,randomCostoDescarga);
              }
