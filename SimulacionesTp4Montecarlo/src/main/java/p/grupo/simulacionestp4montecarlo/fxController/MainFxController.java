@@ -154,6 +154,7 @@ public class MainFxController implements Initializable {
         ITp4FxController tp4FxController = (ITp4FxController) fxmlLoader.getController();
         modalStage.setScene(new Scene(parent,600,400));
         modalStage.centerOnScreen();
+        modalStage.setMaximized(true);
         tp4FxController.setSelfStage(modalStage);
     }
 
