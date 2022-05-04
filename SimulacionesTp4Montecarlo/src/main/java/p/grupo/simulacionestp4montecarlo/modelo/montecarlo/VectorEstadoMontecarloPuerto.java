@@ -78,7 +78,7 @@ public class VectorEstadoMontecarloPuerto {
         barcosPostergadosAcum+=cantDescargasPostergadas;
     }
     public void acumularDescargasDirectas(){
-        cantDescargasDirectas+=cantDescargasDirectas;
+        cantDescargasDirectasAcum+=cantDescargasDirectas;
     }
 
     public void calcularPorcentajeOcupacion(){
@@ -94,7 +94,7 @@ public class VectorEstadoMontecarloPuerto {
         costoPromedioDia = costoAcumulado/dia;
     }
     public void calcularPromedioDescargaDirecta(){
-        promedioDescargaDirecta = cantDescargasDirectas/dia;
+        promedioDescargaDirecta = (double)cantDescargasDirectasAcum/dia;
     }
 
     @Override

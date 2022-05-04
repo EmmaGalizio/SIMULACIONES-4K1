@@ -269,6 +269,7 @@ public class ControladorTp4MontecarloPuerto {
         estadoMontecarloPuerto.setCostoDemoraAcumulado(estadoAnterior.getCostoDemoraAcumulado());
         estadoMontecarloPuerto.setDiasDemoraAcumulada(estadoAnterior.getDiasDemoraAcumulada());
         estadoMontecarloPuerto.setBarcosPostergadosAcum(estadoAnterior.getBarcosPostergadosAcum());
+        estadoMontecarloPuerto.setCantDescargasDirectasAcum(estadoAnterior.getCantDescargasDirectasAcum());
     }
     private void acumularCamposEstadoActualUnMuelle(VectorEstadoMontecarloPuerto estadoMontecarloPuerto){
         estadoMontecarloPuerto.acumularBarcosPostergados();
