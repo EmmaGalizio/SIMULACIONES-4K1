@@ -226,7 +226,41 @@ public class MainFxController implements Initializable {
 
     @FXML
     void generarSimulacionDosMuelles(ActionEvent event) {
+        try{
+            ParametrosCambioDistribucion parametrosCambioDistribucion = new ParametrosCambioDistribucion();
+            parametrosCambioDistribucion.setPresicion(4);
+            parametrosCambioDistribucion.setMedia(Integer.parseInt(tf_mediaCostoDescarga.getText().trim()));
+            parametrosCambioDistribucion.setDesvEst(Integer.parseInt(tf_devEstCostoDescarga.getText().trim()));
+            parametrosCambioDistribucion.setUnifA(Integer.parseInt(tf_cantIngresosDesde.getText().trim()));
+            parametrosCambioDistribucion.setUnifB(Integer.parseInt(tf_cantIngresosHasta.getText().trim()));
+            int cantDescargas = Integer.parseInt(tf_cantDescargasDosM.getText().trim());
+            int horas = Integer.parseInt(tf_frecDescargaDosM.getText().trim());
+            int lambda = cantDescargas/horas;
+            parametrosCambioDistribucion.setLambda(lambda);
 
+            ParametrosMontecarlo parametrosMontecarlo = new ParametrosMontecarlo();
+            parametrosMontecarlo.setN(Long.parseLong(tf_nroDiasSimulacion.getText().trim()));
+            parametrosMontecarlo.setMostrarVectorDesde(Long.parseLong(tf_filaDesde.getText().trim()));
+            parametrosMontecarlo.setCantFilasMostrar(Integer.parseInt(tf_cantFilasMostrar.getText().trim()));
+
+            List<VectorEstadoMontecarloPuerto> tablaMontecarlo = controladorTp4
+                    .generarSimulacionDosPuertos(parametrosCambioDistribucion,
+                            parametrosGeneradorIngresos,parametrosGeneradorDescargas,
+                            parametrosGeneradorCostoDescarga,parametrosMontecarlo);
+            //List<VectorEstadoMontecarloPuerto> tablaMontecarlo = Collections.emptyList();
+            mostrarModalResultadoSimulacion(tablaMontecarlo);
+
+        }catch(NumberFormatException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Campos Incompletos");
+            alert.setContentText("Todos los campos deben\nestar completos con un número entero");
+            alert.showAndWait();
+        }catch (IllegalArgumentException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
     }
 
 }
