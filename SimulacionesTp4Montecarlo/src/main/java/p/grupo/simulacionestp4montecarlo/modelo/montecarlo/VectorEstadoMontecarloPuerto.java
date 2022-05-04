@@ -29,6 +29,7 @@ public class VectorEstadoMontecarloPuerto {
     private int cantDescargasPostergadas;
     //Representa el costo que implica que los barcos demorados pasen la noche en el puerto, 1500 por barco, 0 -3200 si
     //no hay demora
+    private int cantDescargasDirectas;
     private float costoDemora;
     //Sumatoria entre costoDescarga y costoDemora
     private float costoTotalDia;
@@ -41,6 +42,14 @@ public class VectorEstadoMontecarloPuerto {
     private long diasDemoraAcumulada;
     //Acumulación de cantDescargasPostergadas, sirve para calcular el promedio de barcos demorados por día
     private long barcosPostergadosAcum;
+    private long cantDescargasDirectasAcum;
+
+    private float porcentajeOcupacion;
+    private double promedioRetrasos;
+    private double costoPromedioDia;
+    private double costoPromedioDemora;
+    private double promedioDescargaDirecta;
+
 
     //Están acá para no agregar lógica innecesaria al controlador, siendo que el vector es el que tiene la información
     //y "sabe" como se calcula. Además se puede reutilizar para ambas simulaciones
@@ -61,8 +70,31 @@ public class VectorEstadoMontecarloPuerto {
                 getCantDescargasPostergadas()*1500:
                 (-3200);
     }
+    public void calcularDescargasDirectas(){
+        cantDescargasDirectas = (cantDescargas <= (cantActualMuelle-cantIngresos))?0:
+                (cantIngresos-cantDescargasPostergadas);
+    }
     public void acumularBarcosPostergados(){
         barcosPostergadosAcum+=cantDescargasPostergadas;
+    }
+    public void acumularDescargasDirectas(){
+        cantDescargasDirectas+=cantDescargasDirectas;
+    }
+
+    public void calcularPorcentajeOcupacion(){
+        porcentajeOcupacion = ((float)diasDemoraAcumulada*100)/dia;
+    }
+    public void calcularPromedioRetrasos(){
+        promedioRetrasos = (double)barcosPostergadosAcum/dia;
+    }
+    public void calcularCostoPromedioDemora(){
+        costoPromedioDemora = costoDemoraAcumulado/dia;
+    }
+    public void calcularCostoPromedioDia(){
+        costoPromedioDia = costoAcumulado/dia;
+    }
+    public void calcularPromedioDescargaDirecta(){
+        promedioDescargaDirecta = cantDescargasDirectas/dia;
     }
 
     @Override

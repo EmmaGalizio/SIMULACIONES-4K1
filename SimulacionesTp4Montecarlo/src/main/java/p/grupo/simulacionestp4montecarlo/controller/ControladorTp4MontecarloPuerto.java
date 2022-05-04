@@ -86,6 +86,9 @@ public class ControladorTp4MontecarloPuerto {
                      .setCantDescargasPostergadas(estadoMontecarloPuerto.getCantActualMuelle()-cantBarcosDescargados);
              float costoDescargas = 0;
 
+             estadoMontecarloPuerto.calcularDescargasDirectas();
+             estadoMontecarloPuerto.acumularDescargasDirectas();
+
              for(int j = 1 ; j<= cantBarcosDescargados;j++){
                  //Usa el random generado por adelantado
                  costoDescargas+=costoDescargaNormalRnd.getRandomGenerado();
@@ -101,6 +104,7 @@ public class ControladorTp4MontecarloPuerto {
             //Agrega las filas del rango solicitado y la última fila para sacar las conclusiones
             if((i >= parametrosMontecarlo.getMostrarVectorDesde() &&
                 i < filaMaximaObservar) || i == parametrosMontecarlo.getN()){
+                calcularResultadosParciales(estadoMontecarloPuerto);
                 tablaMontecarlo.add(estadoMontecarloPuerto);
             }
             //Mantenimiento para comenzar la siguiente iteracion;
@@ -112,6 +116,15 @@ public class ControladorTp4MontecarloPuerto {
 
         return tablaMontecarlo;
     }
+
+    private void calcularResultadosParciales(VectorEstadoMontecarloPuerto estadoMontecarloPuerto) {
+        estadoMontecarloPuerto.calcularPorcentajeOcupacion();
+        estadoMontecarloPuerto.calcularCostoPromedioDemora();
+        estadoMontecarloPuerto.calcularPromedioRetrasos();
+        estadoMontecarloPuerto.calcularCostoPromedioDia();
+        estadoMontecarloPuerto.calcularPromedioDescargaDirecta();
+    }
+
     private void copiarAcumuladosAnterioresUnMuelle(VectorEstadoMontecarloPuerto estadoMontecarloPuerto,
                                                     VectorEstadoMontecarloPuerto estadoAnterior){
         estadoMontecarloPuerto.setCostoAcumulado(estadoAnterior.getCostoAcumulado());
