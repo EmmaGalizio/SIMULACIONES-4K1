@@ -8,6 +8,7 @@ import p.grupo.simulacionestp4montecarlo.controller.utils.ConstantesCambioDistri
 import p.grupo.simulacionestp4montecarlo.modelo.*;
 import p.grupo.simulacionestp4montecarlo.modelo.montecarlo.VectorEstadoMontecarloPuerto;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +63,7 @@ public class ControladorTp4MontecarloPuerto {
 
         long filaMaximaObservar = parametrosMontecarlo.getCantFilasMostrar()
                 +parametrosMontecarlo.getMostrarVectorDesde();
-        List<VectorEstadoMontecarloPuerto> tablaMontecarlo = new LinkedList<>();
+        List<VectorEstadoMontecarloPuerto> tablaMontecarlo = new ArrayList<>((int)parametrosMontecarlo.getN()+1);
         for(long i = 1; i <= parametrosMontecarlo.getN(); i++){
             estadoMontecarloPuerto = new VectorEstadoMontecarloPuerto();
             //Copia los campos acumulados del vector anterior para poder acumularlos al final
@@ -185,7 +186,7 @@ public class ControladorTp4MontecarloPuerto {
 
         long filaMaximaObservar = parametrosMontecarlo.getCantFilasMostrar()
                 +parametrosMontecarlo.getMostrarVectorDesde();
-        List<VectorEstadoMontecarloPuerto> tablaMontecarlo = new LinkedList<>();
+        List<VectorEstadoMontecarloPuerto> tablaMontecarlo = new ArrayList<>((int)parametrosMontecarlo.getN()+1);
         for(long i = 1; i <= parametrosMontecarlo.getN(); i++){
             estadoMontecarloPuerto = new VectorEstadoMontecarloPuerto();
             //Copia los campos acumulados del vector anterior para poder acumularlos al final
@@ -246,8 +247,9 @@ public class ControladorTp4MontecarloPuerto {
             //Mantenimiento para comenzar la siguiente iteracion;
             //No es necesario actualizar randoms costo desc porque se actualiza en el loop
             estadoAnterior = estadoMontecarloPuerto;
-            randomArribos = generadorRandomArribos.siguientePseudoAleatoreo(randomArribos,parametrosGeneradorArribos);
-            randomDescargas = generadorRandomDescargas.siguientePseudoAleatoreo(randomDescargas,parametrosGeneradorDescargas);
+            //randomArribos = generadorRandomArribos.siguientePseudoAleatoreo(randomArribos,parametrosGeneradorArribos);
+            //No se está actualizando dos veces?? O sea, saltea un random uniforme.
+            //randomDescargas = generadorRandomDescargas.siguientePseudoAleatoreo(randomDescargas,parametrosGeneradorDescargas);
         }
 
         return tablaMontecarlo;

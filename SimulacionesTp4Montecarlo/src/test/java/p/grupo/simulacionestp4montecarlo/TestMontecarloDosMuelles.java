@@ -109,7 +109,7 @@ public class TestMontecarloDosMuelles {
         parametrosCambio.setDesvEst(120);
         parametrosCambio.setUnifA(0);
         parametrosCambio.setUnifB(9);
-        parametrosCambio.setLambda(2);
+        parametrosCambio.setLambda(6);
         parametrosCambio.setPresicion(4);
         return parametrosCambio;
     }

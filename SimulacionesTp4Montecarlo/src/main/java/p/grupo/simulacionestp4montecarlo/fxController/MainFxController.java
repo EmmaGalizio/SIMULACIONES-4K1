@@ -6,10 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -30,8 +27,6 @@ import p.grupo.simulacionestp4montecarlo.modelo.montecarlo.VectorEstadoMontecarl
 import p.grupo.simulacionestp4montecarlo.utils.StageManager;
 
 import java.net.URL;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -43,15 +38,37 @@ public class MainFxController implements Initializable {
     @FXML
     private TextField tf_nroDiasSimulacion;
     @FXML
-    private Button btn_generarUnMuelle;
+    private TextField tf_devEstCostoDescargaDosMuelles;
     @FXML
     private TextField tf_devEstCostoDescarga;
     @FXML
+    private TextField tf_cantIngresosDesde;
+    @FXML
     private TextField tf_mediaCostoDescarga;
     @FXML
-    private ComboBox<MetodoGeneradorRandom> cb_metodoGenerador;
+    private Button btn_generarDosMuelles;
+    @FXML
+    private TextField tf_cantIngresosHasta;
     @FXML
     private TextField tf_cantFilasMostrar;
+    @FXML
+    private TextField tf_filaDesdeDosMuelles;
+    @FXML
+    private Button btn_generarUnMuelle;
+    @FXML
+    private TextField tf_mediaCostoDescargaDosMuelles;
+    @FXML
+    private TextField tf_frecDescargaDosM;
+    @FXML
+    private TextField tf_nroDiasSimulacionDosMuelles;
+    @FXML
+    private TextField tf_cantFilasMostrarDosMuelles;
+    @FXML
+    private ComboBox<MetodoGeneradorRandom> cb_metodoGenerador;
+
+    @FXML
+    private TextField tf_cantDescargasDosM;
+
     @FXML
     private TextField tf_filaDesde;
 
@@ -159,19 +176,24 @@ public class MainFxController implements Initializable {
                             parametrosGeneradorIngresos,parametrosGeneradorDescargas,
                             parametrosGeneradorCostoDescarga,parametrosMontecarlo);
             //List<VectorEstadoMontecarloPuerto> tablaMontecarlo = Collections.emptyList();
-            mostrarModalResultadoUnMuelle(tablaMontecarlo);
+            mostrarModalResultadoSimulacion(tablaMontecarlo);
 
         }catch(NumberFormatException e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Campos Incompletos");
-            alert.setContentText("Todos los campos deben estar completos con un número entero");
+            alert.setContentText("Todos los campos deben\nestar completos con un número entero");
+            alert.showAndWait();
+        }catch (IllegalArgumentException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
 
     }
 
     @SneakyThrows
-    private void mostrarModalResultadoUnMuelle(List<VectorEstadoMontecarloPuerto> resultadoSimulacion){
+    private void mostrarModalResultadoSimulacion(List<VectorEstadoMontecarloPuerto> resultadoSimulacion){
         Stage modalStage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(modalResultadoUnMuelle.getURL());
         fxmlLoader.setControllerFactory(applicationContext::getBean);
@@ -200,6 +222,11 @@ public class MainFxController implements Initializable {
     public void setParametrosGeneradorCostoDescarga(ParametrosGenerador parametrosGeneradorCostoDescarga) {
         this.parametrosGeneradorCostoDescarga = parametrosGeneradorCostoDescarga;
         this.parametrosGeneradorCostoDescarga.setMetodoGeneradorRandom(metodoGeneradorSeleccionado.getId());
+    }
+
+    @FXML
+    void generarSimulacionDosMuelles(ActionEvent event) {
+
     }
 
 }

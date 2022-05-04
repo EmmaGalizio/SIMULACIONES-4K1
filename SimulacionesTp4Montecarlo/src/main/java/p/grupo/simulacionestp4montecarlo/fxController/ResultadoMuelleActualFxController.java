@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,18 @@ public class ResultadoMuelleActualFxController implements Initializable {
 
     @FXML
     private TableView<VectorEstadoMontecarloPuerto> tv_SimUnMuelle;
+    @FXML
+    private TextField tf_PromRet;
+    @FXML
+    private TextField tf_costoPromDemora;
+    @FXML
+    private TextField tf_cantRetrasos;
+    @FXML
+    private TextField tf_costPromDia;
+    @FXML
+    private TextField tf_porcOcup;
+    @FXML
+    private TextField tf_promDescDirecta;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -27,6 +40,7 @@ public class ResultadoMuelleActualFxController implements Initializable {
 
     public void mostrarResultados(List<VectorEstadoMontecarloPuerto> resultadoSimulacion){
         tv_SimUnMuelle.getItems().addAll(resultadoSimulacion);
+        cargarTfResultados(resultadoSimulacion.get(resultadoSimulacion.size()-1));
         //Faltaría calcular los resultados y mostrarlos en algún lado
     }
 
@@ -81,5 +95,14 @@ public class ResultadoMuelleActualFxController implements Initializable {
                 cantPostergadasColumna, costoDemoraColumna,costoTotalDiaColumna,costoAcumColumna,
                 costoDemoraAcumColumna,diasDemoraAcumColumna,barcosPostAcumColumna);
         tableView.refresh();
+    }
+
+    private void cargarTfResultados(VectorEstadoMontecarloPuerto ultimoEstado){
+        tf_porcOcup.setText(Float.toString(ultimoEstado.getPorcentajeOcupacion()));
+        tf_PromRet.setText(Double.toString(ultimoEstado.getPromedioRetrasos()));
+        tf_costPromDia.setText(Double.toString(ultimoEstado.getCostoPromedioDia()));
+        tf_costoPromDemora.setText(Double.toString(ultimoEstado.getCostoPromedioDemora()));
+        tf_cantRetrasos.setText(Double.toString(ultimoEstado.getBarcosPostergadosAcum()));
+        tf_promDescDirecta.setText(Double.toString(ultimoEstado.getPromedioDescargaDirecta()));
     }
 }
