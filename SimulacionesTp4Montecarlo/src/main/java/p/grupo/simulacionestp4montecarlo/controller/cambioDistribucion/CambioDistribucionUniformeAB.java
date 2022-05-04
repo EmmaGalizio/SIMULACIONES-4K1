@@ -122,7 +122,7 @@ public class CambioDistribucionUniformeAB implements ICambioDistribucion{
                                              ParametrosGenerador parametrosGenerador,
                                              Pseudoaleatorio randomUnifBase) {
 
-        if(parametros == null || parametros.getUnifA() <= 0 || parametros.getUnifB() <= 0)
+        if(parametros == null || parametros.getUnifA() < 0 || parametros.getUnifB() <= 0)
             throw new IllegalArgumentException("Debe indiar los limites inferior y superior");
         if(parametrosGenerador == null || parametrosGenerador.getMetodoGeneradorRandom() == null)
             throw new IllegalArgumentException("Debe indicar el método con el que desea general los randoms uniformes 0-1");
