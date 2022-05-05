@@ -230,8 +230,8 @@ public class MainFxController implements Initializable {
         try{
             ParametrosCambioDistribucion parametrosCambioDistribucion = new ParametrosCambioDistribucion();
             parametrosCambioDistribucion.setPresicion(4);
-            parametrosCambioDistribucion.setMedia(Integer.parseInt(tf_mediaCostoDescarga.getText().trim()));
-            parametrosCambioDistribucion.setDesvEst(Integer.parseInt(tf_devEstCostoDescarga.getText().trim()));
+            parametrosCambioDistribucion.setMedia(Integer.parseInt(tf_mediaCostoDescargaDosMuelles.getText().trim()));
+            parametrosCambioDistribucion.setDesvEst(Integer.parseInt(tf_devEstCostoDescargaDosMuelles.getText().trim()));
             parametrosCambioDistribucion.setUnifA(Integer.parseInt(tf_cantIngresosDesde.getText().trim()));
             parametrosCambioDistribucion.setUnifB(Integer.parseInt(tf_cantIngresosHasta.getText().trim()));
             int cantDescargas = Integer.parseInt(tf_cantDescargasDosM.getText().trim());
@@ -240,9 +240,9 @@ public class MainFxController implements Initializable {
             parametrosCambioDistribucion.setLambda(lambda);
 
             ParametrosMontecarlo parametrosMontecarlo = new ParametrosMontecarlo();
-            parametrosMontecarlo.setN(Long.parseLong(tf_nroDiasSimulacion.getText().trim()));
-            parametrosMontecarlo.setMostrarVectorDesde(Long.parseLong(tf_filaDesde.getText().trim()));
-            parametrosMontecarlo.setCantFilasMostrar(Integer.parseInt(tf_cantFilasMostrar.getText().trim()));
+            parametrosMontecarlo.setN(Long.parseLong(tf_nroDiasSimulacionDosMuelles.getText().trim()));
+            parametrosMontecarlo.setMostrarVectorDesde(Long.parseLong(tf_filaDesdeDosMuelles.getText().trim()));
+            parametrosMontecarlo.setCantFilasMostrar(Integer.parseInt(tf_cantFilasMostrarDosMuelles.getText().trim()));
 
             List<VectorEstadoMontecarloPuerto> tablaMontecarlo = controladorTp4
                     .generarSimulacionDosPuertos(parametrosCambioDistribucion,
