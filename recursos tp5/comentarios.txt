@@ -1,0 +1,16 @@
+Para el tp de colas se puede crear una clase evento (o interfaz) de la
+que hereden los distintos tipos de evento que ocurran durante la simulación,
+como la llegada de un próximo cliente o un fin de atención, estos
+eventos se almacenaran en un Heap ascendente (obtiene el menor en 
+cada lectura, utiliza el constructor con t=true,o el constructor por defecto)
+
+-------------------------------------------------------------------------------
+La clase evento debe ser una clase abstracta, que tenga un atributo protected que indique el momento
+de inicio del evento, y uno de fin de evento. También esa clase debe ser comparable, e implementar
+el método compareTo en la clase abstracta
+---------------------------------------------------------------------------
+
+Al momento de iniciar la simulación se deben crear dos eventos, uno que indique el inicio de la simulación,
+y otro que indique el momento de finalización de la simulación, entonces en ese momento ya habrán dos eventos
+cargados en el heap, y por lógica el primero que se va a procesar es el momento 0.
+
