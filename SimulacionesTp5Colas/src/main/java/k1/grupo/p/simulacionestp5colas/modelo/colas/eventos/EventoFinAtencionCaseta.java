@@ -13,7 +13,6 @@ public class EventoFinAtencionCaseta extends Evento{
 
     private float randomTiempoAtencion;
     private float tiempoAtencion;
-    private float momentoFinAtencion;
     @Override
     VectorEstadoITV procesarEvento(VectorEstadoITV estadoAnterior,
                                    ParametrosGenerador parametrosGenerador,

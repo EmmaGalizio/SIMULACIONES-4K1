@@ -13,7 +13,6 @@ public class EventoFinInspeccion extends Evento{
 
     private float randomFinInspeccion;
     private float tiempoFinInspeccion;
-    private float momentoFinInspeccion;
 
     @Override
     VectorEstadoITV procesarEvento(VectorEstadoITV estadoAnterior,

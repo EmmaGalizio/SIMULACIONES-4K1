@@ -13,7 +13,6 @@ public class EventoLlegadaCliente extends Evento{
 
     private float randomProxLlegada;
     private float tiempoHastaProxLlegada;
-    private float momentoProximaLlegada;
 
 
     @Override

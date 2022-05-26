@@ -9,6 +9,10 @@ import k1.grupo.p.simulacionestp5colas.modelo.colas.VectorEstadoITV;
 
 public abstract class Evento implements Comparable<Evento>{
 
+    //Representa el momento en el que se va a producir el evento
+    //Cada evento particular tendrá los campos necesarios para definir este atributo, pero
+    //no deberá sobrescribir este ya que es el que se deberá usar para organizar
+    //el heap de eventos
     protected float momentoEvento;
 
     abstract VectorEstadoITV procesarEvento(VectorEstadoITV estadoAnterior,

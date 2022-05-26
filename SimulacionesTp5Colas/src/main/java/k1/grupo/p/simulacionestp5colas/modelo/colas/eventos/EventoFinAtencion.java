@@ -9,7 +9,8 @@ import k1.grupo.p.simulacionestp5colas.modelo.colas.VectorEstadoITV;
 
 public class EventoFinAtencion extends Evento{
 
-    private float momentoFinAtencion;
+    private float tiempoAtencion;
+
 
     //Este evento representa la salida del cliente de la oficina
     //Cuando se saca un evento del heap en el controlador se debe controlar
@@ -27,11 +28,11 @@ public class EventoFinAtencion extends Evento{
         return null;
     }
 
-    public float getMomentoFinAtencion() {
-        return momentoFinAtencion;
+    public float getTiempoAtencion() {
+        return tiempoAtencion;
     }
 
-    public void setMomentoFinAtencion(float momentoFinAtencion) {
-        this.momentoFinAtencion = momentoFinAtencion;
+    public void setTiempoAtencion(float tiempoAtencion) {
+        this.tiempoAtencion = tiempoAtencion;
     }
 }
