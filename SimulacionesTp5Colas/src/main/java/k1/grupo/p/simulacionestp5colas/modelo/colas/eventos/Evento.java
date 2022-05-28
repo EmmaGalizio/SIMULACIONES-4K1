@@ -6,6 +6,7 @@ import k1.grupo.p.simulacionestp5colas.modelo.ParametrosCambioDistribucion;
 import k1.grupo.p.simulacionestp5colas.modelo.ParametrosGenerador;
 import k1.grupo.p.simulacionestp5colas.modelo.Pseudoaleatorio;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.VectorEstadoITV;
+import k1.grupo.p.simulacionestp5colas.modelo.estructurasDatos.TSBHeap;
 
 public abstract class Evento implements Comparable<Evento>{
 
@@ -14,13 +15,14 @@ public abstract class Evento implements Comparable<Evento>{
     //no deberá sobrescribir este ya que es el que se deberá usar para organizar
     //el heap de eventos
     protected float momentoEvento;
+    protected String nombreEvento;
 
-    abstract VectorEstadoITV procesarEvento(VectorEstadoITV estadoAnterior,
-                                            ParametrosGenerador parametrosGenerador,
-                                            ParametrosCambioDistribucion parametrosCambioDistribucion,
-                                            Pseudoaleatorio randomCUBase,
-                                            IGeneradorRandom generadorRandom,
-                                            ICambioDistribucion generadorVariableAleatoria);
+    public abstract VectorEstadoITV procesarEvento(VectorEstadoITV estadoAnterior,
+                                                   ParametrosGenerador parametrosGenerador,
+                                                   Pseudoaleatorio randomCUBase,
+                                                   IGeneradorRandom generadorRandom,
+                                                   ICambioDistribucion generadorVariableAleatoria,
+                                                   TSBHeap<Evento> heapEventos);
 
     @Override
     /**
@@ -37,5 +39,13 @@ public abstract class Evento implements Comparable<Evento>{
 
     public void setMomentoEvento(float momentoEvento) {
         this.momentoEvento = momentoEvento;
+    }
+
+    public String getNombreEvento() {
+        return nombreEvento;
+    }
+
+    public void setNombreEvento(String nombreEvento) {
+        this.nombreEvento = nombreEvento;
     }
 }

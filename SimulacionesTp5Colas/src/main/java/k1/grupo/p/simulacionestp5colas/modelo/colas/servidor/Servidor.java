@@ -9,5 +9,7 @@ public abstract class Servidor {
 
     protected EstadoServidor estado;
     protected Cliente clienteActual;
+    protected String nombre;
+    protected int id;
 
 }

@@ -7,16 +7,11 @@ import k1.grupo.p.simulacionestp5colas.modelo.ParametrosGenerador;
 import k1.grupo.p.simulacionestp5colas.modelo.Pseudoaleatorio;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.VectorEstadoITV;
 import k1.grupo.p.simulacionestp5colas.modelo.estructurasDatos.TSBHeap;
-import lombok.Data;
 
-@Data
-public class EventoFinAtencionCaseta extends Evento{
+public class EventoFinSimulacion extends Evento{
 
-    private Pseudoaleatorio randomTiempoAtencion;
-    private float tiempoAtencion;
-
-    public EventoFinAtencionCaseta() {
-        this.setNombreEvento("Fin At. Caseta");
+    public EventoFinSimulacion() {
+        this.setNombreEvento("Fin Simulación");
     }
 
     @Override
@@ -26,16 +21,13 @@ public class EventoFinAtencionCaseta extends Evento{
                                    IGeneradorRandom generadorRandom,
                                    ICambioDistribucion generadorVariableAleatoria,
                                           TSBHeap<Evento> heapEventos) {
-
         return null;
     }
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-        EventoFinAtencionCaseta evento = new EventoFinAtencionCaseta();
+        EventoFinSimulacion evento = new EventoFinSimulacion();
         evento.setMomentoEvento(super.getMomentoEvento());
-        evento.setRandomTiempoAtencion((Pseudoaleatorio) randomTiempoAtencion.clone());
-        evento.setTiempoAtencion(tiempoAtencion);
         return evento;
     }
 }

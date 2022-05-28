@@ -5,12 +5,22 @@ import k1.grupo.p.simulacionestp5colas.controller.generadorRandom.IGeneradorRand
 import k1.grupo.p.simulacionestp5colas.modelo.ParametrosCambioDistribucion;
 import k1.grupo.p.simulacionestp5colas.modelo.ParametrosGenerador;
 import k1.grupo.p.simulacionestp5colas.modelo.Pseudoaleatorio;
+import k1.grupo.p.simulacionestp5colas.modelo.colas.Cliente;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.VectorEstadoITV;
+import k1.grupo.p.simulacionestp5colas.modelo.estructurasDatos.TSBHeap;
+import lombok.Data;
 
+@Data
 public class EventoFinAtencion extends Evento{
 
-    private float tiempoAtencion;
+    //No utiliza un random porque creo
+    private Pseudoaleatorio randomAtencionOficina;
+    private float tiempoAtencionOficina;
+    private Cliente clienteAtencionFinalizada;
 
+    public EventoFinAtencion() {
+        this.setNombreEvento("Fin At. Oficina");
+    }
 
     //Este evento representa la salida del cliente de la oficina
     //Cuando se saca un evento del heap en el controlador se debe controlar
@@ -19,20 +29,30 @@ public class EventoFinAtencion extends Evento{
     //mantenimiento de la lista de clientes.
 
     @Override
-    VectorEstadoITV procesarEvento(VectorEstadoITV estadoAnterior,
-                                   ParametrosGenerador parametrosGenerador,
-                                   ParametrosCambioDistribucion parametrosCambioDistribucion,
-                                   Pseudoaleatorio randomCUBase,
-                                   IGeneradorRandom generadorRandom,
-                                   ICambioDistribucion generadorVariableAleatoria) {
+    public VectorEstadoITV procesarEvento(VectorEstadoITV estadoAnterior,
+                                          ParametrosGenerador parametrosGenerador,
+                                          Pseudoaleatorio randomCUBase,
+                                          IGeneradorRandom generadorRandom,
+                                          ICambioDistribucion generadorVariableAleatoria,
+                                          TSBHeap<Evento> heapEventos) {
+
+        //Cuando se procese este evento es necesario setear el campo
+        //clienteAtencionFinalizada para que en la próxima iteración del controlador
+        //se pueda eliminar de la lista de clientes al cliente que salió del predio
+        //Total ya están registrados todos los datos necesarios en los acumuladores y contadores
+        //Además, es necesario sacarlos porque si hecemos una simulación en la que llegan 10000 clientes
+        //entonces la lista quedaría con 10000 elementos distintos.
         return null;
     }
 
-    public float getTiempoAtencion() {
-        return tiempoAtencion;
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        EventoFinAtencion evento = new EventoFinAtencion();
+        evento.setMomentoEvento(super.getMomentoEvento());
+        evento.setRandomAtencionOficina((Pseudoaleatorio) randomAtencionOficina.clone());
+        evento.setTiempoAtencionOficina(tiempoAtencionOficina);
+        return evento;
     }
 
-    public void setTiempoAtencion(float tiempoAtencion) {
-        this.tiempoAtencion = tiempoAtencion;
-    }
 }

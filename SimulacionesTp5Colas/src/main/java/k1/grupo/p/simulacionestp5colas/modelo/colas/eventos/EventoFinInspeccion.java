@@ -6,20 +6,34 @@ import k1.grupo.p.simulacionestp5colas.modelo.ParametrosCambioDistribucion;
 import k1.grupo.p.simulacionestp5colas.modelo.ParametrosGenerador;
 import k1.grupo.p.simulacionestp5colas.modelo.Pseudoaleatorio;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.VectorEstadoITV;
+import k1.grupo.p.simulacionestp5colas.modelo.estructurasDatos.TSBHeap;
 import lombok.Data;
 
 @Data
 public class EventoFinInspeccion extends Evento{
 
-    private float randomFinInspeccion;
+    private Pseudoaleatorio randomFinInspeccion;
     private float tiempoFinInspeccion;
 
+    public EventoFinInspeccion() {
+        this.setNombreEvento("Fin Inspección");
+    }
+
     @Override
-    VectorEstadoITV procesarEvento(VectorEstadoITV estadoAnterior,
+    public VectorEstadoITV procesarEvento(VectorEstadoITV estadoAnterior,
                                    ParametrosGenerador parametrosGenerador,
-                                   ParametrosCambioDistribucion parametrosCambioDistribucion,
                                    Pseudoaleatorio randomCUBase, IGeneradorRandom generadorRandom,
-                                   ICambioDistribucion generadorVariableAleatoria) {
+                                   ICambioDistribucion generadorVariableAleatoria,
+                                          TSBHeap<Evento> heapEventos) {
         return null;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        EventoFinInspeccion evento = new EventoFinInspeccion();
+        evento.setMomentoEvento(super.getMomentoEvento());
+        evento.setRandomFinInspeccion((Pseudoaleatorio) randomFinInspeccion.clone());
+        evento.setTiempoFinInspeccion(tiempoFinInspeccion);
+        return evento;
     }
 }

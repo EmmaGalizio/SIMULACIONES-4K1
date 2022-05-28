@@ -10,6 +10,7 @@ public class Pseudoaleatorio {
     public Pseudoaleatorio() {
     }
 
+
     public Pseudoaleatorio(float random, int axi, int semilla) {
         this.random = random;
         this.axi = axi;
@@ -69,5 +70,15 @@ public class Pseudoaleatorio {
                 ", axi=" + axi +
                 ", semilla=" + semilla +
                 '}';
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Pseudoaleatorio pseudoaleatorio = new Pseudoaleatorio();
+        pseudoaleatorio.setAxi(axi);
+        pseudoaleatorio.setRandom(random);
+        pseudoaleatorio.setI(i);
+        pseudoaleatorio.setSemilla(semilla);
+        return pseudoaleatorio;
     }
 }
