@@ -30,7 +30,8 @@ public abstract class Evento implements Comparable<Evento>{
      * grande como para que los decimales no sean tan relevantes para el calculo de cuál es menor
      */
     public int compareTo(Evento evento) {
-        return (int)(momentoEvento*10000000) - (int)(evento.getMomentoEvento()*10000000);
+        return Float.compare(momentoEvento,evento.getMomentoEvento());
+
     }
 
     public float getMomentoEvento() {
