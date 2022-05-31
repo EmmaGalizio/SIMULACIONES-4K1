@@ -5,6 +5,7 @@ import k1.grupo.p.simulacionestp5colas.controller.generadorRandom.IGeneradorRand
 import k1.grupo.p.simulacionestp5colas.modelo.ParametrosCambioDistribucion;
 import k1.grupo.p.simulacionestp5colas.modelo.ParametrosGenerador;
 import k1.grupo.p.simulacionestp5colas.modelo.Pseudoaleatorio;
+import k1.grupo.p.simulacionestp5colas.modelo.colas.Cliente;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.VectorEstadoITV;
 import k1.grupo.p.simulacionestp5colas.modelo.estructurasDatos.TSBHeap;
 
@@ -16,6 +17,7 @@ public abstract class Evento implements Comparable<Evento>{
     //el heap de eventos
     protected float momentoEvento;
     protected String nombreEvento;
+    protected Cliente cliente;
 
     public abstract VectorEstadoITV procesarEvento(VectorEstadoITV estadoAnterior,
                                                    ParametrosGenerador parametrosGenerador,
@@ -48,5 +50,13 @@ public abstract class Evento implements Comparable<Evento>{
 
     public void setNombreEvento(String nombreEvento) {
         this.nombreEvento = nombreEvento;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }
