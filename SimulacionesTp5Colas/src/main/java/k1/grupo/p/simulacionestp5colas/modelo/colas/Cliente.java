@@ -30,4 +30,19 @@ public class Cliente {
     public int hashCode() {
         return Objects.hash(getNumeroCliente(), getHoraLlegadaCaseta(), getHoraLlegadaNave(), getHoraLlegadaOficina());
     }
+
+    @Override
+    public Object clone(){
+        Cliente cliente = new Cliente();
+        cliente.setNumeroCliente(numeroCliente);
+        cliente.setHoraLlegadaCaseta(horaLlegadaCaseta);
+        cliente.setHoraLlegadaNave(horaLlegadaNave);
+        cliente.setHoraLlegadaOficina(horaLlegadaOficina);
+        cliente.setHoraInicioAtencionCaseta(horaInicioAtencionCaseta);
+        cliente.setHoraInicioAtencionNave(horaInicioAtencionNave);
+        cliente.setHoraInicioAtencionOficina(horaInicioAtencionOficina);
+        cliente.setServidorActual(servidorActual);
+        cliente.setEstado(estado);
+        return cliente;
+    }
 }

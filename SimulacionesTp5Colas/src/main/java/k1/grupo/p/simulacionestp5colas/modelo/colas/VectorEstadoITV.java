@@ -76,10 +76,17 @@ public class VectorEstadoITV {
         nuevoVector.setColaNave(new ArrayDeque<>(colaNave));
         nuevoVector.setColaOficina(new ArrayDeque<>(colaOficina));
         //La lista de clientes varía en los eventos de llegada y fin de atención, se tiene que clonar
-        nuevoVector.setClientes(new LinkedList<>(clientes));
+        //nuevoVector.setClientes(new LinkedList<>(clientes));
+        this.cloarClientes(nuevoVector);
         this.clonarEventos(nuevoVector);
         nuevoVector.setFinSimulacion(finSimulacion);
         return nuevoVector;
+    }
+
+    private void cloarClientes(VectorEstadoITV nuevoVector){
+        List<Cliente> nuevosClientes = new LinkedList<>();
+        clientes.forEach((cliente)-> nuevosClientes.add((Cliente) cliente.clone()));
+        nuevoVector.setClientes(nuevosClientes);
     }
 
     @SneakyThrows

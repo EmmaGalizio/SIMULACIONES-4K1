@@ -83,7 +83,7 @@ public class ControladorTp5Colas {
             //Por cada evento que se procese se deberá actualizar el siguientePseudoCU
             //del vector de estado, para poder utilizarlo para generar el próximo evento.
             randomCUBase = vectorEstadoActual.getSiguientePseudoCU();
-            if(cantEventos >= parametrosItv.getMostrarFilaDesde() && cantEventos < ultimaFila){
+            if((cantEventos >= parametrosItv.getMostrarFilaDesde() && cantEventos < ultimaFila) || eventoActual instanceof EventoFinSimulacion){
                 simulacionItv.add(vectorEstadoActual);
             }
             vectorEstadoAnterior = vectorEstadoActual;
