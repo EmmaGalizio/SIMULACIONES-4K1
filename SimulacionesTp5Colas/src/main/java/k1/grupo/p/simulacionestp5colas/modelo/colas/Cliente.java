@@ -45,4 +45,8 @@ public class Cliente {
         cliente.setEstado(estado);
         return cliente;
     }
+
+    public boolean tieneId(int numeroCliente) {
+        return this.numeroCliente == numeroCliente;
+    }
 }

@@ -10,7 +10,6 @@ import k1.grupo.p.simulacionestp5colas.modelo.colas.Cliente;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.EstadoCliente;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.ParametrosItv;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.VectorEstadoITV;
-import k1.grupo.p.simulacionestp5colas.modelo.colas.servidor.EmpleadoCaseta;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.servidor.EstadoServidor;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.servidor.Servidor;
 import k1.grupo.p.simulacionestp5colas.modelo.estructurasDatos.TSBHeap;
@@ -38,6 +37,7 @@ public class EventoLlegadaCliente extends Evento{
         VectorEstadoITV vectorEstadoActual = (VectorEstadoITV) estadoAnterior.clone();
         vectorEstadoActual.setNombreEvento(this.nombreEvento);
         vectorEstadoActual.setReloj(momentoEvento);
+        vectorEstadoActual.incremetarLlegadaVehiculos();
 
         ParametrosCambioDistribucion parametrosCambioDistribucion = new ParametrosCambioDistribucion();
         parametrosCambioDistribucion.setLambda(parametrosItv.getLambdaExpLlegadasClientes());
@@ -49,6 +49,8 @@ public class EventoLlegadaCliente extends Evento{
         proximaLlegada.setRandomProxLlegada(randomCUBase);
         proximaLlegada.setTiempoHastaProxLlegada(tiempoProximaLlegada.getRandomGenerado());
         proximaLlegada.setMomentoEvento(vectorEstadoActual.getReloj()+proximaLlegada.getTiempoHastaProxLlegada());
+        //En este caso se debe actualizar la referencia al objeto correspondiente al siguiente evento de llegada en el vector de estado
+        vectorEstadoActual.setProximaLlegadaCliente(proximaLlegada);
         heapEventos.add(proximaLlegada);
         //--------------------------------------------------------------------------------
         Cliente cliente = new Cliente();
@@ -62,12 +64,14 @@ public class EventoLlegadaCliente extends Evento{
             //El empleado está ocupado
             cliente.setEstado(EstadoCliente.getInstanceEsperandoCaseta());
             vectorEstadoActual.agregarClienteColaCaseta(cliente);
-            empleadoCasetaAtendiendo.setEstado(EstadoServidor.getInstanceServidorOcupado());
-            empleadoCasetaAtendiendo.setClienteActual(cliente);
+
         }else{
+            //Hay por lo menos un empleado libre
             cliente.setEstado(EstadoCliente.getInstanceAtencionCaseta());
             cliente.setHoraInicioAtencionCaseta(vectorEstadoActual.getReloj());
             cliente.setServidorActual(empleadoCasetaAtendiendo);
+            empleadoCasetaAtendiendo.setEstado(EstadoServidor.getInstanceServidorOcupado());
+            empleadoCasetaAtendiendo.setClienteActual(cliente);
             //El random unif 0-1 se actualizo arriba
             VaribaleAleatoria tiempoAtencionCaseta = generadorVariableAleatoria
                     .siguienteRandom(parametrosCambioDistribucion,parametrosGenerador,randomCUBase);
@@ -77,9 +81,14 @@ public class EventoLlegadaCliente extends Evento{
             eventoFinAtencionCaseta.setTiempoAtencion(tiempoAtencionCaseta.getRandomGenerado());
             eventoFinAtencionCaseta.setMomentoEvento(vectorEstadoActual.getReloj()+tiempoAtencionCaseta.getRandomGenerado());
             eventoFinAtencionCaseta.setCliente(cliente);
+            //Se actualiza el evento de fin de atención de caseta del vector de estado correspondiente al empleado que está
+            //atendiendo al cliente. Es decir, si el empleado tiene un id = i, se actualiza el elemento i-1 del vector de eventos
+            //este vector de eventos es el que se va a mostrar.
+            vectorEstadoActual.actualizarEventoFinAtencionCaseta(eventoFinAtencionCaseta,empleadoCasetaAtendiendo);
+            vectorEstadoActual.acumularTiempoLibreEmpleadosCaseta(empleadoCasetaAtendiendo);
             heapEventos.add(eventoFinAtencionCaseta);
-
         }
+        vectorEstadoActual.setSiguientePseudoCU(randomCUBase);
         return vectorEstadoActual;
     }
 

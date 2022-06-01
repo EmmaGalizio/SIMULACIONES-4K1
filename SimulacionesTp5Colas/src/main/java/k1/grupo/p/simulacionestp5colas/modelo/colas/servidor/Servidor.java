@@ -11,6 +11,7 @@ public abstract class Servidor {
     protected Cliente clienteActual;
     protected String nombre;
     protected int id;
+    protected float momentoLiberacion;
 
     public boolean estaLibre(){
         return estado.estaLibre();

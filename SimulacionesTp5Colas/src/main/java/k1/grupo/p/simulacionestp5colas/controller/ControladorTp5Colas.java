@@ -58,7 +58,7 @@ public class ControladorTp5Colas {
         int ultimaFila = parametrosItv.getMostrarFilaDesde() + parametrosItv.getCantFilasMostrar();
         EventoFinAtencion finAtencionCliente = null;
         List<VectorEstadoITV> simulacionItv = new LinkedList<>();
-        while(true){
+        while(!eventosHeap.isEmpty() || eventoActual != null){
             //La clase VectorEstadoITV implementa el método clone()
             //Al momento de procesar el evento en vez de instanciar un Vector vacío
             //se llama al método clone del vector anterior que ya tiene todos los datos
@@ -88,9 +88,11 @@ public class ControladorTp5Colas {
             }
             vectorEstadoAnterior = vectorEstadoActual;
             if(eventoActual instanceof EventoFinSimulacion) break;
-            if(eventoActual instanceof  EventoFinAtencion)
+            if(eventoActual instanceof  EventoFinAtencion) {
                 finAtencionCliente = (EventoFinAtencion) eventoActual;
+            }
             eventoActual = eventosHeap.remove();
+            cantEventos++;
         }
         //En un primer momento se obtienen las instancias de los generadores randoms y de las variables
         //aleatorias
@@ -145,7 +147,7 @@ public class ControladorTp5Colas {
         vectorEstadoITV.setColaOficina(new ArrayDeque<>());
         vectorEstadoITV.setColaNave(new ArrayDeque<>());
         vectorEstadoITV.setColaCaseta(new ArrayDeque<>());
-        vectorEstadoITV.setLlegadaCliente(eventoInicial);
+        vectorEstadoITV.setProximaLlegadaCliente(eventoInicial);
         vectorEstadoITV.setNombreEvento(eventoInicial.getNombreEvento());
         vectorEstadoITV.setEmpleadosNave(this.generarEmpleadosNave(parametrosItv));
         vectorEstadoITV.setEmpleadosCaseta(this.generarEmpleadosCaseta(parametrosItv));

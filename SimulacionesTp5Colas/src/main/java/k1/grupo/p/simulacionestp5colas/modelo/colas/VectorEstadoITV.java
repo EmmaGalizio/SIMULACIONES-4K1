@@ -13,7 +13,7 @@ public class VectorEstadoITV {
 
     private String nombreEvento;
     private float reloj;
-    private EventoLlegadaCliente llegadaCliente;
+    private EventoLlegadaCliente ProximaLlegadaCliente;
     private EventoFinAtencionCaseta[] finAtencionCaseta;
     private EventoFinInspeccion[] finInspeccion;
     private EventoFinAtencion[] finAtencionOficina;
@@ -40,6 +40,13 @@ public class VectorEstadoITV {
     private float acumuladorTiempoAtencion; //Acumulador del tiempo total desde que llega al sistema
     //hasta que sale al finalizar la atención en la oficina
     private float acumuladorTotalEsperaCola;
+    //SE PODRÍAN AGREGAR AUCUMULADORES PARA EL TIEMPO LIBRE DE CADA TIPO DE SERVIDOR, COMO PARA AGREGAR MÁS MÉTRICAS
+    //PERO EN ESTE MOMENTO NO ME ACUERDO NI ME SALEN PENSAR CÓMO CALCULAR ESE TIEMPO LIBRE
+    //QUE CAMBIARÍA CUANDO EL SERVIDOR PASA DE ESTAR LIBRE A OCUPADO. CAPAZ QUE DENTRO DEL SERVIDOR SE DEBERÍA GUARDAR
+    //EL ATRIBUTO DE CUANDO QUEDÓ LIBRE, Y SE ACTUALIZARÍA ESE ATRIBUTO EN EL RESPECTIVO EVENTO DE FIN DE ATENCION DE CADA SERVIDOR
+    private float acumuladorTiempoLibreEmpleadosCaseta; //IMPLEMENTADO
+    private float acumuladorTiempoLibreEmpleadosNave; //Implementado
+    private float acumuladorTiempoLibreEmpleadosOficina;
     private List<Cliente> clientes;
 
     //Este atributo es solo para el actualizar el pseudo en el controlador
@@ -135,5 +142,52 @@ public class VectorEstadoITV {
     public void agregarClienteColaCaseta(Cliente cliente) {
         if(colaCaseta == null) colaCaseta = new ArrayDeque<>();
         colaCaseta.add(cliente);
+    }
+
+    public void actualizarEventoFinAtencionCaseta(EventoFinAtencionCaseta evento, Servidor empleadoCaseta){
+        finAtencionCaseta[empleadoCaseta.getId()-1] = evento;
+    }
+
+    public Cliente buscarClientePorId(int numeroCliente) {
+
+        for(Cliente cliente: clientes){
+            if(cliente.tieneId(numeroCliente)){
+                return cliente;
+            }
+        }
+        return null;
+    }
+
+    public void agregarClienteColaNave(Cliente clienteActual) {
+        if(colaNave == null) colaNave = new ArrayDeque<>();
+        colaNave.add(clienteActual);
+    }
+
+    public void acumularTiempoTotalCaseta(Cliente clienteActual) {
+        acumuladorTiempoEsperaCaseta += (clienteActual.getHoraLlegadaNave()-clienteActual.getHoraLlegadaCaseta());
+    }
+    public void acumularTiempoColaCaseta(Cliente clienenteActual){
+        acumuladorTiempoEsperaColaCaseta += (clienenteActual.getHoraInicioAtencionCaseta() - clienenteActual.getHoraLlegadaCaseta());
+    }
+
+    public Cliente getSiguienteClienteColaCaseta() {
+        if(colaCaseta != null){
+            return colaCaseta.poll();
+        }
+        return null;
+    }
+
+    public void actualizarEventoFinAtencionNave(EventoFinInspeccion eventoFinInspeccion, Servidor empleadoNaveLibre) {
+        finInspeccion[empleadoNaveLibre.getId()-1] = eventoFinInspeccion;
+    }
+
+    public void acumularTiempoLibreEmpleadosCaseta(Servidor empleadoCaseta){
+        acumuladorTiempoLibreEmpleadosCaseta+= (this.reloj - empleadoCaseta.getMomentoLiberacion());
+    }
+    public void acumularTiempoLibreEmpleadosNave(Servidor empleadoNave){
+        acumuladorTiempoLibreEmpleadosNave+= (this.reloj - empleadoNave.getMomentoLiberacion());
+    }
+    public void acumularTiempoLibreEmpleadosOficina(Servidor empleadoOficina){
+        acumuladorTiempoLibreEmpleadosOficina+= (this.reloj - empleadoOficina.getMomentoLiberacion());
     }
 }
