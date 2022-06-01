@@ -46,7 +46,7 @@ public class VectorEstadoITV {
     //EL ATRIBUTO DE CUANDO QUEDÓ LIBRE, Y SE ACTUALIZARÍA ESE ATRIBUTO EN EL RESPECTIVO EVENTO DE FIN DE ATENCION DE CADA SERVIDOR
     private float acumuladorTiempoLibreEmpleadosCaseta; //IMPLEMENTADO
     private float acumuladorTiempoLibreEmpleadosNave; //Implementado
-    private float acumuladorTiempoLibreEmpleadosOficina;
+    private float acumuladorTiempoLibreEmpleadosOficina; //Implementado
     private List<Cliente> clientes;
 
     //Este atributo es solo para el actualizar el pseudo en el controlador
@@ -130,6 +130,16 @@ public class VectorEstadoITV {
         }
 
     }
+    public int getCantClientesColaCaseta(){
+        return colaCaseta.size();
+    }
+    public int getCantClientesColaNave(){
+        return colaNave.size();
+    }
+    public int getCantClientesColaOficina(){
+        return colaOficina.size();
+    }
+
     public void incremetarLlegadaVehiculos(){
         contadorVehiculos++;
     }
@@ -189,5 +199,53 @@ public class VectorEstadoITV {
     }
     public void acumularTiempoLibreEmpleadosOficina(Servidor empleadoOficina){
         acumuladorTiempoLibreEmpleadosOficina+= (this.reloj - empleadoOficina.getMomentoLiberacion());
+    }
+
+    public void agregarClienteColaOficina(Cliente clienteActual) {
+        if(colaOficina == null) colaOficina = new ArrayDeque<>();
+        colaOficina.add(clienteActual);
+    }
+
+    public void actualizarEventoFinAtencion(EventoFinAtencion eventoFinAtencion, Servidor empleadoOficinaLibre) {
+        finAtencionOficina[empleadoOficinaLibre.getId()-1] = eventoFinAtencion;
+    }
+
+    public void acumularTiempoTotalNave(Cliente clienteActual) {
+        acumuladorTiempoEsperaNave += (this.reloj-clienteActual.getHoraLlegadaNave());
+    }
+
+    public Cliente getsiguienteClienteColaNave() {
+        if(colaNave != null){
+            return colaNave.poll();
+        }
+        return null;
+    }
+
+    public void acumularTiempoColaNave(Cliente siguienteClienteInspeccion) {
+        acumuladorTiempoEsperaColaNave+= this.reloj - siguienteClienteInspeccion.getHoraLlegadaNave();
+    }
+    public void acumularTiempoEsperaCola(float momentoIngresoCola){
+        acumuladorTotalEsperaCola+=this.reloj - momentoIngresoCola;
+    }
+
+    public Cliente getSiguienteClienteColaOficina() {
+        if(colaOficina != null) return colaOficina.poll();
+        return null;
+    }
+
+    public void acumularTiempoColaOficina(Cliente clienteActual) {
+        acumuladorTiempoEsperaColaOficina += (this.reloj-clienteActual.getHoraLlegadaOficina());
+    }
+
+    public void acumularTiempoEsperaOficina(Cliente clienteActual) {
+        acumuladorTiempoEsperaOficina+= this.reloj - clienteActual.getHoraLlegadaOficina();
+    }
+
+    public void incremetarVehiculosAtencionFinalizada() {
+        this.contadorVehiculosAtencionFinalizada++;
+    }
+
+    public void acumularTiempoEnSistema(Cliente clienteActual) {
+        this.acumuladorTiempoAtencion+= this.reloj - clienteActual.getHoraLlegadaCaseta();
     }
 }

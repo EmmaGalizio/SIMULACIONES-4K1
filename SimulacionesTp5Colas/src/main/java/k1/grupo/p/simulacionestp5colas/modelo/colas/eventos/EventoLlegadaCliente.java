@@ -41,6 +41,7 @@ public class EventoLlegadaCliente extends Evento{
 
         ParametrosCambioDistribucion parametrosCambioDistribucion = new ParametrosCambioDistribucion();
         parametrosCambioDistribucion.setLambda(parametrosItv.getLambdaExpLlegadasClientes());
+        parametrosCambioDistribucion.setPresicion(parametrosGenerador.getPresicion());
         VaribaleAleatoria tiempoProximaLlegada = generadorVariableAleatoria.siguienteRandom(parametrosCambioDistribucion
                                                                                             ,parametrosGenerador,randomCUBase);
         randomCUBase = tiempoProximaLlegada.getSiguienteRandomBase();

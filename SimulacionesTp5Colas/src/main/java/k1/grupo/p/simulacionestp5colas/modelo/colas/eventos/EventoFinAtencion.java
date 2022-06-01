@@ -5,9 +5,13 @@ import k1.grupo.p.simulacionestp5colas.controller.generadorRandom.IGeneradorRand
 import k1.grupo.p.simulacionestp5colas.modelo.ParametrosCambioDistribucion;
 import k1.grupo.p.simulacionestp5colas.modelo.ParametrosGenerador;
 import k1.grupo.p.simulacionestp5colas.modelo.Pseudoaleatorio;
+import k1.grupo.p.simulacionestp5colas.modelo.VaribaleAleatoria;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.Cliente;
+import k1.grupo.p.simulacionestp5colas.modelo.colas.EstadoCliente;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.ParametrosItv;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.VectorEstadoITV;
+import k1.grupo.p.simulacionestp5colas.modelo.colas.servidor.EstadoServidor;
+import k1.grupo.p.simulacionestp5colas.modelo.colas.servidor.Servidor;
 import k1.grupo.p.simulacionestp5colas.modelo.estructurasDatos.TSBHeap;
 import lombok.Data;
 
@@ -38,13 +42,51 @@ public class EventoFinAtencion extends Evento{
                                           ICambioDistribucion generadorVariableAleatoria,
                                           TSBHeap<Evento> heapEventos) {
 
-        //Cuando se procese este evento es necesario setear el campo
-        //clienteAtencionFinalizada para que en la próxima iteración del controlador
-        //se pueda eliminar de la lista de clientes al cliente que salió del predio
-        //Total ya están registrados todos los datos necesarios en los acumuladores y contadores
-        //Además, es necesario sacarlos porque si hecemos una simulación en la que llegan 10000 clientes
-        //entonces la lista quedaría con 10000 elementos distintos.
-        return null;
+        VectorEstadoITV vectorEstadoActual = (VectorEstadoITV) estadoAnterior.clone();
+        vectorEstadoActual.setReloj(this.momentoEvento);
+        Servidor oficinista = cliente.getServidorActual();
+        Cliente clienteActual = vectorEstadoActual.buscarClientePorId(cliente.getNumeroCliente());
+
+        this.setClienteAtencionFinalizada(clienteActual);
+
+        Cliente siguienteClienteCola = vectorEstadoActual.getSiguienteClienteColaOficina();
+        if(siguienteClienteCola == null){
+            oficinista.setEstado(EstadoServidor.getInstanceServidorLibre());
+            oficinista.setMomentoLiberacion(this.momentoEvento);
+            oficinista.setClienteActual(null);
+        } else{
+            siguienteClienteCola = vectorEstadoActual.buscarClientePorId(siguienteClienteCola.getNumeroCliente());
+            siguienteClienteCola.setEstado(EstadoCliente.getInstanceAtencionOficina());
+            siguienteClienteCola.setHoraInicioAtencionOficina(this.momentoEvento);
+            siguienteClienteCola.setServidorActual(oficinista);
+
+            oficinista.setClienteActual(siguienteClienteCola);
+            oficinista.setEstado(EstadoServidor.getInstanceServidorOcupado());
+
+            ParametrosCambioDistribucion parametrosCambioDistribucion = new ParametrosCambioDistribucion();
+            parametrosCambioDistribucion.setLambda(parametrosItv.getLambdaExpServicioOficina());
+            parametrosCambioDistribucion.setPresicion(parametrosGenerador.getPresicion());
+
+            VaribaleAleatoria tiempoFinAtencionOficina = generadorVariableAleatoria.siguienteRandom(parametrosCambioDistribucion,parametrosGenerador,randomCUBase);
+            EventoFinAtencion eventoFinAtencion = new EventoFinAtencion();
+            eventoFinAtencion.setRandomAtencionOficina(randomCUBase);
+            eventoFinAtencion.setTiempoAtencionOficina(tiempoFinAtencionOficina.getRandomGenerado());
+            eventoFinAtencion.setMomentoEvento(this.momentoEvento+eventoFinAtencion.getTiempoAtencionOficina());
+            heapEventos.add(eventoFinAtencion);
+
+            vectorEstadoActual.actualizarEventoFinAtencion(eventoFinAtencion, oficinista);
+            vectorEstadoActual.acumularTiempoColaOficina(siguienteClienteCola);
+            vectorEstadoActual.acumularTiempoEsperaCola(siguienteClienteCola.getHoraLlegadaOficina());
+            randomCUBase = tiempoFinAtencionOficina.getSiguienteRandomBase();
+        }
+
+        //El cliente directamente sale del sistema, así que no pasa a otra cola u otro servidor como en los demás eventos.
+        vectorEstadoActual.acumularTiempoEsperaOficina(clienteActual);
+        vectorEstadoActual.incremetarVehiculosAtencionFinalizada();
+        vectorEstadoActual.acumularTiempoEnSistema(clienteActual);
+
+        vectorEstadoActual.setSiguientePseudoCU(randomCUBase);
+        return vectorEstadoActual;
     }
 
 

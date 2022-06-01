@@ -64,6 +64,7 @@ public class EventoFinAtencionCaseta extends Evento{
             //Como inmediatamente el cliente empezó a ser atendido en la nave, se crea el evento de fin de atención.
             ParametrosCambioDistribucion parametrosCambioDistribucion = new ParametrosCambioDistribucion();
             parametrosCambioDistribucion.setLambda(parametrosItv.getLambdaExpServicioNave());
+            parametrosCambioDistribucion.setPresicion(parametrosGenerador.getPresicion());
             VaribaleAleatoria tiempoAtencionNave = generadorVariableAleatoria.siguienteRandom(parametrosCambioDistribucion,parametrosGenerador,randomCUBase);
 
             EventoFinInspeccion eventoFinInspeccion = new EventoFinInspeccion();
@@ -116,6 +117,7 @@ public class EventoFinAtencionCaseta extends Evento{
             //Es necesario crear el evento de fin de atención de este cliente.
             ParametrosCambioDistribucion parametrosCambioDistribucion = new ParametrosCambioDistribucion();
             parametrosCambioDistribucion.setLambda(parametrosItv.getLambdaExpServCaseta());
+            parametrosCambioDistribucion.setPresicion(parametrosGenerador.getPresicion());
             VaribaleAleatoria tiempoAtencionCaseta = generadorVariableAleatoria.siguienteRandom(parametrosCambioDistribucion,parametrosGenerador,randomCUBase);
             EventoFinAtencionCaseta siguienteFinAtencionCaseta = new EventoFinAtencionCaseta();
             siguienteFinAtencionCaseta.setRandomTiempoAtencion(randomCUBase);
@@ -128,6 +130,7 @@ public class EventoFinAtencionCaseta extends Evento{
             vectorEstadoActual.actualizarEventoFinAtencionCaseta(siguienteFinAtencionCaseta, empleadoCaseta);
             //Se acumula el tiempo de espera en la cola de la caseta del cliente que pasó a ser atendido.
             vectorEstadoActual.acumularTiempoColaCaseta(clienteEsperaColaCaseta);
+            vectorEstadoActual.acumularTiempoEsperaCola(clienteEsperaColaCaseta.getHoraLlegadaCaseta());
             randomCUBase = tiempoAtencionCaseta.getSiguienteRandomBase();
             //En este caso, el empleado de la caseta nunca deja de estar libre por lo que no se actualiza el acumulador de tiempo
             //libre de la caseta

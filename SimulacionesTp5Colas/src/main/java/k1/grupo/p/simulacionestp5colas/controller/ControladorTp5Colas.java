@@ -38,6 +38,7 @@ public class ControladorTp5Colas {
         }
         IGeneradorRandom generadorRandom = mapGeneradorRandom.get(parametrosGenerador.getMetodoGeneradorRandom());
         parametrosGenerador.setN(1);
+        parametrosGenerador.setPresicion(4);
         Pseudoaleatorio randomCUBase = generadorRandom.generar(parametrosGenerador)[0];
 
         EventoLlegadaCliente eventoInicial = new EventoLlegadaCliente();
