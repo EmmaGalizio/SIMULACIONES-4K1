@@ -5,6 +5,7 @@ import k1.grupo.p.simulacionestp5colas.controller.generadorRandom.IGeneradorRand
 import k1.grupo.p.simulacionestp5colas.modelo.ParametrosCambioDistribucion;
 import k1.grupo.p.simulacionestp5colas.modelo.ParametrosGenerador;
 import k1.grupo.p.simulacionestp5colas.modelo.Pseudoaleatorio;
+import k1.grupo.p.simulacionestp5colas.modelo.colas.ParametrosItv;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.VectorEstadoITV;
 import k1.grupo.p.simulacionestp5colas.modelo.estructurasDatos.TSBHeap;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class EventoFinAtencionCaseta extends Evento{
                                    ParametrosGenerador parametrosGenerador,
                                    Pseudoaleatorio randomCUBase,
                                    IGeneradorRandom generadorRandom,
+                                          ParametrosItv parametrosItv,
                                    ICambioDistribucion generadorVariableAleatoria,
                                           TSBHeap<Evento> heapEventos) {
 

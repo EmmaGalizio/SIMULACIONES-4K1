@@ -12,4 +12,8 @@ public abstract class Servidor {
     protected String nombre;
     protected int id;
 
+    public boolean estaLibre(){
+        return estado.estaLibre();
+    }
+
 }

@@ -73,7 +73,7 @@ public class ControladorTp5Colas {
             //el fin de inspección del inspector 1, se deberá cambiar el elemento 0 del array
             //de eventos de fin de inspección (i-1)
             vectorEstadoActual = eventoActual.procesarEvento(vectorEstadoAnterior,parametrosGenerador
-                    ,randomCUBase,generadorRandom,generadorExponencialNeg, eventosHeap);
+                    ,randomCUBase,generadorRandom,parametrosItv,generadorExponencialNeg, eventosHeap);
 
 
             if(finAtencionCliente != null){

@@ -15,7 +15,7 @@ public class EstadoCliente {
     public static final String ATENCION_FINALIZADA = "Atencion Finalizada";
 
 
-    private Map<String, EstadoCliente> estadosPosiblesMap;
+    private static Map<String, EstadoCliente> estadosPosiblesMap;
 
     private String estado;
 
@@ -23,18 +23,18 @@ public class EstadoCliente {
         this.estado = estado;
     }
 
-    private void inicializarMap(){
+    private static void inicializarMap(){
         if(estadosPosiblesMap == null) estadosPosiblesMap = new Hashtable<>();
     }
 
-    public EstadoCliente getInstanceEsperandoCaseta(){
+    public static EstadoCliente getInstanceEsperandoCaseta(){
         inicializarMap();
         if(!estadosPosiblesMap.containsKey("EC")){
             estadosPosiblesMap.put("EC", new EstadoCliente(ESPERANDO_CASETA));
         }
         return estadosPosiblesMap.get("EC");
     }
-    public EstadoCliente getInstanceEsperandoNave(){
+    public static EstadoCliente getInstanceEsperandoNave(){
         inicializarMap();
         if(!estadosPosiblesMap.containsKey("EN")){
             estadosPosiblesMap.put("EN", new EstadoCliente(ESPERANDO_NAVE));
@@ -42,21 +42,21 @@ public class EstadoCliente {
         return estadosPosiblesMap.get("EN");
     }
 
-    public EstadoCliente getInstanceEsperandoOficina(){
+    public static EstadoCliente getInstanceEsperandoOficina(){
         inicializarMap();
         if(!estadosPosiblesMap.containsKey("EO")){
             estadosPosiblesMap.put("EO", new EstadoCliente(ESPERANDO_OFICINA));
         }
         return estadosPosiblesMap.get("EO");
     }
-    public EstadoCliente getInstanceAtencionCaseta(){
+    public static EstadoCliente getInstanceAtencionCaseta(){
         inicializarMap();
         if(!estadosPosiblesMap.containsKey("SAC")){
             estadosPosiblesMap.put("SAC", new EstadoCliente(SIENDO_ATENDIDO_CASETA));
         }
         return estadosPosiblesMap.get("SAC");
     }
-    public EstadoCliente getInstanceAtencionNave(){
+    public static EstadoCliente getInstanceAtencionNave(){
         inicializarMap();
         if(!estadosPosiblesMap.containsKey("SAN")){
             estadosPosiblesMap.put("SAN", new EstadoCliente(SIENDO_ATENDIDO_NAVE));
@@ -64,7 +64,7 @@ public class EstadoCliente {
         return estadosPosiblesMap.get("SAN");
     }
 
-    public EstadoCliente getInstanceAtencionOficina(){
+    public static EstadoCliente getInstanceAtencionOficina(){
         inicializarMap();
         if(!estadosPosiblesMap.containsKey("SAO")){
             estadosPosiblesMap.put("SAO", new EstadoCliente(SIENDO_ATENDIDO_OFICINA));
@@ -72,7 +72,7 @@ public class EstadoCliente {
         return estadosPosiblesMap.get("SAO");
     }
 
-    public EstadoCliente getInstanceAtencionFinalizada(){
+    public static EstadoCliente getInstanceAtencionFinalizada(){
         inicializarMap();
         if(!estadosPosiblesMap.containsKey("AF")){
             estadosPosiblesMap.put("AF", new EstadoCliente(ATENCION_FINALIZADA));

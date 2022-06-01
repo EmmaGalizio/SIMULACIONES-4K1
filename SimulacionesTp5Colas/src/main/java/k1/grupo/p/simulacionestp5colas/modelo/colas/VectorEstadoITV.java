@@ -48,7 +48,8 @@ public class VectorEstadoITV {
 
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    @SneakyThrows
+    public Object clone() {
         VectorEstadoITV nuevoVector = new VectorEstadoITV();
         //Seteo de valores primitivos
         nuevoVector.setReloj(reloj);
@@ -121,5 +122,18 @@ public class VectorEstadoITV {
             }
         }
 
+    }
+    public void incremetarLlegadaVehiculos(){
+        contadorVehiculos++;
+    }
+
+    public void agregarCliente(Cliente cliente) {
+        if(clientes == null) clientes = new LinkedList<>();
+        clientes.add(cliente);
+    }
+
+    public void agregarClienteColaCaseta(Cliente cliente) {
+        if(colaCaseta == null) colaCaseta = new ArrayDeque<>();
+        colaCaseta.add(cliente);
     }
 }

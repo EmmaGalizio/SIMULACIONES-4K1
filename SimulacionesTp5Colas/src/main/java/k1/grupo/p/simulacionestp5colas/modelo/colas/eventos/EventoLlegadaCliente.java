@@ -5,7 +5,14 @@ import k1.grupo.p.simulacionestp5colas.controller.generadorRandom.IGeneradorRand
 import k1.grupo.p.simulacionestp5colas.modelo.ParametrosCambioDistribucion;
 import k1.grupo.p.simulacionestp5colas.modelo.ParametrosGenerador;
 import k1.grupo.p.simulacionestp5colas.modelo.Pseudoaleatorio;
+import k1.grupo.p.simulacionestp5colas.modelo.VaribaleAleatoria;
+import k1.grupo.p.simulacionestp5colas.modelo.colas.Cliente;
+import k1.grupo.p.simulacionestp5colas.modelo.colas.EstadoCliente;
+import k1.grupo.p.simulacionestp5colas.modelo.colas.ParametrosItv;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.VectorEstadoITV;
+import k1.grupo.p.simulacionestp5colas.modelo.colas.servidor.EmpleadoCaseta;
+import k1.grupo.p.simulacionestp5colas.modelo.colas.servidor.EstadoServidor;
+import k1.grupo.p.simulacionestp5colas.modelo.colas.servidor.Servidor;
 import k1.grupo.p.simulacionestp5colas.modelo.estructurasDatos.TSBHeap;
 import lombok.Data;
 
@@ -24,8 +31,64 @@ public class EventoLlegadaCliente extends Evento{
                                    ParametrosGenerador parametrosGenerador,
                                    Pseudoaleatorio randomCUBase,
                                    IGeneradorRandom generadorRandom,
+                                          ParametrosItv parametrosItv,
                                    ICambioDistribucion generadorVariableAleatoria,
                                           TSBHeap<Evento> heapEventos) {
+
+        VectorEstadoITV vectorEstadoActual = (VectorEstadoITV) estadoAnterior.clone();
+        vectorEstadoActual.setNombreEvento(this.nombreEvento);
+        vectorEstadoActual.setReloj(momentoEvento);
+
+        ParametrosCambioDistribucion parametrosCambioDistribucion = new ParametrosCambioDistribucion();
+        parametrosCambioDistribucion.setLambda(parametrosItv.getLambdaExpLlegadasClientes());
+        VaribaleAleatoria tiempoProximaLlegada = generadorVariableAleatoria.siguienteRandom(parametrosCambioDistribucion
+                                                                                            ,parametrosGenerador,randomCUBase);
+        randomCUBase = tiempoProximaLlegada.getSiguienteRandomBase();
+        //---------------------------------------------------------------
+        EventoLlegadaCliente proximaLlegada = new EventoLlegadaCliente();
+        proximaLlegada.setRandomProxLlegada(randomCUBase);
+        proximaLlegada.setTiempoHastaProxLlegada(tiempoProximaLlegada.getRandomGenerado());
+        proximaLlegada.setMomentoEvento(vectorEstadoActual.getReloj()+proximaLlegada.getTiempoHastaProxLlegada());
+        heapEventos.add(proximaLlegada);
+        //--------------------------------------------------------------------------------
+        Cliente cliente = new Cliente();
+        cliente.setHoraLlegadaCaseta(vectorEstadoActual.getReloj());
+        vectorEstadoActual.agregarCliente(cliente);
+        cliente.setNumeroCliente(vectorEstadoActual.getContadorVehiculos());
+
+        Servidor empleadoCasetaAtendiendo = this.obtenerEmpleadoLibre(vectorEstadoActual);
+
+        if(empleadoCasetaAtendiendo == null){
+            //El empleado está ocupado
+            cliente.setEstado(EstadoCliente.getInstanceEsperandoCaseta());
+            vectorEstadoActual.agregarClienteColaCaseta(cliente);
+            empleadoCasetaAtendiendo.setEstado(EstadoServidor.getInstanceServidorOcupado());
+            empleadoCasetaAtendiendo.setClienteActual(cliente);
+        }else{
+            cliente.setEstado(EstadoCliente.getInstanceAtencionCaseta());
+            cliente.setHoraInicioAtencionCaseta(vectorEstadoActual.getReloj());
+            cliente.setServidorActual(empleadoCasetaAtendiendo);
+            //El random unif 0-1 se actualizo arriba
+            VaribaleAleatoria tiempoAtencionCaseta = generadorVariableAleatoria
+                    .siguienteRandom(parametrosCambioDistribucion,parametrosGenerador,randomCUBase);
+            randomCUBase = tiempoAtencionCaseta.getSiguienteRandomBase();
+            EventoFinAtencionCaseta eventoFinAtencionCaseta = new EventoFinAtencionCaseta();
+            eventoFinAtencionCaseta.setRandomTiempoAtencion(randomCUBase);
+            eventoFinAtencionCaseta.setTiempoAtencion(tiempoAtencionCaseta.getRandomGenerado());
+            eventoFinAtencionCaseta.setMomentoEvento(vectorEstadoActual.getReloj()+tiempoAtencionCaseta.getRandomGenerado());
+            eventoFinAtencionCaseta.setCliente(cliente);
+            heapEventos.add(eventoFinAtencionCaseta);
+
+        }
+        return vectorEstadoActual;
+    }
+
+
+    private Servidor obtenerEmpleadoLibre(VectorEstadoITV vectorEstadoITV){
+
+        for(Servidor empleadoCaseta:vectorEstadoITV.getEmpleadosCaseta()){
+            if(empleadoCaseta.estaLibre()) return empleadoCaseta;
+        }
         return null;
     }
 
