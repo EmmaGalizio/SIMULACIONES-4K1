@@ -12,6 +12,10 @@ public class ParametrosCambioDistribucion {
     private int kInicial;
     private int dEmpiricos;
 
+    public ParametrosCambioDistribucion(){
+        this.presicion = 4;
+    }
+
     public int getN() {
         return n;
     }

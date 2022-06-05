@@ -56,23 +56,31 @@ public class EventoLlegadaCliente extends Evento{
         //--------------------------------------------------------------------------------
         Cliente cliente = new Cliente();
         cliente.setHoraLlegadaCaseta(vectorEstadoActual.getReloj());
-        vectorEstadoActual.agregarCliente(cliente);
-        cliente.setNumeroCliente(vectorEstadoActual.getContadorVehiculos());
+        //En teoría así como está, si llega un cliente, automáticamente calcula la siguiente llegada
+        //Se fija si hay algún servidor libre, si no hay ninguno, se fija si la cola es menor o igual a 15
+        //Si lo es, lo agrega a la cola y a la lista de clientes, sino simplemente se descarta.
 
         Servidor empleadoCasetaAtendiendo = this.obtenerEmpleadoLibre(vectorEstadoActual);
 
         if(empleadoCasetaAtendiendo == null){
             //El empleado está ocupado
             cliente.setEstado(EstadoCliente.getInstanceEsperandoCaseta());
-            vectorEstadoActual.agregarClienteColaCaseta(cliente);
+            if(vectorEstadoActual.getCantClientesColaCaseta() <= 15) {
+                vectorEstadoActual.agregarCliente(cliente);
+                vectorEstadoActual.agregarClienteColaCaseta(cliente);
+            }else{
+                vectorEstadoActual.incrementarClientesNoAtendidos();
+            }
 
         }else{
             //Hay por lo menos un empleado libre
+            vectorEstadoActual.agregarCliente(cliente);
             cliente.setEstado(EstadoCliente.getInstanceAtencionCaseta());
             cliente.setHoraInicioAtencionCaseta(vectorEstadoActual.getReloj());
             cliente.setServidorActual(empleadoCasetaAtendiendo);
             empleadoCasetaAtendiendo.setEstado(EstadoServidor.getInstanceServidorOcupado());
             empleadoCasetaAtendiendo.setClienteActual(cliente);
+            parametrosCambioDistribucion.setLambda(parametrosItv.getLambdaExpServCaseta());
             //El random unif 0-1 se actualizo arriba
             VaribaleAleatoria tiempoAtencionCaseta = generadorVariableAleatoria
                     .siguienteRandom(parametrosCambioDistribucion,parametrosGenerador,randomCUBase);
@@ -89,6 +97,7 @@ public class EventoLlegadaCliente extends Evento{
             vectorEstadoActual.acumularTiempoLibreEmpleadosCaseta(empleadoCasetaAtendiendo);
             heapEventos.add(eventoFinAtencionCaseta);
         }
+        cliente.setNumeroCliente(vectorEstadoActual.getContadorVehiculos());
         vectorEstadoActual.setSiguientePseudoCU(randomCUBase);
         return vectorEstadoActual;
     }

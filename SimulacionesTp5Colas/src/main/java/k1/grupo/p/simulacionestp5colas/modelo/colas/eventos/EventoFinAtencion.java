@@ -44,8 +44,10 @@ public class EventoFinAtencion extends Evento{
 
         VectorEstadoITV vectorEstadoActual = (VectorEstadoITV) estadoAnterior.clone();
         vectorEstadoActual.setReloj(this.momentoEvento);
-        Servidor oficinista = cliente.getServidorActual();
+        vectorEstadoActual.setNombreEvento(this.nombreEvento);
+        Servidor oficinistaAnterior = cliente.getServidorActual();
         Cliente clienteActual = vectorEstadoActual.buscarClientePorId(cliente.getNumeroCliente());
+        Servidor oficinista = vectorEstadoActual.buscarOficinistaPorId(oficinistaAnterior.getId());
 
         this.setClienteAtencionFinalizada(clienteActual);
 
@@ -54,6 +56,7 @@ public class EventoFinAtencion extends Evento{
             oficinista.setEstado(EstadoServidor.getInstanceServidorLibre());
             oficinista.setMomentoLiberacion(this.momentoEvento);
             oficinista.setClienteActual(null);
+            vectorEstadoActual.actualizarEventoFinAtencion(null,oficinista);
         } else{
             siguienteClienteCola = vectorEstadoActual.buscarClientePorId(siguienteClienteCola.getNumeroCliente());
             siguienteClienteCola.setEstado(EstadoCliente.getInstanceAtencionOficina());
@@ -72,6 +75,7 @@ public class EventoFinAtencion extends Evento{
             eventoFinAtencion.setRandomAtencionOficina(randomCUBase);
             eventoFinAtencion.setTiempoAtencionOficina(tiempoFinAtencionOficina.getRandomGenerado());
             eventoFinAtencion.setMomentoEvento(this.momentoEvento+eventoFinAtencion.getTiempoAtencionOficina());
+            eventoFinAtencion.setCliente(siguienteClienteCola);
             heapEventos.add(eventoFinAtencion);
 
             vectorEstadoActual.actualizarEventoFinAtencion(eventoFinAtencion, oficinista);

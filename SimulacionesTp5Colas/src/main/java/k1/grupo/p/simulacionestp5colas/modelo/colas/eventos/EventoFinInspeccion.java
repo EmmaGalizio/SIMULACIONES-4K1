@@ -35,10 +35,12 @@ public class EventoFinInspeccion extends Evento{
 
         VectorEstadoITV vectorEstadoActual = (VectorEstadoITV) estadoAnterior.clone();
         vectorEstadoActual.setReloj(this.momentoEvento);
-        Servidor inspector = cliente.getServidorActual();
+        vectorEstadoActual.setNombreEvento(this.nombreEvento);
+        Servidor inspectorAnterior = cliente.getServidorActual();
 
         Cliente clienteActual = vectorEstadoActual.buscarClientePorId(cliente.getNumeroCliente());
         clienteActual.setHoraLlegadaOficina(this.momentoEvento);
+        Servidor inspector = vectorEstadoActual.buscarEmpNavePorId(inspectorAnterior.getId());
 
         //Una vez que el cliente sale de la inspección debe pasar por la oficina a retirar la documentación,
         //Para eso, debe fijarse si algún empleado de la oficina está libre, si lo está, entonces directamente pasa a ser atendido
@@ -82,6 +84,7 @@ public class EventoFinInspeccion extends Evento{
             inspector.setEstado(EstadoServidor.getInstanceServidorLibre());
             inspector.setMomentoLiberacion(this.momentoEvento);
             inspector.setClienteActual(null);
+            vectorEstadoActual.actualizarEventoFinAtencionNave(null,inspector);
         } else{
             //Hay clientes esperando para ser atendidos por el inspector
             siguienteClienteInspeccion = vectorEstadoActual.buscarClientePorId(siguienteClienteInspeccion.getNumeroCliente());
@@ -100,6 +103,7 @@ public class EventoFinInspeccion extends Evento{
             eventoFinInspeccion.setRandomFinInspeccion(randomCUBase);
             eventoFinInspeccion.setTiempoFinInspeccion(tiempoFinInspeccion.getRandomGenerado());
             eventoFinInspeccion.setMomentoEvento(this.momentoEvento+eventoFinInspeccion.getTiempoFinInspeccion());
+            eventoFinInspeccion.setCliente(siguienteClienteInspeccion);
             heapEventos.add(eventoFinInspeccion);
 
             vectorEstadoActual.actualizarEventoFinAtencionNave(eventoFinInspeccion,inspector);
@@ -111,7 +115,7 @@ public class EventoFinInspeccion extends Evento{
 
         vectorEstadoActual.setSiguientePseudoCU(randomCUBase);
 
-        return null;
+        return vectorEstadoActual;
     }
 
     private Servidor buscarEmpleadoOficinaLibre(VectorEstadoITV vectorEstadoActual) {

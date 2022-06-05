@@ -7,6 +7,7 @@ import k1.grupo.p.simulacionestp5colas.modelo.ParametrosGenerador;
 import k1.grupo.p.simulacionestp5colas.modelo.Pseudoaleatorio;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.ParametrosItv;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.VectorEstadoITV;
+import k1.grupo.p.simulacionestp5colas.modelo.colas.servidor.Servidor;
 import k1.grupo.p.simulacionestp5colas.modelo.estructurasDatos.TSBHeap;
 
 public class EventoFinSimulacion extends Evento{
@@ -23,11 +24,34 @@ public class EventoFinSimulacion extends Evento{
                                           ParametrosItv parametrosItv,
                                    ICambioDistribucion generadorVariableAleatoria,
                                           TSBHeap<Evento> heapEventos) {
-        return null;
+        VectorEstadoITV vectorEstadoActual = (VectorEstadoITV) estadoAnterior.clone();
+        vectorEstadoActual.setReloj(this.momentoEvento);
+        vectorEstadoActual.setNombreEvento(this.nombreEvento);
+        this.actualizarAcumuladorTiempoLibre(vectorEstadoActual);
+        //Faltaría ver si algún otro acumulador se tiene que actualizar, mepa que no
+
+        return vectorEstadoActual;
+    }
+    private void actualizarAcumuladorTiempoLibre(VectorEstadoITV vectorEstadoITV){
+        for(Servidor servidor: vectorEstadoITV.getEmpleadosCaseta()){
+            if(servidor.estaLibre()){
+                vectorEstadoITV.acumularTiempoLibreEmpleadosCaseta(servidor);
+            }
+        }
+        for(Servidor servidor: vectorEstadoITV.getEmpleadosNave()){
+            if(servidor.estaLibre()){
+                vectorEstadoITV.acumularTiempoLibreEmpleadosNave(servidor);
+            }
+        }
+        for(Servidor servidor: vectorEstadoITV.getEmpleadosOficina()){
+            if(servidor.estaLibre()){
+                vectorEstadoITV.acumularTiempoLibreEmpleadosOficina(servidor);
+            }
+        }
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
+    public Object clone() {
         EventoFinSimulacion evento = new EventoFinSimulacion();
         evento.setMomentoEvento(super.getMomentoEvento());
         return evento;

@@ -17,4 +17,7 @@ public abstract class Servidor {
         return estado.estaLibre();
     }
 
+    @Override
+    public abstract Servidor clone();
+
 }

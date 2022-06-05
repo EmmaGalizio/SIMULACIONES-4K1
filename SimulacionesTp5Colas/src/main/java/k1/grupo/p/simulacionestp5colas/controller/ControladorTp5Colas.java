@@ -10,9 +10,7 @@ import k1.grupo.p.simulacionestp5colas.modelo.VaribaleAleatoria;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.ParametrosItv;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.VectorEstadoITV;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.eventos.*;
-import k1.grupo.p.simulacionestp5colas.modelo.colas.servidor.EmpleadoCaseta;
-import k1.grupo.p.simulacionestp5colas.modelo.colas.servidor.EstadoServidor;
-import k1.grupo.p.simulacionestp5colas.modelo.colas.servidor.Servidor;
+import k1.grupo.p.simulacionestp5colas.modelo.colas.servidor.*;
 import k1.grupo.p.simulacionestp5colas.modelo.estructurasDatos.TSBHeap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -132,6 +130,7 @@ public class ControladorTp5Colas {
         evento.setRandomProxLlegada(randomCUBase);
         ParametrosCambioDistribucion parametrosCambioDistribucion = new ParametrosCambioDistribucion();
         parametrosCambioDistribucion.setLambda(parametrosItv.getLambdaExpLlegadasClientes());
+        parametrosCambioDistribucion.setPresicion(parametrosGenerador.getPresicion());
         VaribaleAleatoria varibaleAleatoria = generadorExponencialNeg.siguienteRandom(parametrosCambioDistribucion,parametrosGenerador,randomCUBase);
 
         evento.setTiempoHastaProxLlegada(varibaleAleatoria.getRandomGenerado());
@@ -181,8 +180,8 @@ public class ControladorTp5Colas {
     }
     private List<Servidor> generarEmpleadosNave(ParametrosItv parametrosItv){
         List<Servidor> empleadosNave = new ArrayList<>(parametrosItv.getCantEmpNave());
-        for(int i = 1; i <= parametrosItv.getCantEmpCaseta(); i++){
-            Servidor servidor = new EmpleadoCaseta();
+        for(int i = 1; i <= parametrosItv.getCantEmpNave(); i++){
+            Servidor servidor = new EmpleadoNave();
             servidor.setNombre("Inspector-"+i);
             servidor.setId(i);
             servidor.setEstado(EstadoServidor.getInstanceServidorLibre());
@@ -192,8 +191,8 @@ public class ControladorTp5Colas {
     }
     private List<Servidor> generarEmpleadosOficina(ParametrosItv parametrosItv){
         List<Servidor> empleadosOficina = new ArrayList<>(parametrosItv.getCantEmpOficina());
-        for(int i = 1; i <= parametrosItv.getCantEmpCaseta(); i++){
-            Servidor servidor = new EmpleadoCaseta();
+        for(int i = 1; i <= parametrosItv.getCantEmpOficina(); i++){
+            Servidor servidor = new EmpleadoOficina();
             servidor.setNombre("Oficina-"+i);
             servidor.setId(i);
             servidor.setEstado(EstadoServidor.getInstanceServidorLibre());

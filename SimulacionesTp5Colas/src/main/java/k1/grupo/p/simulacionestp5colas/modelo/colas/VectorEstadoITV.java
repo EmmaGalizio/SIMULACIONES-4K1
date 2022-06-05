@@ -2,18 +2,22 @@ package k1.grupo.p.simulacionestp5colas.modelo.colas;
 
 import k1.grupo.p.simulacionestp5colas.modelo.Pseudoaleatorio;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.eventos.*;
+import k1.grupo.p.simulacionestp5colas.modelo.colas.servidor.EmpleadoCaseta;
+import k1.grupo.p.simulacionestp5colas.modelo.colas.servidor.EmpleadoNave;
+import k1.grupo.p.simulacionestp5colas.modelo.colas.servidor.EmpleadoOficina;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.servidor.Servidor;
 import lombok.Data;
 import lombok.SneakyThrows;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Data
 public class VectorEstadoITV {
 
     private String nombreEvento;
     private float reloj;
-    private EventoLlegadaCliente ProximaLlegadaCliente;
+    private EventoLlegadaCliente proximaLlegadaCliente;
     private EventoFinAtencionCaseta[] finAtencionCaseta;
     private EventoFinInspeccion[] finInspeccion;
     private EventoFinAtencion[] finAtencionOficina;
@@ -28,22 +32,28 @@ public class VectorEstadoITV {
     private Queue<Cliente> colaNave;
     private Queue<Cliente> colaOficina;
     //Acumuladores para estadisticas;
-    private int contadorVehiculos;
-    private int contadorVehiculosAtencionFinalizada;
-    private float acumuladorTiempoEsperaColaCaseta;
-    private float acumuladorTiempoEsperaCaseta; //acumulador del tiempo que pasa entre que llega a la cola
+    private int contadorVehiculos; //Implementado
+    private int contadorClientesNoAtendidos;
+    private int contadorVehiculosAtencionFinalizada; //Implementado
+    private float acumuladorTiempoEsperaColaCaseta; //Implementado
+    private float acumuladorTiempoEsperaCaseta; //Implementado
+    //acumulador del tiempo que pasa entre que llega a la cola
     //hasta que finaliza la atencion en la caseta;
-    private float acumuladorTiempoEsperaColaNave;
-    private float acumuladorTiempoEsperaNave;
-    private float acumuladorTiempoEsperaColaOficina;
-    private float acumuladorTiempoEsperaOficina;
-    private float acumuladorTiempoAtencion; //Acumulador del tiempo total desde que llega al sistema
+    private float acumuladorTiempoEsperaColaNave; //Implementado
+    private float acumuladorTiempoEsperaNave; //Implementado
+    private float acumuladorTiempoEsperaColaOficina; //Implementado
+    private float acumuladorTiempoEsperaOficina; //Implementado
+    private float acumuladorTiempoAtencion; //Implementado
+    //Acumulador del tiempo total desde que llega al sistema
     //hasta que sale al finalizar la atención en la oficina
-    private float acumuladorTotalEsperaCola;
+    private float acumuladorTotalEsperaCola; //Implementado
     //SE PODRÍAN AGREGAR AUCUMULADORES PARA EL TIEMPO LIBRE DE CADA TIPO DE SERVIDOR, COMO PARA AGREGAR MÁS MÉTRICAS
     //PERO EN ESTE MOMENTO NO ME ACUERDO NI ME SALEN PENSAR CÓMO CALCULAR ESE TIEMPO LIBRE
     //QUE CAMBIARÍA CUANDO EL SERVIDOR PASA DE ESTAR LIBRE A OCUPADO. CAPAZ QUE DENTRO DEL SERVIDOR SE DEBERÍA GUARDAR
     //EL ATRIBUTO DE CUANDO QUEDÓ LIBRE, Y SE ACTUALIZARÍA ESE ATRIBUTO EN EL RESPECTIVO EVENTO DE FIN DE ATENCION DE CADA SERVIDOR
+    //Tal como está implementado se actualiza este contador solo cuando pasa de estar libre a ocupado y en
+    //el evento de fin de simulación, no se actualiza linea a línea, no sé si dejarlo así o cambiarlo
+    //El resultado final no va a cambiar, además la única forma de cortar una simulación es mediante un evento de fin
     private float acumuladorTiempoLibreEmpleadosCaseta; //IMPLEMENTADO
     private float acumuladorTiempoLibreEmpleadosNave; //Implementado
     private float acumuladorTiempoLibreEmpleadosOficina; //Implementado
@@ -70,15 +80,23 @@ public class VectorEstadoITV {
         nuevoVector.setAcumuladorTiempoEsperaOficina(acumuladorTiempoEsperaOficina);
         nuevoVector.setAcumuladorTiempoAtencion(acumuladorTiempoAtencion);
         nuevoVector.setAcumuladorTotalEsperaCola(acumuladorTotalEsperaCola);
+        nuevoVector.setAcumuladorTiempoLibreEmpleadosCaseta(acumuladorTiempoLibreEmpleadosCaseta);
+        nuevoVector.setAcumuladorTiempoLibreEmpleadosNave(acumuladorTiempoLibreEmpleadosNave);
+        nuevoVector.setAcumuladorTiempoLibreEmpleadosOficina(acumuladorTiempoLibreEmpleadosOficina);
         //No es necesario clonarlo ni nada de eso porque un string es inmutable
         //Así que si lo modifico directamente se crea un nuevo objeto y el anterior
         //no se modifica
         //igual no debería hacer falta setear el nombre pero ya que se está clonando se copia to-do el objeto
         nuevoVector.setNombreEvento(nombreEvento);
         //Los servidores son siempre los mismos así que se puede copiar la referencia
-        nuevoVector.setEmpleadosCaseta(empleadosCaseta);
-        nuevoVector.setEmpleadosNave(empleadosNave);
-        nuevoVector.setEmpleadosOficina(empleadosOficina);
+        //nuevoVector.setEmpleadosCaseta(empleadosCaseta);
+        //nuevoVector.setEmpleadosNave(empleadosNave);
+        //nuevoVector.setEmpleadosOficina(empleadosOficina);
+        //Al final los servidores no son los mismos, varía su estado de línea a línea por lo que es necesario
+        //Poder cambiarlos sin que se modifique el anterior.
+        //Esto hace que sea necesario buscar el cliente de la lista de clientes si es que se obtiene en algún
+        //momento desde el servidor, pero creo que siempre se obtiene del evento y el vector.
+        this.clonarServidores(nuevoVector);
         //Las colas varían de evento en evento así que es necesario clonarlas
         nuevoVector.setColaCaseta(new ArrayDeque<>(colaCaseta));
         nuevoVector.setColaNave(new ArrayDeque<>(colaNave));
@@ -96,6 +114,18 @@ public class VectorEstadoITV {
         clientes.forEach((cliente)-> nuevosClientes.add((Cliente) cliente.clone()));
         nuevoVector.setClientes(nuevosClientes);
     }
+    private void clonarServidores(VectorEstadoITV nuevoVector){
+
+        List<Servidor> nuevosEmpleadosCaseta = empleadosCaseta.stream().map(empleado -> (EmpleadoCaseta)empleado.clone())
+                .collect(Collectors.toCollection(LinkedList::new));
+        List<Servidor> nuevosEmpleadosNave = empleadosNave.stream().map(empleado -> (EmpleadoNave)empleado.clone())
+                .collect(Collectors.toCollection(LinkedList::new));
+        List<Servidor> nuevosEmpleadosOfi = empleadosOficina.stream().map(empleado -> (EmpleadoOficina)empleado.clone())
+                .collect(Collectors.toCollection(LinkedList::new));
+        nuevoVector.setEmpleadosCaseta(nuevosEmpleadosCaseta);
+        nuevoVector.setEmpleadosNave(nuevosEmpleadosNave);
+        nuevoVector.setEmpleadosOficina(nuevosEmpleadosOfi);
+    }
 
     @SneakyThrows
     private void clonarEventos(VectorEstadoITV nuevoVector) {
@@ -105,17 +135,24 @@ public class VectorEstadoITV {
         EventoFinAtencion[] finAtencionOficina = new EventoFinAtencion[this.finAtencionOficina.length];
 
         for(int i = 0; i < finAtencionOficina.length; i++){
-            finAtencionOficina[i] = (EventoFinAtencion) this.finAtencionOficina[i].clone();
+            if(this.finAtencionOficina[i] != null) {
+                finAtencionOficina[i] = (EventoFinAtencion) this.finAtencionOficina[i].clone();
+            }
         }
         for(int i = 0; i < finInspeccion.length; i++){
-            finInspeccion[i] = (EventoFinInspeccion) this.finInspeccion[i].clone();
+            if(this.finInspeccion[i] != null) {
+                finInspeccion[i] = (EventoFinInspeccion) this.finInspeccion[i].clone();
+            }
         }
         for(int i = 0; i < finAtencionCaseta.length; i++){
-            finAtencionCaseta[i] = (EventoFinAtencionCaseta) this.finAtencionCaseta[i].clone();
+            if(this.finAtencionCaseta[i] != null) {
+                finAtencionCaseta[i] = (EventoFinAtencionCaseta) this.finAtencionCaseta[i].clone();
+            }
         }
         nuevoVector.setFinInspeccion(finInspeccion);
         nuevoVector.setFinAtencionOficina(finAtencionOficina);
         nuevoVector.setFinAtencionCaseta(finAtencionCaseta);
+        nuevoVector.setProximaLlegadaCliente(this.getProximaLlegadaCliente());
     }
 
     public void eliminarClienteAtendido(Cliente clienteAtencionFinalizada) {
@@ -247,5 +284,27 @@ public class VectorEstadoITV {
 
     public void acumularTiempoEnSistema(Cliente clienteActual) {
         this.acumuladorTiempoAtencion+= this.reloj - clienteActual.getHoraLlegadaCaseta();
+    }
+    public void incrementarClientesNoAtendidos(){
+        contadorClientesNoAtendidos++;
+    }
+
+    public Servidor buscarOficinistaPorId(int id) {
+        for(Servidor servidor: empleadosOficina){
+            if(servidor.getId() == id) return servidor;
+        }
+        return null;
+    }
+    public Servidor buscarEmpCasetaPorId(int id){
+        for(Servidor servidor: empleadosCaseta){
+            if(servidor.getId() == id) return servidor;
+        }
+        return null;
+    }
+    public Servidor buscarEmpNavePorId(int id){
+        for(Servidor servidor: empleadosNave){
+            if(servidor.getId() == id) return servidor;
+        }
+        return null;
     }
 }

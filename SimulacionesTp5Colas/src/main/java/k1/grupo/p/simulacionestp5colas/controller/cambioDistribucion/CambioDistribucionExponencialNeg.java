@@ -158,7 +158,7 @@ public class CambioDistribucionExponencialNeg implements ICambioDistribucion{
         int multiplicador = (int)Math.pow(10, parametrosCambioDistribucion.getPresicion());
 
         float random = (-1)/parametrosCambioDistribucion.getLambda()*(float)Math.log(1-randomCUBase.getRandom());
-        int randomAux = (int)random*multiplicador;
+        int randomAux = (int)(random*multiplicador);
         random = (float)randomAux/multiplicador;
         randomCUBase = generadorRandom.siguientePseudoAleatoreo(randomCUBase,parametrosGenerador);
         return new VaribaleAleatoria(random,randomCUBase);

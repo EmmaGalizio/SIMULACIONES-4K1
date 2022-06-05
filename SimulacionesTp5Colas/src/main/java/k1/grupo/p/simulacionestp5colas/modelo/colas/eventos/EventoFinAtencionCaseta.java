@@ -37,14 +37,15 @@ public class EventoFinAtencionCaseta extends Evento{
 
         VectorEstadoITV vectorEstadoActual = (VectorEstadoITV) estadoAnterior.clone();
         vectorEstadoActual.setReloj(this.getMomentoEvento());
+        vectorEstadoActual.setNombreEvento(this.nombreEvento);
         //Cliente es un atributo de la superclase evento
-        Servidor empleadoCaseta = cliente.getServidorActual();
+        Servidor empleadoCasetaAnterior = cliente.getServidorActual();
         //El objeto cliente que está en este objeto Evento no es el mismo que el que está en la lista de clientes del vector
         //Porque al clonarse el vector también se clonan los clientes, porque cambia el estado de un vector a otro
-        //En cambio los servidores son siempre los mismos así que no importa de donde lo saco.
-        //Pero al cliente es necesario buscarlo desde el vector que se está procesando actualmente
+
         Cliente clienteActual = vectorEstadoActual.buscarClientePorId(cliente.getNumeroCliente());
         clienteActual.setHoraLlegadaNave(vectorEstadoActual.getReloj());
+        Servidor empleadoCaseta = vectorEstadoActual.buscarEmpCasetaPorId(empleadoCasetaAnterior.getId());
         //Verificar hay algún circuito de la nave libre o si tiene que esperar en la cola
         Servidor empleadoNaveLibre = this.buscarCircuitoNaveLibre(vectorEstadoActual);
         if(empleadoNaveLibre == null){
@@ -104,6 +105,7 @@ public class EventoFinAtencionCaseta extends Evento{
             //Si la cola está vacía entonces el empleado de la caseta pasará a estar libre, y seguirá así hasta que llegue otro
             //cliente al sistema.
             empleadoCaseta.setMomentoLiberacion(vectorEstadoActual.getReloj());
+            vectorEstadoActual.actualizarEventoFinAtencionCaseta(null, empleadoCaseta);
         }else {
             //La cola no está vacía, se recuperó la referencia que tenía la cola al cliente, pero no es el mismo cliente
             //que está en la lista de clientes del vector (porque están clonados) por lo que es encesario recuperarlo del vector
@@ -123,6 +125,7 @@ public class EventoFinAtencionCaseta extends Evento{
             siguienteFinAtencionCaseta.setRandomTiempoAtencion(randomCUBase);
             siguienteFinAtencionCaseta.setTiempoAtencion(tiempoAtencionCaseta.getRandomGenerado());
             siguienteFinAtencionCaseta.setMomentoEvento(vectorEstadoActual.getReloj()+ siguienteFinAtencionCaseta.getTiempoAtencion());
+            siguienteFinAtencionCaseta.setCliente(clienteEsperaColaCaseta);
             heapEventos.add(siguienteFinAtencionCaseta);
             //Se creó el evento de fin de atención de caseta y se agregó al heap
             //Es necesario actualizar los acumuladores de tiempo de espera en cola de caseta, porque un cliente salio
