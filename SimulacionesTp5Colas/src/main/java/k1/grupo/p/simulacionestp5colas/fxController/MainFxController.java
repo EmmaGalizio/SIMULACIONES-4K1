@@ -71,6 +71,9 @@ public class MainFxController implements Initializable{
     @FXML
     private ComboBox<EstadoItvSimulacion> cb_seleccionEstadoSim;
 
+    private EstadoItvSimulacion estadoItvSeleccionado;
+    private Resource modalResultadoSeleccionado;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         /*UnaryOperator<TextFormatter.Change> floatFilter = t -> {
@@ -108,6 +111,7 @@ public class MainFxController implements Initializable{
                 ,EstadoItvSimulacion.getInstanciaDosCasetas()
                 ,EstadoItvSimulacion.getInstanciaTresOficinas());
         cb_seleccionEstadoSim.getSelectionModel().select(0);
+        estadoItvSeleccionado = cb_seleccionEstadoSim.getSelectionModel().getSelectedItem();
     }
 
     private void setTfTextFormatter(TextField textField, UnaryOperator<TextFormatter.Change> floatFilter){
@@ -128,6 +132,8 @@ public class MainFxController implements Initializable{
 
         List<VectorEstadoITV> simulacion = controladorTp5Colas
                                                .generarSimulacion(parametrosItv,parametrosGenerador);
+
+        Stage modalStage = new Stage();
 
 
     }
@@ -172,6 +178,25 @@ public class MainFxController implements Initializable{
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
+    }
+
+    @FXML
+    public void seleccionarEstadoSimulacion(ActionEvent event){
+
+        //Me parece que está de más
+        estadoItvSeleccionado = cb_seleccionEstadoSim.getSelectionModel().getSelectedItem();
+        switch (estadoItvSeleccionado.getPrompt()){
+            case EstadoItvSimulacion.ACTUAL:
+                modalResultadoActual = modalResultadoActual;
+                break;
+            case EstadoItvSimulacion.DOS_CASETAS:
+                modalResultadoActual = modalResultadoDosCasetas;
+                break;
+            case EstadoItvSimulacion.TRES_OFIC:
+                modalResultadoActual = modalResultadoTresOficinas;
+                break;
+        }
+
     }
 
 }
