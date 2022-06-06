@@ -38,6 +38,7 @@ public class EventoFinAtencionCaseta extends Evento{
         VectorEstadoITV vectorEstadoActual = (VectorEstadoITV) estadoAnterior.clone();
         vectorEstadoActual.setReloj(this.getMomentoEvento());
         vectorEstadoActual.setNombreEvento(this.nombreEvento);
+        vectorEstadoActual.incrementarContadorAtendidosCaseta();
         //Cliente es un atributo de la superclase evento
         Servidor empleadoCasetaAnterior = cliente.getServidorActual();
         //El objeto cliente que está en este objeto Evento no es el mismo que el que está en la lista de clientes del vector
@@ -95,6 +96,8 @@ public class EventoFinAtencionCaseta extends Evento{
         }
         //Actualizar acumuladores
         vectorEstadoActual.acumularTiempoTotalCaseta(clienteActual);
+        vectorEstadoActual.acumularTiempoAtencionCaseta(clienteActual);
+        vectorEstadoActual.acumularLongitudColaNave();
         //Verificar si hay alguien esperando para ser atendido en caseta, de ser así generar el evento y actualizar estado del servidor
         //de la caseta.
         Cliente clienteEsperaColaCaseta = vectorEstadoActual.getSiguienteClienteColaCaseta();

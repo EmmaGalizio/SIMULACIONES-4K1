@@ -36,6 +36,7 @@ public class EventoFinInspeccion extends Evento{
         VectorEstadoITV vectorEstadoActual = (VectorEstadoITV) estadoAnterior.clone();
         vectorEstadoActual.setReloj(this.momentoEvento);
         vectorEstadoActual.setNombreEvento(this.nombreEvento);
+        vectorEstadoActual.incrementarContadorAtendidosNave();
         Servidor inspectorAnterior = cliente.getServidorActual();
 
         Cliente clienteActual = vectorEstadoActual.buscarClientePorId(cliente.getNumeroCliente());
@@ -75,9 +76,9 @@ public class EventoFinInspeccion extends Evento{
             //evento de fin de atención y se actualiza el heap de eventos y el evento correspondiente al empleado
             //que empezó a atender dentro del vector de estado
         }
-        //Falta describir el comportamiento del servidor que se liberó, es decir, si hay alguien en su cola o no
-        //Y actualizar los acumuladores correspondientes a to.do.
+
         vectorEstadoActual.acumularTiempoTotalNave(clienteActual);
+        vectorEstadoActual.acumularTiempoAtencionNave(clienteActual);
 
         Cliente siguienteClienteInspeccion = vectorEstadoActual.getsiguienteClienteColaNave();
         if(siguienteClienteInspeccion == null){

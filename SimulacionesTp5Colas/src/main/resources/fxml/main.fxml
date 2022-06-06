@@ -1,75 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="k1.grupo.p.simulacionestp5colas.fxController.MainFxController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="k1.grupo.p.simulacionestp5colas.fxController.MainFxController">
    <children>
-      <VBox prefHeight="600.0" prefWidth="215.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox layoutX="161.0" layoutY="39.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane prefHeight="74.0" prefWidth="800.0">
+            <AnchorPane prefHeight="53.0" prefWidth="600.0">
                <children>
-                  <TitledPane animated="false" collapsible="false" text="Generador Random Uniforme 0-1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="193.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <Label maxWidth="250.0" prefHeight="15.0" prefWidth="92.0" text="Generador:" HBox.hgrow="ALWAYS" />
-                                    <ComboBox fx:id="cb_metodoGenerador" maxWidth="200.0" onAction="#seleccionMetodoGenerador" prefHeight="25.0" prefWidth="118.0" HBox.hgrow="ALWAYS" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </AnchorPane>
-                    </content>
-                  </TitledPane>
+                  <FlowPane alignment="CENTER" prefHeight="66.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Simulación ITV">
+                           <font>
+                              <Font name="DejaVu Sans Bold" size="18.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </FlowPane>
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <children>
-                  <TitledPane animated="false" collapsible="false" text="Simulacion Puerto Unico" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TitledPane animated="false" collapsible="false" text="Parametros de Oficina ITV" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="193.0" VBox.vgrow="ALWAYS">
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="105.0" text="Media Costo de Descarga:" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="tf_mediaCostoDescarga" maxWidth="200.0" prefHeight="25.0" prefWidth="88.0" HBox.hgrow="ALWAYS" />
+                                          <Label minWidth="250.0" text="Estado a Simular:">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </Label>
+                                          <ComboBox fx:id="cb_seleccionEstadoSim" prefWidth="150.0" />
                                        </children>
                                     </HBox>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="193.0" VBox.vgrow="ALWAYS">
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="121.0" text="Desviacion Estandar Costo Desc.:" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="tf_devEstCostoDescarga" maxWidth="200.0" prefHeight="25.0" prefWidth="72.0" HBox.hgrow="ALWAYS" />
+                                          <Label minWidth="250.0" text="Media de ingresos por hora:">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="tf_mediaIngresos" maxWidth="100.0" />
+                                          <Label text="(clientes/hora)" />
                                        </children>
                                     </HBox>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="193.0" VBox.vgrow="ALWAYS">
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="121.0" text="Numero de Dias:" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="tf_nroDiasSimulacion" maxWidth="200.0" prefHeight="25.0" prefWidth="72.0" HBox.hgrow="ALWAYS" />
+                                          <Label minWidth="250.0" prefHeight="47.0" prefWidth="216.0" text="Media de tiempo atencion en caseta por cliente:" wrapText="true">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="tf_tasaAtCaseta" maxWidth="100.0" />
+                                          <Label text="(minutos/cliente)" />
                                        </children>
                                     </HBox>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="193.0" VBox.vgrow="ALWAYS">
+                                    <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="209.0" prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="121.0" text="Cantidad de Filas:" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="tf_cantFilasMostrar" maxWidth="200.0" prefHeight="25.0" prefWidth="72.0" HBox.hgrow="ALWAYS" />
+                                          <Label minWidth="250.0" prefHeight="47.0" prefWidth="216.0" text="Tasa de atencion por circuito de nave:" wrapText="true">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="tf_tasaAtNave" maxWidth="100.0" />
+                                          <Label text="(clientes/hora)" />
                                        </children>
                                     </HBox>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="193.0" VBox.vgrow="ALWAYS">
+                                    <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="242.0" prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="121.0" text="Fila Desde:" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="tf_filaDesde" maxWidth="200.0" prefHeight="25.0" prefWidth="72.0" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="193.0">
-                                       <children>
-                                          <Button fx:id="btn_generarUnMuelle" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#generarSimulacionUnMuelle" text="Generar" />
+                                          <Label minWidth="250.0" prefHeight="47.0" prefWidth="216.0" text="Media de tiempo atencion en oficina por cliente:" wrapText="true">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="tf_tasaAtOficina" maxWidth="100.0" />
+                                          <Label text="(minutos/cliente)" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -80,88 +93,55 @@
                   </TitledPane>
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+            <AnchorPane prefHeight="136.0" prefWidth="500.0">
                <children>
-                  <TitledPane animated="false" collapsible="false" text="Simulacion Dos Puertos" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <TitledPane animated="false" collapsible="false" text="Parametros de Simulacion" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="193.0" VBox.vgrow="ALWAYS">
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="105.0" text="Media Costo de Descarga:" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="tf_mediaCostoDescargaDosMuelles" maxWidth="200.0" prefHeight="25.0" prefWidth="88.0" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="193.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="121.0" text="Desviacion Estandar Costo Desc.:" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="tf_devEstCostoDescargaDosMuelles" maxWidth="200.0" prefHeight="25.0" prefWidth="72.0" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="193.0">
-                                       <children>
-                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="121.0" text="Cant. Barcos Descargados:" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="tf_cantDescargasDosM" maxWidth="200.0" prefHeight="25.0" prefWidth="72.0" HBox.hgrow="ALWAYS" />
-                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="52.0" text="Cada:">
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
+                                          <Label minWidth="250.0" text="Numero de minutos a simular:">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
                                           </Label>
-                                          <TextField fx:id="tf_frecDescargaDosM" maxWidth="200.0" prefHeight="25.0" prefWidth="72.0" />
-                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="52.0" text="Hs">
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
+                                          <TextField fx:id="tf_tiempoSimulacion" maxWidth="100.0" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label minWidth="250.0" text="Cantidad de filas a mostrar">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
                                           </Label>
+                                          <TextField fx:id="tf_cantFilasMostrar" maxWidth="100.0" />
                                        </children>
                                     </HBox>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="193.0">
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="121.0" text="Cant. Ingresos. Desde:" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="tf_cantIngresosDesde" maxWidth="200.0" prefHeight="25.0" prefWidth="72.0" HBox.hgrow="ALWAYS" />
-                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="52.0" text="Hasta:">
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
+                                          <Label minWidth="250.0" text="Primera fila a mostrar">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
                                           </Label>
-                                          <TextField fx:id="tf_cantIngresosHasta" maxWidth="200.0" prefHeight="25.0" prefWidth="72.0" />
-                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="52.0" text="barcos">
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
-                                          </Label>
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="193.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="121.0" text="Numero de Dias:" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="tf_nroDiasSimulacionDosMuelles" maxWidth="200.0" prefHeight="25.0" prefWidth="72.0" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="193.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="121.0" text="Cantidad de Filas:" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="tf_cantFilasMostrarDosMuelles" maxWidth="200.0" prefHeight="25.0" prefWidth="72.0" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="193.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label maxWidth="250.0" prefHeight="15.0" prefWidth="121.0" text="Fila Desde:" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="tf_filaDesdeDosMuelles" maxWidth="200.0" prefHeight="25.0" prefWidth="72.0" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="193.0">
-                                       <children>
-                                          <Button fx:id="btn_generarDosMuelles" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#generarSimulacionDosMuelles" text="Generar" />
+                                          <TextField fx:id="tf_mostrarFilaDesde" maxWidth="100.0" />
                                        </children>
                                     </HBox>
                                  </children>
                               </VBox>
-                           </children></AnchorPane>
-                    </content>
+                           </children>
+                        </AnchorPane>
+                     </content>
                   </TitledPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="52.0" prefWidth="600.0">
+               <children>
+                  <Button fx:id="btn_simularItv" mnemonicParsing="false" onAction="#generarSimulacionItv" text="Simular" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
                </children>
             </AnchorPane>
          </children>

@@ -86,6 +86,7 @@ public class EventoFinAtencion extends Evento{
 
         //El cliente directamente sale del sistema, así que no pasa a otra cola u otro servidor como en los demás eventos.
         vectorEstadoActual.acumularTiempoEsperaOficina(clienteActual);
+        vectorEstadoActual.acumularTiempoAtencionOficina(clienteActual);
         vectorEstadoActual.incremetarVehiculosAtencionFinalizada();
         vectorEstadoActual.acumularTiempoEnSistema(clienteActual);
 

@@ -37,13 +37,20 @@ public class VectorEstadoITV {
     private int contadorVehiculosAtencionFinalizada; //Implementado
     private float acumuladorTiempoEsperaColaCaseta; //Implementado
     private float acumuladorTiempoEsperaCaseta; //Implementado
+    private float acumuladorTiempoAtencionCaseta;
+    private int contadorClientesAtendidosCaseta;
     //acumulador del tiempo que pasa entre que llega a la cola
     //hasta que finaliza la atencion en la caseta;
     private float acumuladorTiempoEsperaColaNave; //Implementado
     private float acumuladorTiempoEsperaNave; //Implementado
+    private float acumuladorTiempoAtencionNave;
+    private int contadorClientesAtendidosNave;
     private float acumuladorTiempoEsperaColaOficina; //Implementado
     private float acumuladorTiempoEsperaOficina; //Implementado
-    private float acumuladorTiempoAtencion; //Implementado
+    private float acumuladorTiempoAtencionOficina;
+    private float acumuladorTiempoAtencion; //Implementado, se usa para calcular el promedio
+    //De tiempo que pasa un cliente con atención finalizada dentro del ITV. O sea, se usa con el contador
+    //de vehículos con atención finalizada
     //Acumulador del tiempo total desde que llega al sistema
     //hasta que sale al finalizar la atención en la oficina
     private float acumuladorTotalEsperaCola; //Implementado
@@ -57,6 +64,9 @@ public class VectorEstadoITV {
     private float acumuladorTiempoLibreEmpleadosCaseta; //IMPLEMENTADO
     private float acumuladorTiempoLibreEmpleadosNave; //Implementado
     private float acumuladorTiempoLibreEmpleadosOficina; //Implementado
+    private int acumuladorLongitudColaNave; //Para calcular la
+    //longitud promedio de la cola de la nave, se calcula dividiendolo
+    //por el contador de atendidos en caseta
     private List<Cliente> clientes;
 
     //Este atributo es solo para el actualizar el pseudo en el controlador
@@ -83,6 +93,13 @@ public class VectorEstadoITV {
         nuevoVector.setAcumuladorTiempoLibreEmpleadosCaseta(acumuladorTiempoLibreEmpleadosCaseta);
         nuevoVector.setAcumuladorTiempoLibreEmpleadosNave(acumuladorTiempoLibreEmpleadosNave);
         nuevoVector.setAcumuladorTiempoLibreEmpleadosOficina(acumuladorTiempoLibreEmpleadosOficina);
+        nuevoVector.setContadorClientesAtendidosCaseta(contadorClientesAtendidosCaseta);
+        nuevoVector.setContadorClientesAtendidosNave(contadorClientesAtendidosNave);
+        nuevoVector.setContadorClientesNoAtendidos(contadorClientesNoAtendidos);
+        nuevoVector.setAcumuladorTiempoAtencionOficina(acumuladorTiempoAtencionOficina);
+        nuevoVector.setAcumuladorTiempoAtencionCaseta(acumuladorTiempoAtencionCaseta);
+        nuevoVector.setAcumuladorTiempoAtencionOficina(acumuladorTiempoAtencionOficina);
+        nuevoVector.setAcumuladorLongitudColaNave(acumuladorLongitudColaNave);
         //No es necesario clonarlo ni nada de eso porque un string es inmutable
         //Así que si lo modifico directamente se crea un nuevo objeto y el anterior
         //no se modifica
@@ -306,5 +323,25 @@ public class VectorEstadoITV {
             if(servidor.getId() == id) return servidor;
         }
         return null;
+    }
+    public void incrementarContadorAtendidosCaseta(){
+        contadorClientesAtendidosCaseta++;
+    }
+    public void incrementarContadorAtendidosNave(){
+        contadorClientesAtendidosNave++;
+    }
+
+    public void acumularTiempoAtencionCaseta(Cliente clienteActual){
+        acumuladorTiempoAtencionCaseta+= (this.reloj - clienteActual.getHoraInicioAtencionCaseta());
+    }
+    public void acumularTiempoAtencionNave(Cliente clienteActual){
+        acumuladorTiempoAtencionNave+= (this.reloj - clienteActual.getHoraInicioAtencionNave());
+    }
+    public void acumularTiempoAtencionOficina(Cliente clienteActual){
+        acumuladorTiempoAtencionOficina+= (this.reloj - clienteActual.getHoraInicioAtencionOficina());
+    }
+
+    public void acumularLongitudColaNave(){
+        acumuladorLongitudColaNave+= colaNave.size();
     }
 }
