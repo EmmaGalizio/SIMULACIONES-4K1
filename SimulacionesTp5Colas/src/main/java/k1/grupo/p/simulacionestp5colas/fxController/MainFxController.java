@@ -15,6 +15,7 @@ import k1.grupo.p.simulacionestp5colas.controller.ControladorTp5Colas;
 import k1.grupo.p.simulacionestp5colas.controller.utils.ConstantesGenerador;
 import k1.grupo.p.simulacionestp5colas.controller.utils.EstadoItvSimulacion;
 import k1.grupo.p.simulacionestp5colas.controller.utils.MetodoGeneradorRandom;
+import k1.grupo.p.simulacionestp5colas.dto.VectorEstadoDtoActual;
 import k1.grupo.p.simulacionestp5colas.modelo.ParametrosGenerador;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.ParametrosItv;
 import k1.grupo.p.simulacionestp5colas.modelo.colas.VectorEstadoITV;
@@ -116,6 +117,67 @@ public class MainFxController implements Initializable{
 
     private void setTfTextFormatter(TextField textField, UnaryOperator<TextFormatter.Change> floatFilter){
         textField.setTextFormatter(new TextFormatter<Float>(floatFilter));
+
+        VectorEstadoITV vectorEstadoITV = new VectorEstadoITV();
+        VectorEstadoDtoActual vectorEstadoDtoActual = new VectorEstadoDtoActual();
+
+        /*
+        //revisar set de las colas
+
+        vectorEstadoDtoActual.setColaCaseta(vectorEstadoITV.getColaCaseta().getSize()); // revisar
+        vectorEstadoDtoActual.setColaNave(vectorEstadoITV.getColaNave().getSize()); //revisar
+        vectorEstadoDtoActual.setColaOficina(vectorEstadoITV.getColaOficina().getSize()); //revisar
+
+        //set primitivos
+
+        vectorEstadoDtoActual.setNombreEvento(vectorEstadoITV.getNombreEvento());
+        vectorEstadoDtoActual.setReloj(vectorEstadoITV.getReloj());
+        vectorEstadoDtoActual.setContadorVehiculos(vectorEstadoITV.getContadorVehiculos());
+        vectorEstadoDtoActual.setContadorClientesNoAtendidos(vectorEstadoITV.getContadorClientesNoAtendidos());
+        vectorEstadoDtoActual.setContadorVehiculosAtencionFinalizada(vectorEstadoITV.getContadorVehiculosAtencionFinalizada());
+        vectorEstadoDtoActual.setAcumuladorTiempoEsperaColaCaseta(vectorEstadoITV.getAcumuladorTiempoEsperaColaCaseta());
+        vectorEstadoDtoActual.setAcumuladorTiempoEsperaCaseta(vectorEstadoITV.getAcumuladorTiempoEsperaCaseta());
+        vectorEstadoDtoActual.setAcumuladorTiempoAtencionCaseta(vectorEstadoITV.getAcumuladorTiempoEsperaCaseta());
+        vectorEstadoDtoActual.setContadorClientesAtendidosCaseta(vectorEstadoITV.getContadorClientesAtendidosCaseta());
+        vectorEstadoDtoActual.setAcumuladorTiempoEsperaColaNave(vectorEstadoITV.getAcumuladorTiempoEsperaColaNave());
+        vectorEstadoDtoActual.setAcumuladorTiempoEsperaNave(vectorEstadoITV.getAcumuladorTiempoEsperaNave());
+        vectorEstadoDtoActual.setAcumuladorTiempoAtencionNave(vectorEstadoITV.getAcumuladorTiempoAtencionNave());
+        vectorEstadoDtoActual.setContadorClientesAtendidosNave(vectorEstadoITV.getContadorClientesAtendidosNave());
+        vectorEstadoDtoActual.setAcumuladorTiempoEsperaColaOficina(vectorEstadoITV.getAcumuladorTiempoEsperaColaOficina());
+        vectorEstadoDtoActual.setAcumuladorTiempoEsperaOficina(vectorEstadoITV.getAcumuladorTiempoEsperaOficina());
+        vectorEstadoDtoActual.setAcumuladorTiempoAtencionOficina(vectorEstadoITV.getAcumuladorTiempoAtencionOficina());
+        vectorEstadoDtoActual.setAcumuladorTiempoAtencion(vectorEstadoITV.getAcumuladorTiempoAtencion());
+
+        vectorEstadoDtoActual.setAcumuladorTotalEsperaCola(vectorEstadoITV.getAcumuladorTotalEsperaCola());
+        vectorEstadoDtoActual.setAcumuladorTiempoLibreEmpleadosCaseta(vectorEstadoITV.getAcumuladorTiempoLibreEmpleadosCaseta());
+        vectorEstadoDtoActual.setAcumuladorTiempoLibreEmpleadosNave(vectorEstadoITV.getAcumuladorTiempoLibreEmpleadosNave());
+        vectorEstadoDtoActual.setAcumuladorTiempoLibreEmpleadosOficina(vectorEstadoITV.getAcumuladorTiempoLibreEmpleadosOficina());
+        vectorEstadoDtoActual.setAcumuladorLongitudColaNave(vectorEstadoITV.getAcumuladorLongitudColaNave());
+
+        //set eventos
+        vectorEstadoDtoActual.setFinInspeccion1(vectorEstadoITV.getFinInspeccion()[0]);
+        vectorEstadoDtoActual.setFinInspeccion2(vectorEstadoITV.getFinInspeccion()[1]);
+
+        vectorEstadoDtoActual.setFinAtencionOficina1(vectorEstadoITV.getFinAtencionOficina()[0]);
+        vectorEstadoDtoActual.setFinAtencionOficina2(vectorEstadoITV.getFinAtencionOficina()[1]);
+
+        vectorEstadoDtoActual.setEventoLlegadaCliente(vectorEstadoITV.getProximaLlegadaCliente()); //revisar
+        vectorEstadoDtoActual.setFinAtencionCaseta(vectorEstadoITV.getFinAtencionCaseta()[0]); //revisar
+        vectorEstadoDtoActual.setFinSimulacion(vectorEstadoITV.getFinSimulacion()); //revisar
+
+        //set empleados
+
+        vectorEstadoDtoActual.setEmpleadoCaseta(vectorEstadoITV.getEmpleadosCaseta().get(0));
+
+        vectorEstadoDtoActual.setInspector1(vectorEstadoITV.getEmpleadosNave().get(0));
+        vectorEstadoDtoActual.setInspector2(vectorEstadoITV.getEmpleadosNave().get(1));
+
+        vectorEstadoDtoActual.setOficinista1(vectorEstadoITV.getEmpleadosOficina().get(0));
+        vectorEstadoDtoActual.setOficinista2(vectorEstadoITV.getEmpleadosOficina().get(1));
+
+        */
+
+
 
     }
 
