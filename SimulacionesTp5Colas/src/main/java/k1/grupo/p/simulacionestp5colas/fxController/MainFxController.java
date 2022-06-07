@@ -51,6 +51,8 @@ public class MainFxController implements Initializable{
 
     @Autowired
     private ControladorTp5Colas controladorTp5Colas;
+    @Autowired
+    private ApplicationContext applicationContext;
 
     @FXML
     private TextField tf_mostrarFilaDesde;
@@ -113,71 +115,11 @@ public class MainFxController implements Initializable{
                 ,EstadoItvSimulacion.getInstanciaTresOficinas());
         cb_seleccionEstadoSim.getSelectionModel().select(0);
         estadoItvSeleccionado = cb_seleccionEstadoSim.getSelectionModel().getSelectedItem();
+        modalResultadoSeleccionado = modalResultadoActual;
     }
 
     private void setTfTextFormatter(TextField textField, UnaryOperator<TextFormatter.Change> floatFilter){
         textField.setTextFormatter(new TextFormatter<Float>(floatFilter));
-
-        VectorEstadoITV vectorEstadoITV = new VectorEstadoITV();
-        VectorEstadoDtoActual vectorEstadoDtoActual = new VectorEstadoDtoActual();
-
-        /*
-        //revisar set de las colas
-
-        vectorEstadoDtoActual.setColaCaseta(vectorEstadoITV.getColaCaseta().getSize()); // revisar
-        vectorEstadoDtoActual.setColaNave(vectorEstadoITV.getColaNave().getSize()); //revisar
-        vectorEstadoDtoActual.setColaOficina(vectorEstadoITV.getColaOficina().getSize()); //revisar
-
-        //set primitivos
-
-        vectorEstadoDtoActual.setNombreEvento(vectorEstadoITV.getNombreEvento());
-        vectorEstadoDtoActual.setReloj(vectorEstadoITV.getReloj());
-        vectorEstadoDtoActual.setContadorVehiculos(vectorEstadoITV.getContadorVehiculos());
-        vectorEstadoDtoActual.setContadorClientesNoAtendidos(vectorEstadoITV.getContadorClientesNoAtendidos());
-        vectorEstadoDtoActual.setContadorVehiculosAtencionFinalizada(vectorEstadoITV.getContadorVehiculosAtencionFinalizada());
-        vectorEstadoDtoActual.setAcumuladorTiempoEsperaColaCaseta(vectorEstadoITV.getAcumuladorTiempoEsperaColaCaseta());
-        vectorEstadoDtoActual.setAcumuladorTiempoEsperaCaseta(vectorEstadoITV.getAcumuladorTiempoEsperaCaseta());
-        vectorEstadoDtoActual.setAcumuladorTiempoAtencionCaseta(vectorEstadoITV.getAcumuladorTiempoEsperaCaseta());
-        vectorEstadoDtoActual.setContadorClientesAtendidosCaseta(vectorEstadoITV.getContadorClientesAtendidosCaseta());
-        vectorEstadoDtoActual.setAcumuladorTiempoEsperaColaNave(vectorEstadoITV.getAcumuladorTiempoEsperaColaNave());
-        vectorEstadoDtoActual.setAcumuladorTiempoEsperaNave(vectorEstadoITV.getAcumuladorTiempoEsperaNave());
-        vectorEstadoDtoActual.setAcumuladorTiempoAtencionNave(vectorEstadoITV.getAcumuladorTiempoAtencionNave());
-        vectorEstadoDtoActual.setContadorClientesAtendidosNave(vectorEstadoITV.getContadorClientesAtendidosNave());
-        vectorEstadoDtoActual.setAcumuladorTiempoEsperaColaOficina(vectorEstadoITV.getAcumuladorTiempoEsperaColaOficina());
-        vectorEstadoDtoActual.setAcumuladorTiempoEsperaOficina(vectorEstadoITV.getAcumuladorTiempoEsperaOficina());
-        vectorEstadoDtoActual.setAcumuladorTiempoAtencionOficina(vectorEstadoITV.getAcumuladorTiempoAtencionOficina());
-        vectorEstadoDtoActual.setAcumuladorTiempoAtencion(vectorEstadoITV.getAcumuladorTiempoAtencion());
-
-        vectorEstadoDtoActual.setAcumuladorTotalEsperaCola(vectorEstadoITV.getAcumuladorTotalEsperaCola());
-        vectorEstadoDtoActual.setAcumuladorTiempoLibreEmpleadosCaseta(vectorEstadoITV.getAcumuladorTiempoLibreEmpleadosCaseta());
-        vectorEstadoDtoActual.setAcumuladorTiempoLibreEmpleadosNave(vectorEstadoITV.getAcumuladorTiempoLibreEmpleadosNave());
-        vectorEstadoDtoActual.setAcumuladorTiempoLibreEmpleadosOficina(vectorEstadoITV.getAcumuladorTiempoLibreEmpleadosOficina());
-        vectorEstadoDtoActual.setAcumuladorLongitudColaNave(vectorEstadoITV.getAcumuladorLongitudColaNave());
-
-        //set eventos
-        vectorEstadoDtoActual.setFinInspeccion1(vectorEstadoITV.getFinInspeccion()[0]);
-        vectorEstadoDtoActual.setFinInspeccion2(vectorEstadoITV.getFinInspeccion()[1]);
-
-        vectorEstadoDtoActual.setFinAtencionOficina1(vectorEstadoITV.getFinAtencionOficina()[0]);
-        vectorEstadoDtoActual.setFinAtencionOficina2(vectorEstadoITV.getFinAtencionOficina()[1]);
-
-        vectorEstadoDtoActual.setEventoLlegadaCliente(vectorEstadoITV.getProximaLlegadaCliente()); //revisar
-        vectorEstadoDtoActual.setFinAtencionCaseta(vectorEstadoITV.getFinAtencionCaseta()[0]); //revisar
-        vectorEstadoDtoActual.setFinSimulacion(vectorEstadoITV.getFinSimulacion()); //revisar
-
-        //set empleados
-
-        vectorEstadoDtoActual.setEmpleadoCaseta(vectorEstadoITV.getEmpleadosCaseta().get(0));
-
-        vectorEstadoDtoActual.setInspector1(vectorEstadoITV.getEmpleadosNave().get(0));
-        vectorEstadoDtoActual.setInspector2(vectorEstadoITV.getEmpleadosNave().get(1));
-
-        vectorEstadoDtoActual.setOficinista1(vectorEstadoITV.getEmpleadosOficina().get(0));
-        vectorEstadoDtoActual.setOficinista2(vectorEstadoITV.getEmpleadosOficina().get(1));
-
-        */
-
-
 
     }
 
@@ -196,7 +138,21 @@ public class MainFxController implements Initializable{
                                                .generarSimulacion(parametrosItv,parametrosGenerador);
 
         Stage modalStage = new Stage();
+        IResultadoSImulacion modalResultadoSimulacion = setModalScene(modalStage);
+        modalResultadoSimulacion.mostrarResultadosSimulacion(simulacion);
+        modalStage.showAndWait();
+    }
+    @SneakyThrows
+    private IResultadoSImulacion setModalScene(Stage modalStage ){
 
+        FXMLLoader fxmlLoader = new FXMLLoader(modalResultadoSeleccionado.getURL());
+        fxmlLoader.setControllerFactory(applicationContext::getBean);
+        Parent parent = fxmlLoader.load();
+        IResultadoSImulacion resultadoSImulacion = (IResultadoSImulacion) fxmlLoader.getController();
+        modalStage.setScene(new Scene(parent,600,400));
+        modalStage.centerOnScreen();
+        modalStage.setMaximized(true);
+        return resultadoSImulacion;
 
     }
 
@@ -225,6 +181,9 @@ public class MainFxController implements Initializable{
             parametrosItv.setMaxMinutosSimular(Float.parseFloat(tf_tiempoSimulacion.getText().trim()));
             parametrosItv.setCantFilasMostrar(Integer.parseInt(tf_cantFilasMostrar.getText().trim()));
             parametrosItv.setMostrarFilaDesde(Integer.parseInt(tf_mostrarFilaDesde.getText().trim()));
+            parametrosItv.setCantEmpOficina(estadoItvSeleccionado.getCantOficinas());
+            parametrosItv.setCantEmpNave(estadoItvSeleccionado.getCantCircuitosNave());
+            parametrosItv.setCantEmpCaseta(estadoItvSeleccionado.getCantCaseta());
             parametrosItv.validar();
 
         }catch(NumberFormatException e){
