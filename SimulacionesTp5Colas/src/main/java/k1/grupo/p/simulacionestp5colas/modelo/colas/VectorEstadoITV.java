@@ -73,6 +73,9 @@ public class VectorEstadoITV {
     //está acá solo para facilitar el diseño del programa, no está bien que esté acá.
     private Pseudoaleatorio siguientePseudoCU;
 
+    private float acumuladorLongColaNaveXTiempoLong;
+    private float momentoUltimaModColaNave;
+
 
     @Override
     @SneakyThrows
@@ -100,6 +103,8 @@ public class VectorEstadoITV {
         nuevoVector.setAcumuladorTiempoAtencionCaseta(acumuladorTiempoAtencionCaseta);
         nuevoVector.setAcumuladorTiempoAtencionOficina(acumuladorTiempoAtencionOficina);
         nuevoVector.setAcumuladorLongitudColaNave(acumuladorLongitudColaNave);
+        nuevoVector.setAcumuladorLongColaNaveXTiempoLong(acumuladorLongColaNaveXTiempoLong);
+        nuevoVector.setMomentoUltimaModColaNave(momentoUltimaModColaNave);
         //No es necesario clonarlo ni nada de eso porque un string es inmutable
         //Así que si lo modifico directamente se crea un nuevo objeto y el anterior
         //no se modifica
@@ -343,5 +348,9 @@ public class VectorEstadoITV {
 
     public void acumularLongitudColaNave(){
         acumuladorLongitudColaNave+= colaNave.size();
+    }
+
+    public void acumularLongXTiempoColaNave() {
+        acumuladorLongColaNaveXTiempoLong+= colaNave.size()*(this.reloj-this.momentoUltimaModColaNave);
     }
 }

@@ -48,6 +48,7 @@ public class VectorEstadoDtoTresOficinas {
     private int acumuladorLongitudColaNave; //Para calcular la
     //longitud promedio de la cola de la nave, se calcula dividiendolo
     //por el contador de atendidos en caseta
+    private float acumuladorLongColaNaveXTiempoLong;
 
 
 

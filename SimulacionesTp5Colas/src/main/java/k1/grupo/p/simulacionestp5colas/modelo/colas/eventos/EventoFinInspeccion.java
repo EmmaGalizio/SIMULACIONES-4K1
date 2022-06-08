@@ -81,7 +81,9 @@ public class EventoFinInspeccion extends Evento{
         vectorEstadoActual.acumularTiempoTotalNave(clienteActual);
         vectorEstadoActual.acumularTiempoAtencionNave(clienteActual);
 
+        vectorEstadoActual.acumularLongXTiempoColaNave();
         Cliente siguienteClienteInspeccion = vectorEstadoActual.getsiguienteClienteColaNave();
+        vectorEstadoActual.setMomentoUltimaModColaNave(this.momentoEvento);
         if(siguienteClienteInspeccion == null){
             inspector.setEstado(EstadoServidor.getInstanceServidorLibre());
             inspector.setMomentoLiberacion(this.momentoEvento);

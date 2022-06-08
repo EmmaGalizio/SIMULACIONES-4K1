@@ -25,7 +25,7 @@ public class ResultadoDosCasetasFxController implements IResultadoSImulacion {
     private TextField tf_tiempoMedioColaCaseta;
 
     @FXML
-    private TextField tf_tiempoMedioLibreCaseta;
+    private TextField tf_porcOcupCaseta;
 
     @FXML
     private TextField tf_porcentajeAtFinalizada;
@@ -49,7 +49,7 @@ public class ResultadoDosCasetasFxController implements IResultadoSImulacion {
     private TextField tf_porcentajeNoAtendidos;
 
     @FXML
-    private TextField tf_tiempoMedioLibreNave;
+    private TextField tf_porcOcupNave;
 
     @Override
     public void mostrarResultadosSimulacion(List<VectorEstadoITV> resultadoSimulacion) {
@@ -100,6 +100,7 @@ public class ResultadoDosCasetasFxController implements IResultadoSImulacion {
             vectorActual.setAcumuladorTiempoLibreEmpleadosNave(vector.getAcumuladorTiempoLibreEmpleadosNave());
             vectorActual.setAcumuladorTiempoLibreEmpleadosOficina(vector.getAcumuladorTiempoLibreEmpleadosOficina());
             vectorActual.setAcumuladorLongitudColaNave(vector.getAcumuladorLongitudColaNave());
+            vectorActual.setAcumuladorLongColaNaveXTiempoLong(vector.getAcumuladorLongColaNaveXTiempoLong());
 
             //set eventos
             vectorActual.setFinInspeccion1(vector.getFinInspeccion()[0]);
@@ -404,17 +405,24 @@ public class ResultadoDosCasetasFxController implements IResultadoSImulacion {
         MomentoFinSimulacion.setCellValueFactory(cellData -> cellData.getValue().getFinSimulacion() == null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinSimulacion().getMomentoEvento())));
         MomentoFinSimulacion.setText("Momento Fin Simulacion");
 
-
-        tv_SimItv.getColumns().addAll(nombreEvColumna, relojColumna, colaCasetaColumna, colaNaveColumna, colaOficinaColumna, contadorIngresosColumna, contadorNoAtendidosColumna,
-                contadorAtFinColumna, tiempoEspColaCasetaColumna, tiempoAtCasetaColumna, tiempoTotCasetaColumna, contClientesAtCasetaColumna, tiempoEspColaNaveColumna,
-                tiempoAtNaveColumna, tiempoTotNaveColumna, tiempoEspColaOfiColumna, tiempoAtOfiColumna, tiempoTotOfiColumna, tiempoTotSistemaColumna, tiempoLibreCasetaColumna,
-                tiempoLibreNave, contLongColaNaveColumna, idEmpleadoCaseta, EstadoEmpleadoCaseta, ClienteEmpleadoCaseta, idEmpleadoCaseta2, EstadoEmpleadoCaseta2, ClienteEmpleadoCaseta2,
-                idInspector1, EstadoInspector1, ClienteInspector1, idInspector2, EstadoInspector2, ClienteInspector2, idOficinista1, EstadoOficinista1, ClienteOficinista1, idOficinista2,
-                EstadoOficinista2, ClienteOficinista2, MomentoEventoLLegadaCliente, RNDEventoLLegadaCliente, TiempoEventoLlegadaCliente,
-                MomentoFinAtencionCaseta, RNDEventoFinAtencionCaseta, TiempoEventoFinAtencionCaseta, MomentoFinAtencionCaseta2, RNDEventoFinAtencionCaseta2,
-                TiempoEventoFinAtencionCaseta2, MomentoFinInspeccion1, RNDEventoFinInspeccion1, TiempoEventoFinInspeccion1, MomentoFinInspeccion2,
-                RNDEventoFinInspeccion2, TiempoEventoFinInspeccion2, MomentoFinAtencionOficina1, RNDEventoFinAtencionOficina1, TiempoFinAtencionOficina1,
-                MomentoFinAtencionOficina2, RNDEventoFinAtencionOficina2, TiempoFinAtencionOficina2, MomentoFinSimulacion);
+        tv_SimItv.getColumns().addAll(nombreEvColumna, relojColumna,RNDEventoLLegadaCliente,TiempoEventoLlegadaCliente,MomentoEventoLLegadaCliente,
+                RNDEventoFinAtencionCaseta,TiempoEventoFinAtencionCaseta,MomentoFinAtencionCaseta,
+                RNDEventoFinAtencionCaseta2, TiempoEventoFinAtencionCaseta2, MomentoFinAtencionCaseta2,
+                RNDEventoFinInspeccion1, TiempoEventoFinInspeccion1,MomentoFinInspeccion1,
+                RNDEventoFinInspeccion2, TiempoEventoFinInspeccion2,  MomentoFinInspeccion2,
+                RNDEventoFinAtencionOficina1,TiempoFinAtencionOficina1,MomentoFinAtencionOficina1,
+                RNDEventoFinAtencionOficina2,TiempoFinAtencionOficina2, MomentoFinAtencionOficina2,
+                colaCasetaColumna, idEmpleadoCaseta, EstadoEmpleadoCaseta,ClienteEmpleadoCaseta,
+                idEmpleadoCaseta2, EstadoEmpleadoCaseta2,ClienteEmpleadoCaseta2,colaNaveColumna,
+                idInspector1, EstadoInspector1, ClienteInspector1,
+                idInspector2, EstadoInspector2, ClienteInspector2,colaOficinaColumna,
+                idOficinista1, EstadoOficinista1, ClienteOficinista1, idOficinista2,
+                EstadoOficinista2, ClienteOficinista2,  contadorIngresosColumna, contadorNoAtendidosColumna,
+                contadorAtFinColumna, tiempoEspColaCasetaColumna, tiempoAtCasetaColumna,
+                tiempoTotCasetaColumna, contClientesAtCasetaColumna, tiempoEspColaNaveColumna,
+                tiempoAtNaveColumna, tiempoTotNaveColumna, tiempoEspColaOfiColumna, tiempoAtOfiColumna,
+                tiempoTotOfiColumna, tiempoTotSistemaColumna, tiempoLibreCasetaColumna,
+                tiempoLibreNave, contLongColaNaveColumna, MomentoFinSimulacion);
 
         tv_SimItv.refresh();
 
@@ -431,8 +439,8 @@ public class ResultadoDosCasetasFxController implements IResultadoSImulacion {
 
         float tiempoMedioPermanencia = vectorEstadoITV.getAcumuladorTiempoAtencion()/vectorEstadoITV.getContadorVehiculosAtencionFinalizada();
 
-        float tiempoMedioLibreCaseta; //FALTAN CALCULAR
-        float tiempoMedioLibreNave; //FALTAN CALCULAR
+        float porcLibreCaseta = vectorEstadoITV.getAcumuladorTiempoLibreEmpleadosCaseta()*100/ vectorEstadoITV.getReloj();
+        float porcLibreNave = vectorEstadoITV.getAcumuladorTiempoLibreEmpleadosNave()*100/ vectorEstadoITV.getReloj();
 
         float tiempoMedioColaCaseta = vectorEstadoITV.getAcumuladorTiempoEsperaColaCaseta()/vectorEstadoITV.getContadorClientesAtendidosCaseta();
         float tiempoMedioColaNave = vectorEstadoITV.getAcumuladorTiempoEsperaColaNave()/vectorEstadoITV.getContadorClientesAtendidosNave();
@@ -443,7 +451,7 @@ public class ResultadoDosCasetasFxController implements IResultadoSImulacion {
 
         float porcentajeNoAt = ((float)vectorEstadoITV.getContadorClientesNoAtendidos()*100)/cantTotalLlegadas;
 
-        float longMediaColaNave = ((float)vectorEstadoITV.getAcumuladorLongitudColaNave())/vectorEstadoITV.getContadorClientesAtendidosNave();
+        float longMediaColaNave = vectorEstadoITV.getAcumuladorLongColaNaveXTiempoLong()/vectorEstadoITV.getReloj();
 
         tf_longitudMediaColaNave.setText(Float.toString(longMediaColaNave));
         tf_porcentajeAtFinalizada.setText(Float.toString(porcentajeAtFin));
@@ -451,8 +459,8 @@ public class ResultadoDosCasetasFxController implements IResultadoSImulacion {
         tf_tiempoMedioAtOficina.setText(Float.toString(tiempoMedioAtOfi));
         tf_tiempoMedioColaCaseta.setText(Float.toString(tiempoMedioColaCaseta));
         tf_tiempoMedioColaNave.setText(Float.toString(tiempoMedioColaNave));
-        //tf_tiempoMedioLibreCaseta.setText(Float.toString(tiempoMedioLibreCaseta));
-        //tf_tiempoMedioLibreNave.setText(Float.toString(tiempoMedioLibreNave));
+        tf_porcOcupCaseta.setText(Float.toString(porcLibreCaseta));
+        tf_porcOcupNave.setText(Float.toString(porcLibreNave));
         tf_tiempoMedioPermanencia.setText(Float.toString(tiempoMedioPermanencia));
         tf_tiempoMedOficina.setText(Float.toString(tiempoMedioOfi));
 

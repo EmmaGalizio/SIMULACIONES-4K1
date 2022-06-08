@@ -51,8 +51,11 @@ public class EventoFinAtencionCaseta extends Evento{
         Servidor empleadoNaveLibre = this.buscarCircuitoNaveLibre(vectorEstadoActual);
         if(empleadoNaveLibre == null){
             //Están todos los circuitos de la nave ocupados
+            vectorEstadoActual.acumularLongXTiempoColaNave();
             vectorEstadoActual.agregarClienteColaNave(clienteActual);
             clienteActual.setEstado(EstadoCliente.getInstanceEsperandoNave());
+            vectorEstadoActual.setMomentoUltimaModColaNave(this.momentoEvento);
+
         }else{
             //Hay al menos un circuito de la nave libre
             clienteActual.setHoraInicioAtencionNave(vectorEstadoActual.getReloj());
