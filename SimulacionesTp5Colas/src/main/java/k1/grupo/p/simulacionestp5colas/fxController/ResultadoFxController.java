@@ -284,9 +284,6 @@ public class ResultadoFxController implements IResultadoSImulacion{
 
 
         //Eventos LLegada Cliente
-        TableColumn<VectorEstadoDtoActual,String> NombreEventoLLegadaCliente = new TableColumn<>();
-        NombreEventoLLegadaCliente.setCellValueFactory(cellData -> cellData.getValue().getEventoLlegadaCliente()==null ? new SimpleStringProperty("") : new SimpleStringProperty(cellData.getValue().getEventoLlegadaCliente().getNombreEvento()));
-        NombreEventoLLegadaCliente.setText("Nombre Evento Llegada Cliente");
 
         TableColumn<VectorEstadoDtoActual,String> MomentoEventoLLegadaCliente = new TableColumn<>();
         MomentoEventoLLegadaCliente.setCellValueFactory(cellData -> cellData.getValue().getEventoLlegadaCliente()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getEventoLlegadaCliente().getMomentoEvento())));
@@ -302,10 +299,6 @@ public class ResultadoFxController implements IResultadoSImulacion{
 
         //Eventos Fin Atencion Caseta
 
-        TableColumn<VectorEstadoDtoActual,String> NombreFinAtencionCaseta = new TableColumn<>();
-        NombreFinAtencionCaseta.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionCaseta()==null ? new SimpleStringProperty("") : new SimpleStringProperty(cellData.getValue().getFinAtencionCaseta().getNombreEvento()));
-        NombreFinAtencionCaseta.setText("Nombre Evento Fin Atencion Caseta");
-
         TableColumn<VectorEstadoDtoActual,String> MomentoFinAtencionCaseta = new TableColumn<>();
         MomentoFinAtencionCaseta.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionCaseta()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionCaseta().getMomentoEvento())));
         MomentoFinAtencionCaseta.setText("Momento Fin Atencion Caseta");
@@ -319,10 +312,6 @@ public class ResultadoFxController implements IResultadoSImulacion{
         TiempoEventoFinAtencionCaseta.setText("Tiempo Fin Atencion Caseta");
 
         //Evento Fin Inspeccion 1
-
-        TableColumn<VectorEstadoDtoActual,String> NombreFinInspeccion1 = new TableColumn<>();
-        NombreFinInspeccion1.setCellValueFactory(cellData -> cellData.getValue().getFinInspeccion1()==null ? new SimpleStringProperty("") : new SimpleStringProperty(cellData.getValue().getFinInspeccion1().getNombreEvento()));
-        NombreFinInspeccion1.setText("Nombre Evento Fin Inspeccion 1");
 
         TableColumn<VectorEstadoDtoActual,String> MomentoFinInspeccion1 = new TableColumn<>();
         MomentoFinInspeccion1.setCellValueFactory(cellData -> cellData.getValue().getFinInspeccion1()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinInspeccion1().getMomentoEvento())));
@@ -338,10 +327,6 @@ public class ResultadoFxController implements IResultadoSImulacion{
 
         //Evento Fin Inspeccion 2
 
-        TableColumn<VectorEstadoDtoActual,String> NombreFinInspeccion2 = new TableColumn<>();
-        NombreFinInspeccion2.setCellValueFactory(cellData -> cellData.getValue().getFinInspeccion2()==null ? new SimpleStringProperty("") : new SimpleStringProperty(cellData.getValue().getFinInspeccion2().getNombreEvento()));
-        NombreFinInspeccion2.setText("Nombre Evento Fin Inspeccion 2");
-
         TableColumn<VectorEstadoDtoActual,String> MomentoFinInspeccion2 = new TableColumn<>();
         MomentoFinInspeccion2.setCellValueFactory(cellData -> cellData.getValue().getFinInspeccion2()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinInspeccion2().getMomentoEvento())));
         MomentoFinInspeccion2.setText("Momento Fin Inspeccion 2");
@@ -355,10 +340,6 @@ public class ResultadoFxController implements IResultadoSImulacion{
         TiempoEventoFinInspeccion2.setText("Tiempo Fin Inspeccion 2");
 
         //Evento Fin Atencion Oficina 1
-
-        TableColumn<VectorEstadoDtoActual,String> NombreFinAtencionOficina1 = new TableColumn<>();
-        NombreFinAtencionOficina1.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionOficina1()==null ? new SimpleStringProperty("") : new SimpleStringProperty(cellData.getValue().getFinAtencionOficina1().getNombreEvento()));
-        NombreFinAtencionOficina1.setText("NombreFinAtencionOficina1");
 
         TableColumn<VectorEstadoDtoActual,String> MomentoFinAtencionOficina1 = new TableColumn<>();
         MomentoFinAtencionOficina1.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionOficina1()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina1().getMomentoEvento())));
@@ -374,10 +355,6 @@ public class ResultadoFxController implements IResultadoSImulacion{
 
         //Evento Fin Atencion Oficina 2
 
-        TableColumn<VectorEstadoDtoActual,String> NombreFinAtencionOficina2 = new TableColumn<>();
-        NombreFinAtencionOficina2.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionOficina2()==null ? new SimpleStringProperty("") : new SimpleStringProperty(cellData.getValue().getFinAtencionOficina2().getNombreEvento()));
-        NombreFinAtencionOficina2.setText("NombreFinAtencionOficina2");
-
         TableColumn<VectorEstadoDtoActual,String> MomentoFinAtencionOficina2 = new TableColumn<>();
         MomentoFinAtencionOficina2.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionOficina2()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina2().getMomentoEvento())));
         MomentoFinAtencionOficina2.setText("Momento Fin Atencion Oficina2");
@@ -392,10 +369,6 @@ public class ResultadoFxController implements IResultadoSImulacion{
 
         //Evento Fin de la simulacion
 
-        TableColumn<VectorEstadoDtoActual,String> NombreEventoFinSimulacion = new TableColumn<>();
-        NombreEventoFinSimulacion.setCellValueFactory(cellData -> cellData.getValue().getFinSimulacion()==null ? new SimpleStringProperty("") : new SimpleStringProperty(cellData.getValue().getFinSimulacion().getNombreEvento()));
-        NombreEventoFinSimulacion.setText("Nombre Fin Simulacion");
-
         TableColumn<VectorEstadoDtoActual,String> MomentoFinSimulacion = new TableColumn<>();
         MomentoFinSimulacion.setCellValueFactory(cellData -> cellData.getValue().getFinSimulacion()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinSimulacion().getMomentoEvento())));
         MomentoFinSimulacion.setText("Momento Fin Simulacion");
@@ -406,11 +379,11 @@ public class ResultadoFxController implements IResultadoSImulacion{
               tiempoAtNaveColumna, tiempoTotNaveColumna, tiempoEspColaOfiColumna, tiempoAtOfiColumna, tiempoTotOfiColumna, tiempoTotSistemaColumna, tiempoLibreCasetaColumna,
               tiempoLibreNave, contLongColaNaveColumna, idEmpleadoCaseta, EstadoEmpleadoCaseta, ClienteEmpleadoCaseta, idInspector1, EstadoInspector1, ClienteInspector1,
               idInspector2, EstadoInspector2, ClienteInspector2, idOficinista1, EstadoOficinista1, ClienteOficinista1, idOficinista2, EstadoOficinista2, ClienteOficinista2,
-              NombreEventoLLegadaCliente, MomentoEventoLLegadaCliente, RNDEventoLLegadaCliente, TiempoEventoLlegadaCliente, NombreFinAtencionCaseta, MomentoFinAtencionCaseta,
-              RNDEventoFinAtencionCaseta, TiempoEventoFinAtencionCaseta, NombreFinInspeccion1, MomentoFinInspeccion1, RNDEventoFinInspeccion1, TiempoEventoFinInspeccion1,
-              NombreFinInspeccion2, MomentoFinInspeccion2, RNDEventoFinInspeccion2, TiempoEventoFinInspeccion2, NombreFinAtencionOficina1, MomentoFinAtencionOficina1,
-              RNDEventoFinAtencionOficina1, TiempoFinAtencionOficina1, NombreFinAtencionOficina2, MomentoFinAtencionOficina2, RNDEventoFinAtencionOficina2, TiempoFinAtencionOficina2,
-              NombreEventoFinSimulacion, MomentoFinSimulacion);
+              MomentoEventoLLegadaCliente, RNDEventoLLegadaCliente, TiempoEventoLlegadaCliente, MomentoFinAtencionCaseta,
+              RNDEventoFinAtencionCaseta, TiempoEventoFinAtencionCaseta, MomentoFinInspeccion1, RNDEventoFinInspeccion1, TiempoEventoFinInspeccion1,
+              MomentoFinInspeccion2, RNDEventoFinInspeccion2, TiempoEventoFinInspeccion2, MomentoFinAtencionOficina1,
+              RNDEventoFinAtencionOficina1, TiempoFinAtencionOficina1, MomentoFinAtencionOficina2, RNDEventoFinAtencionOficina2, TiempoFinAtencionOficina2,
+              MomentoFinSimulacion);
 
         /*tv_SimItv.getColumns().addAll(nombreEvColumna, relojColumna, colaCasetaColumna, colaNaveColumna, colaOficinaColumna, contadorIngresosColumna, contadorNoAtendidosColumna,
                 contadorAtFinColumna, tiempoEspColaCasetaColumna, tiempoAtCasetaColumna, tiempoTotCasetaColumna, contClientesAtCasetaColumna, tiempoEspColaNaveColumna,

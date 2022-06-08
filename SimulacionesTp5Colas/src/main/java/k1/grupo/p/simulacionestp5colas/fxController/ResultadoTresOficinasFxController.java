@@ -219,224 +219,194 @@ public class ResultadoTresOficinasFxController implements IResultadoSImulacion{
         contLongColaNaveColumna.setCellValueFactory(new PropertyValueFactory<>("acumuladorLongitudColaNave"));
         contLongColaNaveColumna.setText("Ac. Lon. Col. Nav");
 
+
         //Servidores Empleado Caseta
         TableColumn<VectorEstadoDtoTresOficinas,String> idEmpleadoCaseta = new TableColumn<>();
-        idEmpleadoCaseta.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getEmpleadoCaseta().getId())));
+        idEmpleadoCaseta.setCellValueFactory(cellData -> cellData.getValue().getEmpleadoCaseta()== null ? new SimpleStringProperty("") : new SimpleStringProperty(Integer.toString(cellData.getValue().getEmpleadoCaseta().getId())));
         idEmpleadoCaseta.setText("Id Emp Caseta");//revisar
 
         TableColumn<VectorEstadoDtoTresOficinas,String> EstadoEmpleadoCaseta = new TableColumn<>();
-        EstadoEmpleadoCaseta.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmpleadoCaseta().getEstado().getEstado()));
+        EstadoEmpleadoCaseta.setCellValueFactory(cellData -> cellData.getValue().getEmpleadoCaseta()== null ? new SimpleStringProperty("") : new SimpleStringProperty(cellData.getValue().getEmpleadoCaseta().getEstado().getEstado()));
         EstadoEmpleadoCaseta.setText("Estado Emp Caseta");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> ClienteEmpleadoCaseta = new TableColumn<>();
-        ClienteEmpleadoCaseta.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getEmpleadoCaseta().getClienteActual().getNumeroCliente())));
+        ClienteEmpleadoCaseta.setCellValueFactory(cellData -> cellData.getValue().getEmpleadoCaseta() == null || cellData.getValue().getEmpleadoCaseta().getClienteActual() == null ? new SimpleStringProperty("") : new SimpleStringProperty(Integer.toString(cellData.getValue().getEmpleadoCaseta().getClienteActual().getNumeroCliente())));
         ClienteEmpleadoCaseta.setText("Cliente Emp Caseta");
 
         //Servidor Inspector 1
         TableColumn<VectorEstadoDtoTresOficinas,String> idInspector1 = new TableColumn<>();
-        idInspector1.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getInspector1().getId())));
+        idInspector1.setCellValueFactory(cellData -> cellData.getValue().getInspector1()== null ? new SimpleStringProperty("") : new SimpleStringProperty(Integer.toString(cellData.getValue().getInspector1().getId())));
         idInspector1.setText("Id Inspector1");//revisar
 
         TableColumn<VectorEstadoDtoTresOficinas,String> EstadoInspector1 = new TableColumn<>();
-        EstadoInspector1.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getInspector1().getEstado().getEstado()));
+        EstadoInspector1.setCellValueFactory(cellData -> cellData.getValue().getInspector1()== null ? new SimpleStringProperty("") : new SimpleStringProperty(cellData.getValue().getInspector1().getEstado().getEstado()));
         EstadoInspector1.setText("Estado Inspector1");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> ClienteInspector1 = new TableColumn<>();
-        ClienteInspector1.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getInspector1().getClienteActual().getNumeroCliente())));
+        ClienteInspector1.setCellValueFactory(cellData -> cellData.getValue().getInspector1()== null || cellData.getValue().getInspector1().getClienteActual() == null ? new SimpleStringProperty("") : new SimpleStringProperty(Integer.toString(cellData.getValue().getInspector1().getClienteActual().getNumeroCliente())));
         ClienteInspector1.setText("Cliente Inspector1");
 
         //Servidores Inspector2
 
         TableColumn<VectorEstadoDtoTresOficinas,String> idInspector2 = new TableColumn<>();
-        idInspector2.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getInspector2().getId())));
+        idInspector2.setCellValueFactory(cellData -> cellData.getValue().getInspector2()== null ? new SimpleStringProperty("") : new SimpleStringProperty(Integer.toString(cellData.getValue().getInspector2().getId())));
         idInspector2.setText("Id Inspector2");//revisar
 
         TableColumn<VectorEstadoDtoTresOficinas,String> EstadoInspector2 = new TableColumn<>();
-        EstadoInspector2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getInspector2().getEstado().getEstado()));
+        EstadoInspector2.setCellValueFactory(cellData -> cellData.getValue().getInspector2()== null ? new SimpleStringProperty("") : new SimpleStringProperty(cellData.getValue().getInspector2().getEstado().getEstado()));
         EstadoInspector2.setText("Estado Inspector2");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> ClienteInspector2 = new TableColumn<>();
-        ClienteInspector2.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getInspector2().getClienteActual().getNumeroCliente())));
+        ClienteInspector2.setCellValueFactory(cellData -> cellData.getValue().getInspector2()== null || cellData.getValue().getInspector2().getClienteActual() == null ? new SimpleStringProperty("") : new SimpleStringProperty(Integer.toString(cellData.getValue().getInspector2().getClienteActual().getNumeroCliente())));
         ClienteInspector2.setText("Cliente Inspector2");
 
 
         //Servidores Oficinista1
 
         TableColumn<VectorEstadoDtoTresOficinas,String> idOficinista1 = new TableColumn<>();
-        idOficinista1.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getOficinista1().getId())));
+        idOficinista1.setCellValueFactory(cellData -> cellData.getValue().getOficinista1()== null ? new SimpleStringProperty("") : new SimpleStringProperty(Integer.toString(cellData.getValue().getOficinista1().getId())));
         idOficinista1.setText("Id Oficinista1");//revisar
 
         TableColumn<VectorEstadoDtoTresOficinas,String> EstadoOficinista1 = new TableColumn<>();
-        EstadoOficinista1.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOficinista1().getEstado().getEstado()));
+        EstadoOficinista1.setCellValueFactory(cellData -> cellData.getValue().getOficinista1()== null ? new SimpleStringProperty("") : new SimpleStringProperty(cellData.getValue().getOficinista1().getEstado().getEstado()));
         EstadoOficinista1.setText("Estado Oficinista1");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> ClienteOficinista1 = new TableColumn<>();
-        ClienteOficinista1.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getOficinista1().getClienteActual().getNumeroCliente())));
+        ClienteOficinista1.setCellValueFactory(cellData -> cellData.getValue().getOficinista1()== null || cellData.getValue().getOficinista1().getClienteActual() == null? new SimpleStringProperty("") : new SimpleStringProperty(Integer.toString(cellData.getValue().getOficinista1().getClienteActual().getNumeroCliente())));
         ClienteOficinista1.setText("Cliente Oficinista1");
 
 
         //Servidores Oficinista2
 
         TableColumn<VectorEstadoDtoTresOficinas,String> idOficinista2 = new TableColumn<>();
-        idOficinista2.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getOficinista2().getId())));
+        idOficinista2.setCellValueFactory(cellData -> cellData.getValue().getOficinista2()== null ? new SimpleStringProperty("") : new SimpleStringProperty(Integer.toString(cellData.getValue().getOficinista2().getId())));
         idOficinista2.setText("Id Oficinista2");//revisar
 
         TableColumn<VectorEstadoDtoTresOficinas,String> EstadoOficinista2 = new TableColumn<>();
-        EstadoOficinista2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOficinista2().getEstado().getEstado()));
+        EstadoOficinista2.setCellValueFactory(cellData -> cellData.getValue().getOficinista2()== null ? new SimpleStringProperty("") : new SimpleStringProperty(cellData.getValue().getOficinista2().getEstado().getEstado()));
         EstadoOficinista2.setText("Estado Oficinista2");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> ClienteOficinista2 = new TableColumn<>();
-        ClienteOficinista2.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getOficinista2().getClienteActual().getNumeroCliente())));
+        ClienteOficinista2.setCellValueFactory(cellData -> cellData.getValue().getOficinista2()== null || cellData.getValue().getOficinista2().getClienteActual() == null? new SimpleStringProperty("") : new SimpleStringProperty(Integer.toString(cellData.getValue().getOficinista2().getClienteActual().getNumeroCliente())));
         ClienteOficinista2.setText("Cliente Oficinista2");
 
         //Servidores Oficinista3
 
         TableColumn<VectorEstadoDtoTresOficinas,String> idOficinista3 = new TableColumn<>();
-        idOficinista3.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getOficinista3().getId())));
+        idOficinista3.setCellValueFactory(cellData -> cellData.getValue().getOficinista3()== null ? new SimpleStringProperty("") : new SimpleStringProperty(Integer.toString(cellData.getValue().getOficinista3().getId())));
         idOficinista3.setText("Id Oficinista 3");//revisar
 
         TableColumn<VectorEstadoDtoTresOficinas,String> EstadoOficinista3 = new TableColumn<>();
-        EstadoOficinista3.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOficinista3().getEstado().getEstado()));
+        EstadoOficinista3.setCellValueFactory(cellData -> cellData.getValue().getOficinista3()== null ? new SimpleStringProperty("") : new SimpleStringProperty(cellData.getValue().getOficinista3().getEstado().getEstado()));
         EstadoOficinista3.setText("Estado Oficinista 3");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> ClienteOficinista3 = new TableColumn<>();
-        ClienteOficinista3.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getOficinista3().getClienteActual().getNumeroCliente())));
+        ClienteOficinista3.setCellValueFactory(cellData -> cellData.getValue().getOficinista3()== null || cellData.getValue().getOficinista3().getClienteActual() == null? new SimpleStringProperty("") : new SimpleStringProperty(Integer.toString(cellData.getValue().getOficinista3().getClienteActual().getNumeroCliente())));
         ClienteOficinista3.setText("Cliente Oficinista 3");
 
 
         //Eventos LLegada Cliente
-        TableColumn<VectorEstadoDtoTresOficinas,String> NombreEventoLLegadaCliente = new TableColumn<>();
-        NombreEventoLLegadaCliente.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEventoLlegadaCliente().getNombreEvento()));
-        NombreEventoLLegadaCliente.setText("Nombre Evento Llegada Cliente");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> MomentoEventoLLegadaCliente = new TableColumn<>();
-        MomentoEventoLLegadaCliente.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getEventoLlegadaCliente().getMomentoEvento())));
+        MomentoEventoLLegadaCliente.setCellValueFactory(cellData -> cellData.getValue().getEventoLlegadaCliente()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getEventoLlegadaCliente().getMomentoEvento())));
         MomentoEventoLLegadaCliente.setText("Momento Evento Llegada Cliente");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> RNDEventoLLegadaCliente = new TableColumn<>();
-        RNDEventoLLegadaCliente.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getEventoLlegadaCliente().getRandomProxLlegada().getRandom())));
+        RNDEventoLLegadaCliente.setCellValueFactory(cellData -> cellData.getValue().getEventoLlegadaCliente()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getEventoLlegadaCliente().getRandomProxLlegada().getRandom())));
         RNDEventoLLegadaCliente.setText("RND Llegada Cliente");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> TiempoEventoLlegadaCliente = new TableColumn<>();
-        TiempoEventoLlegadaCliente.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getEventoLlegadaCliente().getTiempoHastaProxLlegada())));
+        TiempoEventoLlegadaCliente.setCellValueFactory(cellData -> cellData.getValue().getEventoLlegadaCliente()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getEventoLlegadaCliente().getTiempoHastaProxLlegada())));
         TiempoEventoLlegadaCliente.setText("Tiempo Llegada Cliente");
 
         //Eventos Fin Atencion Caseta
 
-        TableColumn<VectorEstadoDtoTresOficinas,String> NombreFinAtencionCaseta = new TableColumn<>();
-        NombreFinAtencionCaseta.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFinAtencionCaseta().getNombreEvento()));
-        NombreFinAtencionCaseta.setText("Nombre Evento Fin Atencion Caseta");
-
         TableColumn<VectorEstadoDtoTresOficinas,String> MomentoFinAtencionCaseta = new TableColumn<>();
-        MomentoFinAtencionCaseta.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionCaseta().getMomentoEvento())));
+        MomentoFinAtencionCaseta.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionCaseta()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionCaseta().getMomentoEvento())));
         MomentoFinAtencionCaseta.setText("Momento Fin Atencion Caseta");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> RNDEventoFinAtencionCaseta = new TableColumn<>();
-        RNDEventoFinAtencionCaseta.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionCaseta().getRandomTiempoAtencion().getRandom())));
+        RNDEventoFinAtencionCaseta.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionCaseta()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionCaseta().getRandomTiempoAtencion().getRandom())));
         RNDEventoFinAtencionCaseta.setText("RND Fin Atencion Caseta");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> TiempoEventoFinAtencionCaseta = new TableColumn<>();
-        TiempoEventoFinAtencionCaseta.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionCaseta().getTiempoAtencion())));
+        TiempoEventoFinAtencionCaseta.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionCaseta()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionCaseta().getTiempoAtencion())));
         TiempoEventoFinAtencionCaseta.setText("Tiempo Fin Atencion Caseta");
 
         //Evento Fin Inspeccion 1
 
-        TableColumn<VectorEstadoDtoTresOficinas,String> NombreFinInspeccion1 = new TableColumn<>();
-        NombreFinInspeccion1.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFinInspeccion1().getNombreEvento()));
-        NombreFinInspeccion1.setText("Nombre Evento Fin Inspeccion 1");
-
         TableColumn<VectorEstadoDtoTresOficinas,String> MomentoFinInspeccion1 = new TableColumn<>();
-        MomentoFinInspeccion1.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getFinInspeccion1().getMomentoEvento())));
+        MomentoFinInspeccion1.setCellValueFactory(cellData -> cellData.getValue().getFinInspeccion1()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinInspeccion1().getMomentoEvento())));
         MomentoFinInspeccion1.setText("Momento Fin Inspeccion 1");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> RNDEventoFinInspeccion1 = new TableColumn<>();
-        RNDEventoFinInspeccion1.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getFinInspeccion1().getRandomFinInspeccion().getRandom())));
+        RNDEventoFinInspeccion1.setCellValueFactory(cellData -> cellData.getValue().getFinInspeccion1()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinInspeccion1().getRandomFinInspeccion().getRandom())));
         RNDEventoFinInspeccion1.setText("RND Fin Inspeccion 1");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> TiempoEventoFinInspeccion1 = new TableColumn<>();
-        TiempoEventoFinInspeccion1.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getFinInspeccion1().getTiempoFinInspeccion())));
+        TiempoEventoFinInspeccion1.setCellValueFactory(cellData -> cellData.getValue().getFinInspeccion1()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinInspeccion1().getTiempoFinInspeccion())));
         TiempoEventoFinInspeccion1.setText("Tiempo Fin Inspeccion 1");
 
         //Evento Fin Inspeccion 2
 
-        TableColumn<VectorEstadoDtoTresOficinas,String> NombreFinInspeccion2 = new TableColumn<>();
-        NombreFinInspeccion2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFinInspeccion2().getNombreEvento()));
-        NombreFinInspeccion2.setText("Nombre Evento Fin Inspeccion 2");
-
         TableColumn<VectorEstadoDtoTresOficinas,String> MomentoFinInspeccion2 = new TableColumn<>();
-        MomentoFinInspeccion2.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getFinInspeccion2().getMomentoEvento())));
+        MomentoFinInspeccion2.setCellValueFactory(cellData -> cellData.getValue().getFinInspeccion2()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinInspeccion2().getMomentoEvento())));
         MomentoFinInspeccion2.setText("Momento Fin Inspeccion 2");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> RNDEventoFinInspeccion2 = new TableColumn<>();
-        RNDEventoFinInspeccion2.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getFinInspeccion2().getRandomFinInspeccion().getRandom())));
+        RNDEventoFinInspeccion2.setCellValueFactory(cellData -> cellData.getValue().getFinInspeccion2()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinInspeccion2().getRandomFinInspeccion().getRandom())));
         RNDEventoFinInspeccion2.setText("RND Fin Inspeccion 2");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> TiempoEventoFinInspeccion2 = new TableColumn<>();
-        TiempoEventoFinInspeccion2.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getFinInspeccion2().getTiempoFinInspeccion())));
+        TiempoEventoFinInspeccion2.setCellValueFactory(cellData -> cellData.getValue().getFinInspeccion2()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinInspeccion2().getTiempoFinInspeccion())));
         TiempoEventoFinInspeccion2.setText("Tiempo Fin Inspeccion 2");
 
         //Evento Fin Atencion Oficina 1
 
-        TableColumn<VectorEstadoDtoTresOficinas,String> NombreFinAtencionOficina1 = new TableColumn<>();
-        NombreFinAtencionOficina1.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFinAtencionOficina1().getNombreEvento()));
-        NombreFinAtencionOficina1.setText("NombreFinAtencionOficina1");
-
         TableColumn<VectorEstadoDtoTresOficinas,String> MomentoFinAtencionOficina1 = new TableColumn<>();
-        MomentoFinAtencionOficina1.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina1().getMomentoEvento())));
+        MomentoFinAtencionOficina1.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionOficina1()==null ? new SimpleStringProperty("") :new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina1().getMomentoEvento())));
         MomentoFinAtencionOficina1.setText("Momento Fin Atencion Oficina1");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> RNDEventoFinAtencionOficina1 = new TableColumn<>();
-        RNDEventoFinAtencionOficina1.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina1().getRandomAtencionOficina().getRandom())));
+        RNDEventoFinAtencionOficina1.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionOficina1()==null ? new SimpleStringProperty("") :new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina1().getRandomAtencionOficina().getRandom())));
         RNDEventoFinAtencionOficina1.setText("RND Fin Atencion Oficina 1");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> TiempoFinAtencionOficina1 = new TableColumn<>();
-        TiempoFinAtencionOficina1.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina1().getTiempoAtencionOficina())));
+        TiempoFinAtencionOficina1.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionOficina1()==null ? new SimpleStringProperty("") :new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina1().getTiempoAtencionOficina())));
         TiempoFinAtencionOficina1.setText("Tiempo Fin Atencion Oficina 1");
 
         //Evento Fin Atencion Oficina 2
 
-        TableColumn<VectorEstadoDtoTresOficinas,String> NombreFinAtencionOficina2 = new TableColumn<>();
-        NombreFinAtencionOficina2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFinAtencionOficina2().getNombreEvento()));
-        NombreFinAtencionOficina2.setText("NombreFinAtencionOficina2");
-
         TableColumn<VectorEstadoDtoTresOficinas,String> MomentoFinAtencionOficina2 = new TableColumn<>();
-        MomentoFinAtencionOficina2.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina2().getMomentoEvento())));
+        MomentoFinAtencionOficina2.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionOficina2()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina2().getMomentoEvento())));
         MomentoFinAtencionOficina2.setText("Momento Fin Atencion Oficina2");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> RNDEventoFinAtencionOficina2 = new TableColumn<>();
-        RNDEventoFinAtencionOficina2.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina2().getRandomAtencionOficina().getRandom())));
+        RNDEventoFinAtencionOficina2.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionOficina2()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina2().getRandomAtencionOficina().getRandom())));
         RNDEventoFinAtencionOficina2.setText("RND Fin Atencion Oficina 2");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> TiempoFinAtencionOficina2 = new TableColumn<>();
-        TiempoFinAtencionOficina2.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina2().getTiempoAtencionOficina())));
+        TiempoFinAtencionOficina2.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionOficina2()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina2().getTiempoAtencionOficina())));
         TiempoFinAtencionOficina2.setText("Tiempo Fin Atencion Oficina 2");
 
         //Evento Fin Atencion Oficina 3
 
-        TableColumn<VectorEstadoDtoTresOficinas,String> NombreFinAtencionOficina3 = new TableColumn<>();
-        NombreFinAtencionOficina3.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFinAtencionOficina3().getNombreEvento()));
-        NombreFinAtencionOficina3.setText("NombreFinAtencionOficina3");
-
         TableColumn<VectorEstadoDtoTresOficinas,String> MomentoFinAtencionOficina3= new TableColumn<>();
-        MomentoFinAtencionOficina3.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina3().getMomentoEvento())));
+        MomentoFinAtencionOficina3.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionOficina3()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina3().getMomentoEvento())));
         MomentoFinAtencionOficina3.setText("Momento Fin Atencion Oficina 3");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> RNDEventoFinAtencionOficina3 = new TableColumn<>();
-        RNDEventoFinAtencionOficina3.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina3().getRandomAtencionOficina().getRandom())));
+        RNDEventoFinAtencionOficina3.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionOficina3()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina3().getRandomAtencionOficina().getRandom())));
         RNDEventoFinAtencionOficina3.setText("RND Fin Atencion Oficina 3");
 
         TableColumn<VectorEstadoDtoTresOficinas,String> TiempoFinAtencionOficina3 = new TableColumn<>();
-        TiempoFinAtencionOficina3.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina3().getTiempoAtencionOficina())));
+        TiempoFinAtencionOficina3.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionOficina3()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina3().getTiempoAtencionOficina())));
         TiempoFinAtencionOficina3.setText("Tiempo Fin Atencion Oficina 3");
 
         //Evento Fin de la simulacion
 
-        TableColumn<VectorEstadoDtoTresOficinas,String> NombreEventoFinSimulacion = new TableColumn<>();
-        NombreEventoFinSimulacion.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFinSimulacion().getNombreEvento()));
-        NombreEventoFinSimulacion.setText("Nombre Fin Simulacion");
-
         TableColumn<VectorEstadoDtoTresOficinas,String> MomentoFinSimulacion = new TableColumn<>();
-        MomentoFinSimulacion.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getFinSimulacion().getMomentoEvento())));
+        MomentoFinSimulacion.setCellValueFactory(cellData -> cellData.getValue().getFinSimulacion()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinSimulacion().getMomentoEvento())));
         MomentoFinSimulacion.setText("Momento Fin Simulacion");
 
 
@@ -445,11 +415,11 @@ public class ResultadoTresOficinasFxController implements IResultadoSImulacion{
                 tiempoAtNaveColumna, tiempoTotNaveColumna, tiempoEspColaOfiColumna, tiempoAtOfiColumna, tiempoTotOfiColumna, tiempoTotSistemaColumna, tiempoLibreCasetaColumna,
                 tiempoLibreNave, contLongColaNaveColumna, idEmpleadoCaseta, EstadoEmpleadoCaseta, ClienteEmpleadoCaseta, idInspector1, EstadoInspector1, ClienteInspector1,
                 idInspector2, EstadoInspector2, ClienteInspector2, idOficinista1, EstadoOficinista1, ClienteOficinista1, idOficinista2, EstadoOficinista2, ClienteOficinista2,
-                idOficinista3, EstadoOficinista3, ClienteOficinista3, NombreEventoLLegadaCliente, MomentoEventoLLegadaCliente, RNDEventoLLegadaCliente, TiempoEventoLlegadaCliente,
-                NombreFinAtencionCaseta, MomentoFinAtencionCaseta, RNDEventoFinAtencionCaseta, TiempoEventoFinAtencionCaseta, NombreFinInspeccion1, MomentoFinInspeccion1, RNDEventoFinInspeccion1,
-                TiempoEventoFinInspeccion1, NombreFinInspeccion2, MomentoFinInspeccion2, RNDEventoFinInspeccion2, TiempoEventoFinInspeccion2, NombreFinAtencionOficina1, MomentoFinAtencionOficina1,
-                RNDEventoFinAtencionOficina1, TiempoFinAtencionOficina1, NombreFinAtencionOficina2, MomentoFinAtencionOficina2, RNDEventoFinAtencionOficina2, TiempoFinAtencionOficina2,
-                NombreFinAtencionOficina3, MomentoFinAtencionOficina3, RNDEventoFinAtencionOficina3, TiempoFinAtencionOficina3, NombreEventoFinSimulacion, MomentoFinSimulacion);
+                idOficinista3, EstadoOficinista3, ClienteOficinista3, MomentoEventoLLegadaCliente, RNDEventoLLegadaCliente, TiempoEventoLlegadaCliente,
+                MomentoFinAtencionCaseta, RNDEventoFinAtencionCaseta, TiempoEventoFinAtencionCaseta,  MomentoFinInspeccion1, RNDEventoFinInspeccion1,
+                TiempoEventoFinInspeccion1, MomentoFinInspeccion2, RNDEventoFinInspeccion2, TiempoEventoFinInspeccion2, MomentoFinAtencionOficina1,
+                RNDEventoFinAtencionOficina1, TiempoFinAtencionOficina1, MomentoFinAtencionOficina2, RNDEventoFinAtencionOficina2, TiempoFinAtencionOficina2,
+                MomentoFinAtencionOficina3, RNDEventoFinAtencionOficina3, TiempoFinAtencionOficina3, MomentoFinSimulacion);
 
         tv_SimItv.refresh();
 
