@@ -54,8 +54,16 @@ public class ResultadoTresOficinasFxController implements IResultadoSImulacion{
 
     @Override
     public void mostrarResultadosSimulacion(List<VectorEstadoITV> resultadoSimulacion) {
+        tv_SimItv.getColumns().clear();
         List<VectorEstadoDtoTresOficinas> resultadoActual = this.mapVectorEstado(resultadoSimulacion);
 
+        VectorEstadoITV vectorFinSim = resultadoSimulacion.get(resultadoSimulacion.size()-1);
+        this.calcularEstadisticas(vectorFinSim); //Falta terminar
+
+        //Esto debe ir al último
+        tv_SimItv.getItems().addAll(resultadoActual);
+        tv_SimItv.refresh();
+        this.generarColumnasSimulacion(); //Falta terminar el método generarColumnasSimulacion
     }
 
     private List<VectorEstadoDtoTresOficinas> mapVectorEstado(List<VectorEstadoITV> resultado) {
@@ -129,13 +137,12 @@ public class ResultadoTresOficinasFxController implements IResultadoSImulacion{
     }
     private void generarColumnasSimulacion(){
 
-        tv_SimItv.getItems().clear();
-        tv_SimItv.getItems().clear();
+        //tv_SimItv.getItems().clear();
 
-        TableColumn<VectorEstadoDtoTresOficinas, Integer> nombreEvColumna = new TableColumn<>();
+        TableColumn<VectorEstadoDtoTresOficinas, String> nombreEvColumna = new TableColumn<>();
         nombreEvColumna.setCellValueFactory(new PropertyValueFactory<>("nombreEvento"));
         nombreEvColumna.setText("Nom.Ev.");
-        TableColumn<VectorEstadoDtoTresOficinas, Integer> relojColumna = new TableColumn<>();
+        TableColumn<VectorEstadoDtoTresOficinas, Float> relojColumna = new TableColumn<>();
         relojColumna.setCellValueFactory(new PropertyValueFactory<>("reloj"));
         relojColumna.setText("Reloj (min)");
 
@@ -446,13 +453,43 @@ public class ResultadoTresOficinasFxController implements IResultadoSImulacion{
 
         tv_SimItv.refresh();
 
+    }
+    private void calcularEstadisticas(VectorEstadoITV vectorEstadoITV){
 
+        //Al ser el último evento, es un evento de fin de simulación, tiene el reloj seteado a
+        //La cantidad de minutos seteados para cortar la simulacion
+        float tiempoMedioOfi = vectorEstadoITV.getAcumuladorTiempoEsperaOficina() / vectorEstadoITV.getContadorVehiculosAtencionFinalizada();
+        //Se debería hacer con los atendidos en la oficina, pero como al salir de la oficina
+        //se termina la tención, entonces es lo mismo poner los clientes con at. finalizada
 
+        float tiempoMedioAtOfi = vectorEstadoITV.getAcumuladorTiempoAtencionOficina()/vectorEstadoITV.getContadorVehiculosAtencionFinalizada();
 
-        //FALTAN TODOS LOS EVENTOS; Y LOS SERVIDORES
-        //ME PARECE QUE NO SERÍA BUENO MOSTRAR CLIENTES
-        //FALTA AGREGAR TODAS LAS COLUMNAS A LA TABLA EN EL TableView:
-        //tv_SimItv.getColumns().addAll(nombreEvColumna,relojColumna,).....Así pero pasando todas las
-        //columnas por parámetro.
+        float tiempoMedioPermanencia = vectorEstadoITV.getAcumuladorTiempoAtencion()/vectorEstadoITV.getContadorVehiculosAtencionFinalizada();
+
+        float tiempoMedioLibreCaseta; //FALTAN CALCULAR
+        float tiempoMedioLibreNave; //FALTAN CALCULAR
+
+        float tiempoMedioColaCaseta = vectorEstadoITV.getAcumuladorTiempoEsperaColaCaseta()/vectorEstadoITV.getContadorClientesAtendidosCaseta();
+        float tiempoMedioColaNave = vectorEstadoITV.getAcumuladorTiempoEsperaColaNave()/vectorEstadoITV.getContadorClientesAtendidosNave();
+
+        int cantTotalLlegadas = vectorEstadoITV.getContadorVehiculos()+ vectorEstadoITV.getContadorClientesNoAtendidos();
+        //Se calcula sobre el total de llegadas, teniendo en cuenta atendidos y no atendidos
+        float porcentajeAtFin = ((float)vectorEstadoITV.getContadorVehiculosAtencionFinalizada()*100) /cantTotalLlegadas;
+
+        float porcentajeNoAt = ((float)vectorEstadoITV.getContadorClientesNoAtendidos()*100)/cantTotalLlegadas;
+
+        float longMediaColaNave = ((float)vectorEstadoITV.getAcumuladorLongitudColaNave())/vectorEstadoITV.getContadorClientesAtendidosNave();
+
+        tf_longitudMediaColaNave.setText(Float.toString(longMediaColaNave));
+        tf_porcentajeAtFinalizada.setText(Float.toString(porcentajeAtFin));
+        tf_porcentajeNoAtendidos.setText(Float.toString(porcentajeNoAt));
+        tf_tiempoMedioAtOficina.setText(Float.toString(tiempoMedioAtOfi));
+        tf_tiempoMedioColaCaseta.setText(Float.toString(tiempoMedioColaCaseta));
+        tf_tiempoMedioColaNave.setText(Float.toString(tiempoMedioColaNave));
+        //tf_tiempoMedioLibreCaseta.setText(Float.toString(tiempoMedioLibreCaseta));
+        //tf_tiempoMedioLibreNave.setText(Float.toString(tiempoMedioLibreNave));
+        tf_tiempoMedioPermanencia.setText(Float.toString(tiempoMedioPermanencia));
+        tf_tiempoMedOficina.setText(Float.toString(tiempoMedioOfi));
+
     }
 }

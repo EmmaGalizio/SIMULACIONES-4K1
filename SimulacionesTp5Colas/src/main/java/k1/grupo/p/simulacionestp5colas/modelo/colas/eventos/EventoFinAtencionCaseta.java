@@ -109,6 +109,7 @@ public class EventoFinAtencionCaseta extends Evento{
             //cliente al sistema.
             empleadoCaseta.setMomentoLiberacion(vectorEstadoActual.getReloj());
             vectorEstadoActual.actualizarEventoFinAtencionCaseta(null, empleadoCaseta);
+            vectorEstadoActual.getFinAtencionCaseta()[empleadoCaseta.getId()-1]=null;
         }else {
             //La cola no está vacía, se recuperó la referencia que tenía la cola al cliente, pero no es el mismo cliente
             //que está en la lista de clientes del vector (porque están clonados) por lo que es encesario recuperarlo del vector

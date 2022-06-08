@@ -57,6 +57,7 @@ public class EventoFinAtencion extends Evento{
             oficinista.setMomentoLiberacion(this.momentoEvento);
             oficinista.setClienteActual(null);
             vectorEstadoActual.actualizarEventoFinAtencion(null,oficinista);
+            vectorEstadoActual.getFinAtencionOficina()[oficinista.getId()-1]=null;
         } else{
             siguienteClienteCola = vectorEstadoActual.buscarClientePorId(siguienteClienteCola.getNumeroCliente());
             siguienteClienteCola.setEstado(EstadoCliente.getInstanceAtencionOficina());

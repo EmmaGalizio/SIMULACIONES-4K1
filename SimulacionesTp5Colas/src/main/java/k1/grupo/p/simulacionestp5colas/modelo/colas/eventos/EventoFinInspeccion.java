@@ -86,6 +86,7 @@ public class EventoFinInspeccion extends Evento{
             inspector.setMomentoLiberacion(this.momentoEvento);
             inspector.setClienteActual(null);
             vectorEstadoActual.actualizarEventoFinAtencionNave(null,inspector);
+            vectorEstadoActual.getFinInspeccion()[inspector.getId()-1]=null;
         } else{
             //Hay clientes esperando para ser atendidos por el inspector
             siguienteClienteInspeccion = vectorEstadoActual.buscarClientePorId(siguienteClienteInspeccion.getNumeroCliente());

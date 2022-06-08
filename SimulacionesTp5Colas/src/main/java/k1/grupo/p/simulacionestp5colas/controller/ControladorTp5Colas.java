@@ -57,7 +57,9 @@ public class ControladorTp5Colas {
         int ultimaFila = parametrosItv.getMostrarFilaDesde() + parametrosItv.getCantFilasMostrar();
         EventoFinAtencion finAtencionCliente = null;
         List<VectorEstadoITV> simulacionItv = new LinkedList<>();
-        while(!eventosHeap.isEmpty() || eventoActual != null){
+        simulacionItv.add(vectorEstadoAnterior);
+        //while(!eventosHeap.isEmpty() || eventoActual != null){
+        while(true){
             //La clase VectorEstadoITV implementa el método clone()
             //Al momento de procesar el evento en vez de instanciar un Vector vacío
             //se llama al método clone del vector anterior que ya tiene todos los datos
