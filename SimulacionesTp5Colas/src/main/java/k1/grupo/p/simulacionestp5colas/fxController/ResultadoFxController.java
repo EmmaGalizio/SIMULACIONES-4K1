@@ -52,6 +52,8 @@ public class ResultadoFxController implements IResultadoSImulacion{
 
     @FXML
     private TextField tf_porcOcupNave;
+    @FXML
+    private TextField tf_porcOcupOficina;
 
 
     @Override
@@ -427,6 +429,7 @@ public class ResultadoFxController implements IResultadoSImulacion{
 
         float porcLibreCaseta = vectorEstadoITV.getAcumuladorTiempoLibreEmpleadosCaseta()*100/ vectorEstadoITV.getReloj();
         float porcLibreNave = vectorEstadoITV.getAcumuladorTiempoLibreEmpleadosNave()*100/ vectorEstadoITV.getReloj();
+        float porcLibreOfi = vectorEstadoITV.getAcumuladorTiempoLibreEmpleadosOficina()*100/ vectorEstadoITV.getReloj();
 
         float tiempoMedioColaCaseta = vectorEstadoITV.getAcumuladorTiempoEsperaColaCaseta()/vectorEstadoITV.getContadorClientesAtendidosCaseta();
         float tiempoMedioColaNave = vectorEstadoITV.getAcumuladorTiempoEsperaColaNave()/vectorEstadoITV.getContadorClientesAtendidosNave();
@@ -447,6 +450,7 @@ public class ResultadoFxController implements IResultadoSImulacion{
         tf_tiempoMedioColaNave.setText(Float.toString(tiempoMedioColaNave));
         tf_porcOcupCaseta.setText(Float.toString(porcLibreCaseta));
         tf_porcOcupNave.setText(Float.toString(porcLibreNave));
+        tf_porcOcupOficina.setText(Float.toString(porcLibreOfi));
         tf_tiempoMedioPermanencia.setText(Float.toString(tiempoMedioPermanencia));
         tf_tiempoMedOficina.setText(Float.toString(tiempoMedioOfi));
 

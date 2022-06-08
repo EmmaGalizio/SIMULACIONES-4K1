@@ -44,6 +44,8 @@
                                           <TextField fx:id="tf_porcOcupCaseta" editable="false" prefHeight="25.0" prefWidth="87.0" />
                                           <Label prefHeight="15.0" prefWidth="192.0" text="\% Tiempo Lib Nave" />
                                           <TextField fx:id="tf_porcOcupNave" editable="false" prefHeight="25.0" prefWidth="87.0" />
+                                          <Label layoutX="302.0" layoutY="43.0" prefHeight="15.0" prefWidth="192.0" text="\% Tiempo Lib Oficina" />
+                                          <TextField fx:id="tf_porcOcupOficina" editable="false" layoutX="499.0" layoutY="38.0" prefHeight="25.0" prefWidth="87.0" />
                                           <Label prefHeight="15.0" prefWidth="213.0" text="Tiempo Medio Cola Caseta:" />
                                           <TextField fx:id="tf_tiempoMedioColaCaseta" editable="false" prefHeight="25.0" prefWidth="87.0" />
                                           <Label layoutX="10.0" layoutY="71.0" prefHeight="15.0" prefWidth="213.0" text="Tiempo Medio Cola Nave:" />

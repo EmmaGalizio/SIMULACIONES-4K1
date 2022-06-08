@@ -46,7 +46,7 @@ public class MainFxController implements Initializable{
     private Resource modalResultadoActual;
     @Value("classpath:/fxml/resultadoSimItvDosCasetas.fxml")
     private Resource modalResultadoDosCasetas;
-    @Value("classpath:/fxml/resultadoSimTresOficinas.fxml")
+    @Value("classpath:/fxml/resultadoSimItvTresOficinas.fxml")
     private Resource modalResultadoTresOficinas;
 
     @Autowired
@@ -208,13 +208,13 @@ public class MainFxController implements Initializable{
         estadoItvSeleccionado = cb_seleccionEstadoSim.getSelectionModel().getSelectedItem();
         switch (estadoItvSeleccionado.getPrompt()){
             case EstadoItvSimulacion.ACTUAL:
-                modalResultadoActual = modalResultadoActual;
+                modalResultadoSeleccionado = modalResultadoActual;
                 break;
             case EstadoItvSimulacion.DOS_CASETAS:
-                modalResultadoActual = modalResultadoDosCasetas;
+                modalResultadoSeleccionado = modalResultadoDosCasetas;
                 break;
             case EstadoItvSimulacion.TRES_OFIC:
-                modalResultadoActual = modalResultadoTresOficinas;
+                modalResultadoSeleccionado = modalResultadoTresOficinas;
                 break;
         }
 

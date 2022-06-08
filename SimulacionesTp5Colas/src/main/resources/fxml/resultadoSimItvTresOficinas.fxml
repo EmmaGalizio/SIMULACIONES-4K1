@@ -40,10 +40,12 @@
                                           <TextField fx:id="tf_tiempoMedioAtOficina" editable="false" prefHeight="25.0" prefWidth="68.0" />
                                           <Label text="Tiempo Medio Permanencia:" />
                                           <TextField fx:id="tf_tiempoMedioPermanencia" editable="false" prefHeight="25.0" prefWidth="79.0" />
-                                          <Label prefHeight="15.0" prefWidth="195.0" text="\% Tiempo Lib Caseta" />
+                                          <Label prefHeight="15.0" prefWidth="195.0" text="\% Tiempo Lib Caseta:" />
                                           <TextField fx:id="tf_porcOcupCaseta" editable="false" prefHeight="25.0" prefWidth="87.0" />
-                                          <Label prefHeight="15.0" prefWidth="192.0" text="\% Tiempo Lib Nave" />
+                                          <Label prefHeight="15.0" prefWidth="192.0" text="\% Tiempo Lib Nave:" />
                                           <TextField fx:id="tf_porcOcupNave" editable="false" prefHeight="25.0" prefWidth="87.0" />
+                                          <TextField fx:id="tf_porcOcupOficina" editable="false" prefHeight="25.0" prefWidth="87.0" />
+                                          <Label prefHeight="15.0" prefWidth="192.0" text="\% Tiempo Lib Oficina:" />
                                           <Label prefHeight="15.0" prefWidth="213.0" text="Tiempo Medio Cola Caseta:" />
                                           <TextField fx:id="tf_tiempoMedioColaCaseta" editable="false" prefHeight="25.0" prefWidth="87.0" />
                                           <Label layoutX="10.0" layoutY="71.0" prefHeight="15.0" prefWidth="213.0" text="Tiempo Medio Cola Nave:" />

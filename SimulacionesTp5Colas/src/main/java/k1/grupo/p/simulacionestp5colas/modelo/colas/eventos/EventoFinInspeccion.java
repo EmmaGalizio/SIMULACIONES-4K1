@@ -90,6 +90,7 @@ public class EventoFinInspeccion extends Evento{
             inspector.setClienteActual(null);
             vectorEstadoActual.actualizarEventoFinAtencionNave(null,inspector);
             vectorEstadoActual.getFinInspeccion()[inspector.getId()-1]=null;
+            vectorEstadoActual.setMomentoUltimaLiberacionNave(this.momentoEvento);
         } else{
             //Hay clientes esperando para ser atendidos por el inspector
             siguienteClienteInspeccion = vectorEstadoActual.buscarClientePorId(siguienteClienteInspeccion.getNumeroCliente());

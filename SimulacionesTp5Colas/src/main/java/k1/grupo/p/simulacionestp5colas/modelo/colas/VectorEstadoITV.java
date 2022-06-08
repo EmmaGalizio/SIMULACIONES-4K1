@@ -75,6 +75,9 @@ public class VectorEstadoITV {
 
     private float acumuladorLongColaNaveXTiempoLong;
     private float momentoUltimaModColaNave;
+    private float momentoUltimaLiberacionNave;
+    private float momentoUltimaLiberacionCaseta;
+    private float momentoUltimaLiberacionOficina;
 
 
     @Override
@@ -105,6 +108,9 @@ public class VectorEstadoITV {
         nuevoVector.setAcumuladorLongitudColaNave(acumuladorLongitudColaNave);
         nuevoVector.setAcumuladorLongColaNaveXTiempoLong(acumuladorLongColaNaveXTiempoLong);
         nuevoVector.setMomentoUltimaModColaNave(momentoUltimaModColaNave);
+        nuevoVector.setMomentoUltimaLiberacionCaseta(momentoUltimaLiberacionCaseta);
+        nuevoVector.setMomentoUltimaLiberacionNave(momentoUltimaLiberacionNave);
+        nuevoVector.setMomentoUltimaLiberacionOficina(momentoUltimaLiberacionOficina);
         //No es necesario clonarlo ni nada de eso porque un string es inmutable
         //Así que si lo modifico directamente se crea un nuevo objeto y el anterior
         //no se modifica
@@ -251,13 +257,14 @@ public class VectorEstadoITV {
     }
 
     public void acumularTiempoLibreEmpleadosCaseta(Servidor empleadoCaseta){
-        acumuladorTiempoLibreEmpleadosCaseta+= (this.reloj - empleadoCaseta.getMomentoLiberacion());
+        acumuladorTiempoLibreEmpleadosCaseta+= (this.reloj - this.momentoUltimaLiberacionCaseta);
     }
     public void acumularTiempoLibreEmpleadosNave(Servidor empleadoNave){
-        acumuladorTiempoLibreEmpleadosNave+= (this.reloj - empleadoNave.getMomentoLiberacion());
+        //acumuladorTiempoLibreEmpleadosNave+= (this.reloj - empleadoNave.getMomentoLiberacion());
+        acumuladorTiempoLibreEmpleadosNave+= this.reloj-this.momentoUltimaLiberacionNave;
     }
     public void acumularTiempoLibreEmpleadosOficina(Servidor empleadoOficina){
-        acumuladorTiempoLibreEmpleadosOficina+= (this.reloj - empleadoOficina.getMomentoLiberacion());
+        acumuladorTiempoLibreEmpleadosOficina+= (this.reloj - this.momentoUltimaLiberacionOficina);
     }
 
     public void agregarClienteColaOficina(Cliente clienteActual) {
