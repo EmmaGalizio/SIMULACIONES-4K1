@@ -52,6 +52,7 @@ public class EventoFinAtencion extends Evento{
         this.setClienteAtencionFinalizada(clienteActual);
 
         Cliente siguienteClienteCola = vectorEstadoActual.getSiguienteClienteColaOficina();
+
         if(siguienteClienteCola == null){
             oficinista.setEstado(EstadoServidor.getInstanceServidorLibre());
             oficinista.setMomentoLiberacion(this.momentoEvento);

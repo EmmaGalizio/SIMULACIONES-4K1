@@ -57,6 +57,7 @@ public class EventoFinInspeccion extends Evento{
             //Hay al menos un oficinista libre
             clienteActual.setHoraInicioAtencionOficina(this.momentoEvento);
             clienteActual.setEstado(EstadoCliente.getInstanceAtencionOficina());
+            clienteActual.setServidorActual(empleadoOficinaLibre);
             empleadoOficinaLibre.setEstado(EstadoServidor.getInstanceServidorOcupado());
             empleadoOficinaLibre.setClienteActual(clienteActual);
             ParametrosCambioDistribucion parametrosCambioDistribucion = new ParametrosCambioDistribucion();
