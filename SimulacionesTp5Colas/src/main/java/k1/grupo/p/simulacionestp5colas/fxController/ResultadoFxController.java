@@ -140,6 +140,7 @@ public class ResultadoFxController implements IResultadoSImulacion{
 
         //---------------------------------------------------------
         //ACÁ VAN LAS COLUMNAS DE LOS EVENTOS
+
         //Y SEGUIDO DE ESO VAN LOS SERVIDORES
 
         //=============================================================
@@ -398,7 +399,19 @@ public class ResultadoFxController implements IResultadoSImulacion{
         MomentoFinSimulacion.setCellValueFactory(cellData -> new SimpleStringProperty(Float.toString(cellData.getValue().getFinSimulacion().getMomentoEvento())));
         MomentoFinSimulacion.setText("Momento Fin Simulacion");
 
-        //tv_SimItv.getColumns().addAll(contadorAtFinColumna);
+
+      tv_SimItv.getColumns().addAll(nombreEvColumna, relojColumna, colaCasetaColumna, colaNaveColumna, colaOficinaColumna, contadorIngresosColumna, contadorNoAtendidosColumna,
+              contadorAtFinColumna, tiempoEspColaCasetaColumna, tiempoAtCasetaColumna, tiempoTotCasetaColumna, contClientesAtCasetaColumna, tiempoEspColaNaveColumna,
+              tiempoAtNaveColumna, tiempoTotNaveColumna, tiempoEspColaOfiColumna, tiempoAtOfiColumna, tiempoTotOfiColumna, tiempoTotSistemaColumna, tiempoLibreCasetaColumna,
+              tiempoLibreNave, contLongColaNaveColumna, idEmpleadoCaseta, EstadoEmpleadoCaseta, ClienteEmpleadoCaseta, idInspector1, EstadoInspector1, ClienteInspector1,
+              idInspector2, EstadoInspector2, ClienteInspector2, idOficinista1, EstadoOficinista1, ClienteOficinista1, idOficinista2, EstadoOficinista2, ClienteOficinista2,
+              NombreEventoLLegadaCliente, MomentoEventoLLegadaCliente, RNDEventoLLegadaCliente, TiempoEventoLlegadaCliente, NombreFinAtencionCaseta, MomentoFinAtencionCaseta,
+              RNDEventoFinAtencionCaseta, TiempoEventoFinAtencionCaseta, NombreFinInspeccion1, MomentoFinInspeccion1, RNDEventoFinInspeccion1, TiempoEventoFinInspeccion1,
+              NombreFinInspeccion2, MomentoFinInspeccion2, RNDEventoFinInspeccion2, TiempoEventoFinInspeccion2, NombreFinAtencionOficina1, MomentoFinAtencionOficina1,
+              RNDEventoFinAtencionOficina1, TiempoFinAtencionOficina1, NombreFinAtencionOficina2, MomentoFinAtencionOficina2, RNDEventoFinAtencionOficina2, TiempoFinAtencionOficina2,
+              NombreEventoFinSimulacion, MomentoFinSimulacion);
+
+      tv_SimItv.refresh();
 
 
 
