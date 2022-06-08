@@ -54,7 +54,7 @@ public class EventoFinInspeccion extends Evento{
             clienteActual.setEstado(EstadoCliente.getInstanceEsperandoOficina());
 
         }else{
-            //Hay al menos un oficinista libre
+            //Hay al menos un oficinista libre otro cambio hecho
             clienteActual.setHoraInicioAtencionOficina(this.momentoEvento);
             clienteActual.setEstado(EstadoCliente.getInstanceAtencionOficina());
             clienteActual.setServidorActual(empleadoOficinaLibre);

@@ -95,6 +95,7 @@ public class ControladorTp5Colas {
             eventoActual = eventosHeap.remove();
             cantEventos++;
         }
+        //Otro cambio
         //En un primer momento se obtienen las instancias de los generadores randoms y de las variables
         //aleatorias
         //Despues se crea un evento inicial del tipo EventoLlegadaCliente a mano,
