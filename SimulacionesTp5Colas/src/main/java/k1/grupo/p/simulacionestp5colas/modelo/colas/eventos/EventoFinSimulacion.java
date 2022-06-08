@@ -50,6 +50,7 @@ public class EventoFinSimulacion extends Evento{
         }
     }
     //Cambio en un evento
+    //Otro cambio en evento
 
     @Override
     public Object clone() {
