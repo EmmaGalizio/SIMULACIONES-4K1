@@ -33,7 +33,7 @@ public class EventoFinSimulacion extends Evento{
         return vectorEstadoActual;
     }
     private void actualizarAcumuladorTiempoLibre(VectorEstadoITV vectorEstadoITV){
-        for(Servidor servidor: vectorEstadoITV.getEmpleadosCaseta()){
+        /*for(Servidor servidor: vectorEstadoITV.getEmpleadosCaseta()){
             if(servidor.estaLibre()){
                 vectorEstadoITV.acumularTiempoLibreEmpleadosCaseta(servidor);
             }
@@ -47,7 +47,10 @@ public class EventoFinSimulacion extends Evento{
             if(servidor.estaLibre()){
                 vectorEstadoITV.acumularTiempoLibreEmpleadosOficina(servidor);
             }
-        }
+        }*/
+        vectorEstadoITV.acumularTiempoLibreEmpleadosCaseta(null);
+        vectorEstadoITV.acumularTiempoLibreEmpleadosNave(null);
+        vectorEstadoITV.acumularTiempoLibreEmpleadosOficina(null);
     }
     //Cambio en un evento
     //Otro cambio en evento

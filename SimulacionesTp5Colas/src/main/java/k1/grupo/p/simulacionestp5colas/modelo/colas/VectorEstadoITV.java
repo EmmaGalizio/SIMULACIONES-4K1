@@ -73,7 +73,7 @@ public class VectorEstadoITV {
     //está acá solo para facilitar el diseño del programa, no está bien que esté acá.
     private Pseudoaleatorio siguientePseudoCU;
 
-    private float acumuladorLongColaNaveXTiempoLong;
+    private float acumuladorLongColaNaveXTiempoLong; //Con este se calcula realmente la longitud media de la cola
     private float momentoUltimaModColaNave;
     private float momentoUltimaLiberacionNave;
     private float momentoUltimaLiberacionCaseta;
