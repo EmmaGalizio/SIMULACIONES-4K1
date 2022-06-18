@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="850.0" style="-fx-background-color: #b0bec5;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="p.grupo.k1.simulacionestp6.fxController.ResultadoDosCasetasFxController">
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label text="Simulacion Puesto ITV">
+               <font>
+                  <Font name="DejaVu Sans Bold" size="17.0" />
+               </font>
+            </Label>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <TitledPane animated="false" collapsible="false" text="Tabla de resuen" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <content>
+                        <TableView fx:id="tv_SimItv" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #e2f1f8; -fx-border-color: #9e9e9e; -fx-border-style: solid; -fx-border-width: 2px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </content>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane minHeight="150.0" prefHeight="0.0" prefWidth="830.0">
+               <children>
+                  <TitledPane animated="false" collapsible="false" style="-fx-border-color: #9e9e9e; -fx-border-image-width: 2px;" text="Resultados" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="10.399999618530273" layoutY="10.399999618530273" prefViewportHeight="64.19999694824219" prefViewportWidth="805.2000122070312" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <FlowPane hgap="5.0" prefHeight="200.0" prefWidth="200.0" vgap="3.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Label text="Tiempo Medio Oficina:" />
+                                          <TextField fx:id="tf_tiempoMedOficina" editable="false" prefHeight="25.0" prefWidth="64.0" />
+                                          <Label text="Tiempo Medio At. Oficina:" />
+                                          <TextField fx:id="tf_tiempoMedioAtOficina" editable="false" prefHeight="25.0" prefWidth="68.0" />
+                                          <Label text="Tiempo Medio Permanencia:" />
+                                          <TextField fx:id="tf_tiempoMedioPermanencia" editable="false" prefHeight="25.0" prefWidth="79.0" />
+                                          <Label prefHeight="15.0" prefWidth="195.0" text="\% Tiempo Lib Caseta" />
+                                          <TextField fx:id="tf_porcOcupCaseta" editable="false" prefHeight="25.0" prefWidth="87.0" />
+                                          <Label prefHeight="15.0" prefWidth="192.0" text="\% Tiempo Lib Nave" />
+                                          <TextField fx:id="tf_porcOcupNave" editable="false" prefHeight="25.0" prefWidth="87.0" />
+                                          <Label prefHeight="15.0" prefWidth="192.0" text="\% Tiempo Lib Oficina" />
+                                          <TextField fx:id="tf_porcOcupOficina" editable="false" prefHeight="25.0" prefWidth="87.0" />
+                                          <Label prefHeight="15.0" prefWidth="213.0" text="Tiempo Medio Cola Caseta:" />
+                                          <TextField fx:id="tf_tiempoMedioColaCaseta" editable="false" prefHeight="25.0" prefWidth="87.0" />
+                                          <Label layoutX="10.0" layoutY="71.0" prefHeight="15.0" prefWidth="213.0" text="Tiempo Medio Cola Nave:" />
+                                          <TextField fx:id="tf_tiempoMedioColaNave" editable="false" layoutX="228.0" layoutY="66.0" prefHeight="25.0" prefWidth="87.0" />
+                                          <Label layoutX="320.0" layoutY="71.0" prefHeight="15.0" prefWidth="213.0" text="Porcentaje At. Finalizada:" />
+                                          <TextField fx:id="tf_porcentajeAtFinalizada" editable="false" layoutX="538.0" layoutY="66.0" prefHeight="25.0" prefWidth="87.0" />
+                                          <Label layoutX="10.0" layoutY="99.0" prefHeight="15.0" prefWidth="213.0" text="Porcentaje No Atendidos:" />
+                                          <TextField fx:id="tf_porcentajeNoAtendidos" editable="false" layoutX="228.0" layoutY="94.0" prefHeight="25.0" prefWidth="87.0" />
+                                          <Label layoutX="320.0" layoutY="99.0" prefHeight="15.0" prefWidth="213.0" text="Longitud Media Cola Nave:" />
+                                          <TextField fx:id="tf_longitudMediaColaNave" editable="false" layoutX="538.0" layoutY="94.0" prefHeight="25.0" prefWidth="87.0" />
+                                       </children>
+                                    </FlowPane>
+                                 </content>
+                              </ScrollPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</AnchorPane>

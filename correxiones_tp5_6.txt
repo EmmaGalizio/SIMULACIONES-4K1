@@ -1,0 +1,35 @@
+Es necesario corregir el acumulador de tiempo libre de los empleados,
+parecía que funcionaba bien pero acumula de más.
+
+Por favor cambien el párrafo que cita la ecuación del bloqueo de llegadas de 
+clientes, por lo siguiente:
+
+- Que la duración del bloqueo cuando llegan los clientes al sistema se describe 
+mediante la ecuación diferencial:  - (  (L / 0.8) * t2 ) - L
+Donde L(0)= reloj de la simulación; y t=1≡5 minutos, horas, días, semanas.
+¿Y cuánto tiempo dura el bloqueo de ingreso de los clientes?, dura hasta que 
+la diferencia entre  L y L-1 sea menor a 1 (valor absoluto), en ése instante (L) puedo 
+determinar el tiempo que duró el bloqueo del ingreso.
+
+
+============================================================================
+Para calcular el porcentaje de tiempo libre de cada tipo de servidor directamente
+lo acumulo en cada evento, entonces creo un método en VectorEstadoItv acumularTiempoLibreServidores(),
+que reciba como parametro al vector de estado anterior, entonces toma cada acumulador (que ya va a estar seteado a causa del clone()),
+y si en el estado anterior alguno de los servidores de ese tipo estaba libre, entonces le suma la diferencia de tiempo entre el evento anterior
+y el actual.
+
+for(EmpleadoCaseta empleado : estadoAnterior.getEmpleadosCaseta){
+	if(empleado.estaLibre()){
+		empleadoCasetaLibre = true;
+	}
+
+}
+
+if(empleadoCasetaLibre){
+
+	acumuladorTiempoLibreCaseta += this.momentoEvento - estadoAnterior.getMomentoEvento();
+}
+
+Y así para todos los tipos de servidores 
+

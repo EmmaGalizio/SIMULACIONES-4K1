@@ -1,0 +1,216 @@
+package p.grupo.k1.simulacionestp6.fxController;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
+import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
+import p.grupo.k1.simulacionestp6.controller.ControladorTp6Bloqueos;
+import p.grupo.k1.simulacionestp6.controller.utils.ConstantesGenerador;
+import p.grupo.k1.simulacionestp6.controller.utils.EstadoItvSimulacion;
+import p.grupo.k1.simulacionestp6.modelo.ParametrosGenerador;
+import p.grupo.k1.simulacionestp6.modelo.colas.ParametrosItv;
+import p.grupo.k1.simulacionestp6.modelo.colas.VectorEstadoITV;
+
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
+
+
+@Component
+@Lazy
+public class MainFxController implements Initializable{
+
+    @Value("classpath:/fxml/resultadoSimItv.fxml")
+    private Resource modalResultadoActual;
+    @Value("classpath:/fxml/resultadoSimItvDosCasetas.fxml")
+    private Resource modalResultadoDosCasetas;
+    @Value("classpath:/fxml/resultadoSimItvTresOficinas.fxml")
+    private Resource modalResultadoTresOficinas;
+
+    @Autowired
+    private ControladorTp6Bloqueos controladorTp6Bloqueos;
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    @FXML
+    private TextField tf_mostrarFilaDesde;
+
+    @FXML
+    private TextField tf_tasaAtCaseta;
+    @FXML
+    private Button btn_simularItv;
+    @FXML
+    private TextField tf_tasaAtOficina;
+    @FXML
+    private TextField tf_mediaIngresos;
+    @FXML
+    private TextField tf_tasaAtNave;
+    @FXML
+    private TextField tf_tiempoSimulacion;
+    @FXML
+    private TextField tf_cantFilasMostrar;
+    @FXML
+    private ComboBox<EstadoItvSimulacion> cb_seleccionEstadoSim;
+
+    private EstadoItvSimulacion estadoItvSeleccionado;
+    private Resource modalResultadoSeleccionado;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        /*UnaryOperator<TextFormatter.Change> floatFilter = t -> {
+            String newText = t.getControlNewText();
+            if (newText.matches("-?([1-9][0-9]*)?")) {
+                return t;
+            }
+            return null;
+        };*/
+        UnaryOperator<TextFormatter.Change> floatFilter = t -> {
+            if (t.isReplaced())
+                if(t.getText().matches("[^0-9]"))
+                    t.setText(t.getControlText().substring(t.getRangeStart(), t.getRangeEnd()));
+
+            if (t.isAdded()) {
+                if (t.getControlText().contains(".")) {
+                    if (t.getText().matches("[^0-9]")) {
+                        t.setText("");
+                    }
+                } else if (t.getText().matches("[^0-9.]")) {
+                    t.setText("");
+                }
+            }
+            return t;
+        };
+        setTfTextFormatter(tf_mediaIngresos,floatFilter);
+        setTfTextFormatter(tf_tasaAtCaseta,floatFilter);
+        setTfTextFormatter(tf_tasaAtNave,floatFilter);
+        setTfTextFormatter(tf_tasaAtOficina,floatFilter);
+        setTfTextFormatter(tf_tiempoSimulacion,floatFilter);
+        setTfTextFormatter(tf_cantFilasMostrar,floatFilter);
+        setTfTextFormatter(tf_mostrarFilaDesde,floatFilter);
+
+        cb_seleccionEstadoSim.getItems().addAll(EstadoItvSimulacion.getInstanciaActual()
+                ,EstadoItvSimulacion.getInstanciaDosCasetas()
+                ,EstadoItvSimulacion.getInstanciaTresOficinas());
+        cb_seleccionEstadoSim.getSelectionModel().select(0);
+        estadoItvSeleccionado = cb_seleccionEstadoSim.getSelectionModel().getSelectedItem();
+        modalResultadoSeleccionado = modalResultadoActual;
+    }
+
+    private void setTfTextFormatter(TextField textField, UnaryOperator<TextFormatter.Change> floatFilter){
+        textField.setTextFormatter(new TextFormatter<Float>(floatFilter));
+
+    }
+
+
+    @FXML
+    void generarSimulacionItv(ActionEvent event) {
+
+        ParametrosItv parametrosItv = new ParametrosItv();
+        obtenerParametrosItv(parametrosItv);
+        ParametrosGenerador parametrosGenerador = new ParametrosGenerador();
+        parametrosGenerador.setMetodoGeneradorRandom(ConstantesGenerador.LENGUAJE);
+        parametrosGenerador.setPresicion(4);
+        parametrosGenerador.setN(1);
+
+        List<VectorEstadoITV> simulacion = controladorTp6Bloqueos
+                                               .generarSimulacion(parametrosItv,parametrosGenerador);
+
+        Stage modalStage = new Stage();
+        IResultadoSImulacion modalResultadoSimulacion = setModalScene(modalStage);
+        modalResultadoSimulacion.mostrarResultadosSimulacion(simulacion);
+        modalStage.showAndWait();
+    }
+    @SneakyThrows
+    private IResultadoSImulacion setModalScene(Stage modalStage ){
+
+        FXMLLoader fxmlLoader = new FXMLLoader(modalResultadoSeleccionado.getURL());
+        fxmlLoader.setControllerFactory(applicationContext::getBean);
+        Parent parent = fxmlLoader.load();
+        IResultadoSImulacion resultadoSImulacion = (IResultadoSImulacion) fxmlLoader.getController();
+        modalStage.setScene(new Scene(parent,600,400));
+        modalStage.centerOnScreen();
+        modalStage.setMaximized(true);
+        return resultadoSImulacion;
+
+    }
+
+    private void obtenerParametrosItv(ParametrosItv parametrosItv){
+
+        try{
+            float lambdaExpLlegadas = Float.parseFloat(tf_mediaIngresos.getText().trim());
+            //Media de clientes por minuto. Al invertirse de nuevo en el generador pasa a ser
+            //Media de tiempo por cliente
+            lambdaExpLlegadas = lambdaExpLlegadas/60;
+            float lambdaExpAtCaseta = Float.parseFloat(tf_tasaAtCaseta.getText().trim());
+            lambdaExpAtCaseta = 1/lambdaExpAtCaseta; //Tiene que ser así porque en el generador se usa lambda
+            //se invierte de nuevo
+
+            float lambdaExpAtNave =Float.parseFloat(tf_tasaAtNave.getText().trim());
+            //Igual que las llegadas
+            lambdaExpAtNave /=60;
+
+            float lambdaExpAtOficina = Float.parseFloat(tf_tasaAtOficina.getText().trim());
+            lambdaExpAtOficina = 1/lambdaExpAtOficina;
+            parametrosItv.setLambdaExpLlegadasClientes(lambdaExpLlegadas);
+            parametrosItv.setLambdaExpServCaseta(lambdaExpAtCaseta);
+            parametrosItv.setLambdaExpServicioNave(lambdaExpAtNave);
+            parametrosItv.setLambdaExpServicioOficina(lambdaExpAtOficina);
+
+            parametrosItv.setMaxMinutosSimular(Float.parseFloat(tf_tiempoSimulacion.getText().trim()));
+            parametrosItv.setCantFilasMostrar(Integer.parseInt(tf_cantFilasMostrar.getText().trim()));
+            parametrosItv.setMostrarFilaDesde(Integer.parseInt(tf_mostrarFilaDesde.getText().trim()));
+            parametrosItv.setCantEmpOficina(estadoItvSeleccionado.getCantOficinas());
+            parametrosItv.setCantEmpNave(estadoItvSeleccionado.getCantCircuitosNave());
+            parametrosItv.setCantEmpCaseta(estadoItvSeleccionado.getCantCaseta());
+            parametrosItv.validar();
+
+        }catch(NumberFormatException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Datos incorrectos");
+            alert.setContentText("Algunos de los datos ingresados no poseen el formato correcto");
+            alert.showAndWait();
+
+        }catch (IllegalArgumentException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Datos incorrectos");
+            alert.setHeaderText("Algunos de los valores ingresados son incorrectos");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    public void seleccionarEstadoSimulacion(ActionEvent event){
+
+        //Me parece que está de más
+        estadoItvSeleccionado = cb_seleccionEstadoSim.getSelectionModel().getSelectedItem();
+        switch (estadoItvSeleccionado.getPrompt()){
+            case EstadoItvSimulacion.ACTUAL:
+                modalResultadoSeleccionado = modalResultadoActual;
+                break;
+            case EstadoItvSimulacion.DOS_CASETAS:
+                modalResultadoSeleccionado = modalResultadoDosCasetas;
+                break;
+            case EstadoItvSimulacion.TRES_OFIC:
+                modalResultadoSeleccionado = modalResultadoTresOficinas;
+                break;
+        }
+
+    }
+
+}

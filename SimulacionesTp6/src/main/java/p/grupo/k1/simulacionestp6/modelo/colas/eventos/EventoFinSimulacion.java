@@ -1,14 +1,13 @@
-package k1.grupo.p.simulacionestp5colas.modelo.colas.eventos;
+package p.grupo.k1.simulacionestp6.modelo.colas.eventos;
 
-import k1.grupo.p.simulacionestp5colas.controller.cambioDistribucion.ICambioDistribucion;
-import k1.grupo.p.simulacionestp5colas.controller.generadorRandom.IGeneradorRandom;
-import k1.grupo.p.simulacionestp5colas.modelo.ParametrosCambioDistribucion;
-import k1.grupo.p.simulacionestp5colas.modelo.ParametrosGenerador;
-import k1.grupo.p.simulacionestp5colas.modelo.Pseudoaleatorio;
-import k1.grupo.p.simulacionestp5colas.modelo.colas.ParametrosItv;
-import k1.grupo.p.simulacionestp5colas.modelo.colas.VectorEstadoITV;
-import k1.grupo.p.simulacionestp5colas.modelo.colas.servidor.Servidor;
-import k1.grupo.p.simulacionestp5colas.modelo.estructurasDatos.TSBHeap;
+import p.grupo.k1.simulacionestp6.controller.cambioDistribucion.ICambioDistribucion;
+import p.grupo.k1.simulacionestp6.controller.generadorRandom.IGeneradorRandom;
+
+import p.grupo.k1.simulacionestp6.modelo.ParametrosGenerador;
+import p.grupo.k1.simulacionestp6.modelo.Pseudoaleatorio;
+import p.grupo.k1.simulacionestp6.modelo.colas.ParametrosItv;
+import p.grupo.k1.simulacionestp6.modelo.colas.VectorEstadoITV;
+import p.grupo.k1.simulacionestp6.modelo.estructurasDatos.TSBHeap;
 
 public class EventoFinSimulacion extends Evento{
 
