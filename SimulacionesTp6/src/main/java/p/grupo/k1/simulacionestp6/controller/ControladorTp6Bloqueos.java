@@ -37,6 +37,9 @@ public class ControladorTp6Bloqueos {
         //Ya que está también podría calcular las estadísticas
 
 
+        //FALTA CAMBIAR LA FORMA EN QUE SE CALCULAN LOS ACUMULADORES DE TIEMPO LIBRE
+
+
         if(parametrosItv == null) throw new IllegalArgumentException("Debe indicar los parametros de la simulacion");
         parametrosItv.validar();
         if(parametrosGenerador == null){
