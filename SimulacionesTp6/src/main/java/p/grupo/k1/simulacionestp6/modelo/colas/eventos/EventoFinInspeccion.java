@@ -15,6 +15,8 @@ import p.grupo.k1.simulacionestp6.modelo.colas.servidor.Servidor;
 import p.grupo.k1.simulacionestp6.modelo.estructurasDatos.TSBHeap;
 import lombok.Data;
 
+import java.util.Objects;
+
 @Data
 public class EventoFinInspeccion extends Evento{
 
@@ -37,6 +39,7 @@ public class EventoFinInspeccion extends Evento{
         vectorEstadoActual.setReloj(this.momentoEvento);
         vectorEstadoActual.setNombreEvento(this.nombreEvento);
         vectorEstadoActual.incrementarContadorAtendidosNave();
+        vectorEstadoActual.validarEliminacionLlegadaAtaque(estadoAnterior);
         Servidor inspectorAnterior = cliente.getServidorActual();
 
         Cliente clienteActual = vectorEstadoActual.buscarClientePorId(cliente.getNumeroCliente());
@@ -72,7 +75,7 @@ public class EventoFinInspeccion extends Evento{
             randomCUBase = tiempoAtencionOficina.getSiguienteRandomBase();
             heapEventos.add(eventoFinAtencion);
             vectorEstadoActual.actualizarEventoFinAtencion(eventoFinAtencion, empleadoOficinaLibre);
-            vectorEstadoActual.acumularTiempoLibreEmpleadosOficina(empleadoOficinaLibre);
+            //vectorEstadoActual.acumularTiempoLibreEmpleadosOficina(empleadoOficinaLibre);
             //Hasta acá el cliente sale de la inspección y pasa directo para la oficina a que lo atiendanm se crea el
             //evento de fin de atención y se actualiza el heap de eventos y el evento correspondiente al empleado
             //que empezó a atender dentro del vector de estado
@@ -90,7 +93,7 @@ public class EventoFinInspeccion extends Evento{
             inspector.setClienteActual(null);
             vectorEstadoActual.actualizarEventoFinAtencionNave(null,inspector);
             vectorEstadoActual.getFinInspeccion()[inspector.getId()-1]=null;
-            vectorEstadoActual.setMomentoUltimaLiberacionNave(this.momentoEvento);
+            //vectorEstadoActual.setMomentoUltimaLiberacionNave(this.momentoEvento);
         } else{
             //Hay clientes esperando para ser atendidos por el inspector
             siguienteClienteInspeccion = vectorEstadoActual.buscarClientePorId(siguienteClienteInspeccion.getNumeroCliente());
@@ -110,7 +113,7 @@ public class EventoFinInspeccion extends Evento{
             eventoFinInspeccion.setTiempoFinInspeccion(tiempoFinInspeccion.getRandomGenerado());
             eventoFinInspeccion.setMomentoEvento(this.momentoEvento+eventoFinInspeccion.getTiempoFinInspeccion());
             eventoFinInspeccion.setCliente(siguienteClienteInspeccion);
-            heapEventos.add(eventoFinInspeccion);
+            heapEventos.add((EventoFinInspeccion)eventoFinInspeccion.clone());
 
             vectorEstadoActual.actualizarEventoFinAtencionNave(eventoFinInspeccion,inspector);
             vectorEstadoActual.acumularTiempoColaNave(siguienteClienteInspeccion);
@@ -120,6 +123,7 @@ public class EventoFinInspeccion extends Evento{
         }
 
         vectorEstadoActual.setSiguientePseudoCU(randomCUBase);
+        vectorEstadoActual.acumularTiempoLibreServidores(estadoAnterior);
 
         return vectorEstadoActual;
     }
@@ -132,11 +136,26 @@ public class EventoFinInspeccion extends Evento{
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
+    public Object clone(){
         EventoFinInspeccion evento = new EventoFinInspeccion();
         evento.setMomentoEvento(super.getMomentoEvento());
         evento.setRandomFinInspeccion((Pseudoaleatorio) randomFinInspeccion.clone());
         evento.setTiempoFinInspeccion(tiempoFinInspeccion);
+        evento.setCliente(cliente);
         return evento;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        EventoFinInspeccion that = (EventoFinInspeccion) o;
+        return Float.compare(that.getTiempoFinInspeccion(), getTiempoFinInspeccion()) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getTiempoFinInspeccion());
     }
 }

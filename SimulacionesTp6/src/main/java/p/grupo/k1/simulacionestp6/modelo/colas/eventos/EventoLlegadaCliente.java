@@ -38,6 +38,7 @@ public class EventoLlegadaCliente extends Evento{
         vectorEstadoActual.setNombreEvento(this.nombreEvento);
         vectorEstadoActual.setReloj(momentoEvento);
         vectorEstadoActual.incremetarLlegadaVehiculos();
+        vectorEstadoActual.validarEliminacionLlegadaAtaque(estadoAnterior);
 
         ParametrosCambioDistribucion parametrosCambioDistribucion = new ParametrosCambioDistribucion();
         parametrosCambioDistribucion.setLambda(parametrosItv.getLambdaExpLlegadasClientes());
@@ -99,11 +100,12 @@ public class EventoLlegadaCliente extends Evento{
             //atendiendo al cliente. Es decir, si el empleado tiene un id = i, se actualiza el elemento i-1 del vector de eventos
             //este vector de eventos es el que se va a mostrar.
             vectorEstadoActual.actualizarEventoFinAtencionCaseta(eventoFinAtencionCaseta,empleadoCasetaAtendiendo);
-            vectorEstadoActual.acumularTiempoLibreEmpleadosCaseta(empleadoCasetaAtendiendo);
+            //vectorEstadoActual.acumularTiempoLibreEmpleadosCaseta(empleadoCasetaAtendiendo);
             heapEventos.add(eventoFinAtencionCaseta);
         }
         cliente.setNumeroCliente(vectorEstadoActual.getContadorVehiculos());
         vectorEstadoActual.setSiguientePseudoCU(randomCUBase);
+        vectorEstadoActual.acumularTiempoLibreServidores(estadoAnterior);
         return vectorEstadoActual;
     }
 

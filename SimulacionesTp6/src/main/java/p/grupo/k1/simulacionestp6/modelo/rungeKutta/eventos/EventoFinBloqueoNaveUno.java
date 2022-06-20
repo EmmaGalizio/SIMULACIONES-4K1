@@ -56,7 +56,7 @@ public class EventoFinBloqueoNaveUno extends Evento {
                 //Se debe hacer un método en VectorEstadoItv que acumule los tiempos libres en cada
                 //Evento, revisando si en el estado anterior alguno de los empleados de cada tipo estaba libre
                 empleadoAtacado.setMomentoLiberacion(this.momentoEvento);
-                estadoActual.setMomentoUltimaLiberacionNave(this.momentoEvento);
+                //estadoActual.setMomentoUltimaLiberacionNave(this.momentoEvento);
                 empleadoAtacado.setClienteActual(null);
             }else{
                 Cliente cliente = estadoActual.getsiguienteClienteColaNave();
@@ -86,22 +86,24 @@ public class EventoFinBloqueoNaveUno extends Evento {
             }
         }
         //Es necesario calcular cuando será el próximo ataque
+        EventoLlegadaAtaque siguienteAtaque = new EventoLlegadaAtaque();
         List<ResultadoRungeKutta> ecDifSiguienteAtaque = new LinkedList<>();
-        randomCUBase = EventoLlegadaAtaque.calcularLlegadaSiguienteAtaque(randomCUBase,generadorRandom,
+        randomCUBase = siguienteAtaque.calcularTiempoLlegadaSiguienteAtaque(randomCUBase,generadorRandom,
                 parametrosGenerador, ecDifSiguienteAtaque);
-
         ResultadoRungeKutta resultadoRungeKutta = ecDifSiguienteAtaque
                 .get(ecDifSiguienteAtaque.size()-1);
 
-        float tiempoHastaLlegada = resultadoRungeKutta.getXm() * 9;
-        EventoLlegadaAtaque siguienteAtaque = new EventoLlegadaAtaque(tiempoHastaLlegada + this.momentoEvento);
-        siguienteAtaque.setTiempoHastaLlegada(tiempoHastaLlegada);
+        float tiempoHastaLlegada = siguienteAtaque.getTiempoHastaLlegada();
+        siguienteAtaque.setMomentoEvento((tiempoHastaLlegada + this.momentoEvento));
+        //siguienteAtaque.setTiempoHastaLlegada((float)tiempoHastaLlegada);
+        siguienteAtaque.setRandomMomentoAtaque(randomCUBase.getRandom());
         heapEventos.add(siguienteAtaque);
 
         estadoActual.setFinBloqueoLlegada(null);
         estadoActual.setLlegadaAtaque(siguienteAtaque);
 
         estadoActual.setSiguientePseudoCU(randomCUBase);
+        estadoActual.acumularTiempoLibreServidores(estadoAnterior);
         return estadoActual;
     }
 
@@ -110,6 +112,7 @@ public class EventoFinBloqueoNaveUno extends Evento {
         EventoFinBloqueoNaveUno nuevoEvento = new EventoFinBloqueoNaveUno();
         nuevoEvento.setNombreEvento(this.getNombreEvento());
         nuevoEvento.setMomentoEvento(this.getMomentoEvento());
+        nuevoEvento.setDuracionBloqueo(this.getDuracionBloqueo());
         return nuevoEvento;
     }
 
@@ -123,12 +126,12 @@ public class EventoFinBloqueoNaveUno extends Evento {
      * Runge Kutta de cuarto orden.
      */
     public List<ResultadoRungeKutta> calcularFinEvento(float presicion) {
-        float Sm;
-        float h = 0.01f;
-        float t = 0;
-        float k1,k2,k3,k4;
-        float Smp1 = this.t0;
-        float puntoCorte = this.t0 * 1.35f;
+        double Sm;
+        double h = 0.01f;
+        double t = 0;
+        double k1,k2,k3,k4;
+        double Smp1 = this.t0;
+        double puntoCorte = this.t0 * 1.35f;
 
         //DS/dt = (0.2f * S) + 3 - t
         List<ResultadoRungeKutta> ecDiferencial = new LinkedList<>();
@@ -167,16 +170,17 @@ public class EventoFinBloqueoNaveUno extends Evento {
 
         t = ecDiferencial.get(ecDiferencial.size()-1).getXm();
 
-        this.duracionBloqueo = t*2;
-        this.duracionBloqueo = truncar(this.duracionBloqueo, presicion);
-        this.momentoEvento = this.t0 + (t*2);
-        this.momentoEvento = truncar(this.momentoEvento, presicion);
+        this.duracionBloqueo = (float)t*2;
+        this.duracionBloqueo = (float)truncar(this.duracionBloqueo, presicion);
+        this.momentoEvento = (float)(this.t0 + (t*2));
+        this.momentoEvento = (float)truncar(this.momentoEvento, presicion);
         return  ecDiferencial;
     }
 
-    private float truncar(float f, float presicion){
-        int multiplicador = (int)Math.pow(10, presicion);
+    private double truncar(double f, float presicion){
+        double multiplicador = Math.pow(10, presicion);
         int aux = (int)(f * multiplicador);
-        return (float)aux / multiplicador;
+        //return (double)aux / multiplicador;
+        return Math.round(f*multiplicador)/multiplicador;
     }
 }

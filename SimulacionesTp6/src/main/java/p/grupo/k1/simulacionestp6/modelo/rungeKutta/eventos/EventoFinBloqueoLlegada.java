@@ -15,6 +15,7 @@ import java.util.List;
 
 public class EventoFinBloqueoLlegada extends Evento {
     private float t0;
+    private float duracionBloqueo;
 
     public EventoFinBloqueoLlegada(){
         this.nombreEvento = "Fin Bloqueo Llegadas";
@@ -32,22 +33,23 @@ public class EventoFinBloqueoLlegada extends Evento {
         VectorEstadoITV estadoActual = (VectorEstadoITV) estadoAnterior.clone();
         estadoActual.setReloj(this.momentoEvento);
         estadoActual.setNombreEvento(this.nombreEvento);
+        estadoActual.setLlegadaAtaque(null);
 
         List<ResultadoRungeKutta> ecDifSiguienteAtaque = new LinkedList<>();
-        randomCUBase = EventoLlegadaAtaque.calcularLlegadaSiguienteAtaque(randomCUBase,generadorRandom,
-                                                parametrosGenerador, ecDifSiguienteAtaque);
 
-        ResultadoRungeKutta resultadoRungeKutta = ecDifSiguienteAtaque
-                                                    .get(ecDifSiguienteAtaque.size()-1);
+        EventoLlegadaAtaque siguienteAtaque = new EventoLlegadaAtaque();
+        randomCUBase = siguienteAtaque.calcularTiempoLlegadaSiguienteAtaque(randomCUBase,generadorRandom,
+                parametrosGenerador, ecDifSiguienteAtaque);
 
-        float tiempoHastaLlegada = resultadoRungeKutta.getXm() * 9;
-        EventoLlegadaAtaque siguienteAtaque = new EventoLlegadaAtaque(tiempoHastaLlegada + this.momentoEvento);
-        siguienteAtaque.setTiempoHastaLlegada(tiempoHastaLlegada);
-        heapEventos.add(siguienteAtaque);
+        float tiempoHastaLlegada = siguienteAtaque.getTiempoHastaLlegada();
+        //siguienteAtaque.setTiempoHastaLlegada((float)tiempoHastaLlegada);
+        siguienteAtaque.setMomentoEvento((tiempoHastaLlegada + this.momentoEvento));
+        siguienteAtaque.setRandomMomentoAtaque(randomCUBase.getRandom());
+        heapEventos.add((EventoLlegadaAtaque)siguienteAtaque.clone());
 
         estadoActual.setFinBloqueoLlegada(null);
         estadoActual.setLlegadaAtaque(siguienteAtaque);
-
+        estadoActual.acumularTiempoLibreServidores(estadoAnterior);
         //La llegada del proximo evento se va a calcular acá
 
 
@@ -60,6 +62,7 @@ public class EventoFinBloqueoLlegada extends Evento {
         EventoFinBloqueoLlegada nuevoEvento = new EventoFinBloqueoLlegada();
         nuevoEvento.setNombreEvento(this.getNombreEvento());
         nuevoEvento.setMomentoEvento(this.getMomentoEvento());
+        nuevoEvento.setDuracionBloqueo(this.getDuracionBloqueo());
         return nuevoEvento;
     }
 
@@ -71,6 +74,13 @@ public class EventoFinBloqueoLlegada extends Evento {
         this.t0 = t0;
     }
 
+    public float getDuracionBloqueo() {
+        return duracionBloqueo;
+    }
+
+    public void setDuracionBloqueo(float duracionBloqueo) {
+        this.duracionBloqueo = duracionBloqueo;
+    }
 
     /***
      * Permite que cada vez que se dispare un evento del tipo EventoLlegadaAtaque, se calcule si el ataque
@@ -82,11 +92,16 @@ public class EventoFinBloqueoLlegada extends Evento {
      */
     public List<ResultadoRungeKutta> calcularFinEvento(float presicion) {
 
-        float Lm;
-        float h = 0.01f;
-        float t = 0;
-        float k1,k2,k3,k4;
-        float Lmp1 = this.t0;
+
+        //NO ANDA ESTA ECUACION PORONGA!!!!!!!!!!!!
+
+        double Lm;
+        double h = 0.01;
+        h = truncar(h,2);
+        double t = 0;
+        double k1,k2,k3,k4;
+        double Lmp1 = this.t0;
+        Lmp1 = truncar(Lmp1, presicion);
 
         //DL/dt = -(L/(0.8f*t²))-L
         List<ResultadoRungeKutta> ecDiferencial = new LinkedList<>();
@@ -94,25 +109,25 @@ public class EventoFinBloqueoLlegada extends Evento {
 
         do{
             Lm = Lmp1;
-
+            Lm = truncar(Lm, presicion);
             resultadoRungeKutta = new ResultadoRungeKutta();
             resultadoRungeKutta.setXm(t);
             resultadoRungeKutta.setYm(Lm);
 
-            float tsq = t*t;
+            double tsq = t*t;
             tsq = truncar(tsq,presicion); //t square
-            k1 = -(Lm/(0.8f*tsq)) - Lm;
+            k1 = -((Lm/0.8)*tsq) - Lm;
             k1 = truncar(k1, presicion);
             resultadoRungeKutta.setK1(k1);
             tsq = (t+(h/2))* (t+(h/2));
             tsq = truncar(tsq,presicion);
-            k2 = -((Lm+ (0.5f*h*k1))/(0.8f*tsq)) - (Lm+ (0.5f*h*k1));
+            k2 = -(((Lm+ (0.5*h*k1))/0.8)*tsq) - (Lm+ (0.5*h*k1));
             k2 = truncar(k2,presicion);
-            k3 = -((Lm+ (0.5f*h*k2))/(0.8f*tsq)) - (Lm+ (0.5f*h*k2));
+            k3 = -(((Lm+ (0.5*h*k2))/0.8)*tsq) - (Lm+ (0.5*h*k2));
             k3 = truncar(k3,presicion);
             tsq = (t+(h))* (t+(h));
             tsq = truncar(tsq,presicion);
-            k4 = -((Lm+ (h*k3))/(0.8f*tsq)) - (Lm+ (h*k3));
+            k4 = -(((Lm+ (h*k3))/0.8)*tsq) - (Lm+ (h*k3));
             k4 = truncar(k4, presicion);
             resultadoRungeKutta.setK2(k2);
             resultadoRungeKutta.setK3(k3);
@@ -127,14 +142,16 @@ public class EventoFinBloqueoLlegada extends Evento {
         }while(Math.abs(Lm - Lmp1) >= 1);
 
         t = ecDiferencial.get(ecDiferencial.size()-1).getXm();
-        this.momentoEvento = this.t0 + (t*5);
-        this.momentoEvento = truncar(this.momentoEvento, presicion);
+        this.duracionBloqueo = (float)t*5;
+        this.momentoEvento = (float)(this.t0 + (t*5));
+        this.momentoEvento = (float)truncar(this.momentoEvento, presicion);
 
         return  ecDiferencial;
     }
-    private float truncar(float f, float presicion){
-        int multiplicador = (int)Math.pow(10, presicion);
+    private double truncar(double f, float presicion){
+        double multiplicador = Math.pow(10, presicion);
         int aux = (int)(f * multiplicador);
-        return (float)aux / multiplicador;
+        //return (double)aux / multiplicador;
+        return Math.round(f*multiplicador)/multiplicador;
     }
 }

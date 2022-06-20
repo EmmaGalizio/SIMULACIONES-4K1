@@ -40,6 +40,7 @@ public class EventoFinAtencionCaseta extends Evento{
         vectorEstadoActual.setReloj(this.getMomentoEvento());
         vectorEstadoActual.setNombreEvento(this.nombreEvento);
         vectorEstadoActual.incrementarContadorAtendidosCaseta();
+        vectorEstadoActual.validarEliminacionLlegadaAtaque(estadoAnterior);
         //Cliente es un atributo de la superclase evento
         Servidor empleadoCasetaAnterior = cliente.getServidorActual();
         //El objeto cliente que está en este objeto Evento no es el mismo que el que está en la lista de clientes del vector
@@ -81,7 +82,7 @@ public class EventoFinAtencionCaseta extends Evento{
             eventoFinInspeccion.setCliente(clienteActual);
             randomCUBase = tiempoAtencionNave.getSiguienteRandomBase();
             //Se creó el evento de fin de inspección, ahora se agrega al heap
-            heapEventos.add(eventoFinInspeccion);
+            heapEventos.add((EventoFinInspeccion)eventoFinInspeccion.clone());
             //Es necesario actualizar el evento de fin de inspección en el vector de estado para poder mostrarlo
             //Los arrays con los eventos del vector de estado se clonan cada vez que se clona el vector
             //De esta forma puede variar lo que se muestra en las filas
@@ -96,7 +97,7 @@ public class EventoFinAtencionCaseta extends Evento{
             //En cambio, si ocurre el evento de fin de inspección pero no hay empleados en la cola de la nave, entonces el empleado
             //de la nave pasa a estar libre y el único momento en que va a empezar a atender a un cliente es en este evento,
             //en el momento en que salga de la caseta.
-            vectorEstadoActual.acumularTiempoLibreEmpleadosNave(empleadoNaveLibre);
+            //vectorEstadoActual.acumularTiempoLibreEmpleadosNave(empleadoNaveLibre);
         }
         //Actualizar acumuladores
         vectorEstadoActual.acumularTiempoTotalCaseta(clienteActual);
@@ -114,7 +115,7 @@ public class EventoFinAtencionCaseta extends Evento{
             empleadoCaseta.setMomentoLiberacion(vectorEstadoActual.getReloj());
             vectorEstadoActual.actualizarEventoFinAtencionCaseta(null, empleadoCaseta);
             vectorEstadoActual.getFinAtencionCaseta()[empleadoCaseta.getId()-1]=null;
-            vectorEstadoActual.setMomentoUltimaLiberacionCaseta(this.momentoEvento);
+            //vectorEstadoActual.setMomentoUltimaLiberacionCaseta(this.momentoEvento);
         }else {
             //La cola no está vacía, se recuperó la referencia que tenía la cola al cliente, pero no es el mismo cliente
             //que está en la lista de clientes del vector (porque están clonados) por lo que es encesario recuperarlo del vector
@@ -148,6 +149,7 @@ public class EventoFinAtencionCaseta extends Evento{
             //libre de la caseta
         }
         vectorEstadoActual.setSiguientePseudoCU(randomCUBase);
+        vectorEstadoActual.acumularTiempoLibreServidores(estadoAnterior);
 
         return vectorEstadoActual;
     }

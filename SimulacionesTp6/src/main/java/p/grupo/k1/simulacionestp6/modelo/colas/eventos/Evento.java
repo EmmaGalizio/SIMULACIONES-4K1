@@ -9,6 +9,8 @@ import p.grupo.k1.simulacionestp6.modelo.colas.ParametrosItv;
 import p.grupo.k1.simulacionestp6.modelo.colas.VectorEstadoITV;
 import p.grupo.k1.simulacionestp6.modelo.estructurasDatos.TSBHeap;
 
+import java.util.Objects;
+
 public abstract class Evento implements Comparable<Evento>{
 
     //Representa el momento en el que se va a producir el evento
@@ -59,5 +61,19 @@ public abstract class Evento implements Comparable<Evento>{
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Evento evento = (Evento) o;
+        return Float.compare(evento.getMomentoEvento(), getMomentoEvento()) == 0 && getNombreEvento().equals(evento.getNombreEvento());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getMomentoEvento(), getNombreEvento());
     }
 }

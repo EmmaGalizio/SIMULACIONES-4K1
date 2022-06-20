@@ -290,6 +290,25 @@ public class TSBHeap <E extends Comparable>
           return false;
       }
 
+    /****
+     * Este método está destinado a ser utilizado únicamente en el contexto del TP6 de
+     * simulaciones, para poder modificar la copia del evento que se almacena dentro del heap.
+     * Una vez que se recupere y se modifique el elemento, va a ser necesario reorganizar
+     * el heap. La forma más sencilla de hacerlo el eliminando el primer elemento del heap
+     * e insertándolo de nuevo.
+     * @param element: El elemento del cual necesito obtener la copia almacenada en el heap
+     * @return
+     */
+    public E getElementCopy(E element){
+        if(element == null) return null;
+          for(Slot<E> el : heap){
+              if(el.data.equals(element)){
+                  return el.data;
+              }
+          }
+          return null;
+      }
+
       private class Slot <E extends Comparable>
       {
            private E data;

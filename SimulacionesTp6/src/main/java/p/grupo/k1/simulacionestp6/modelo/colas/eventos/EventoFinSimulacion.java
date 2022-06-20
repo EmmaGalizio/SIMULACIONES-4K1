@@ -26,19 +26,20 @@ public class EventoFinSimulacion extends Evento{
         VectorEstadoITV vectorEstadoActual = (VectorEstadoITV) estadoAnterior.clone();
         vectorEstadoActual.setReloj(this.momentoEvento);
         vectorEstadoActual.setNombreEvento(this.nombreEvento);
-        this.actualizarAcumuladorTiempoLibre(vectorEstadoActual);
+        //this.actualizarAcumuladorTiempoLibre(vectorEstadoActual);
+        vectorEstadoActual.acumularTiempoLibreServidores(estadoAnterior);
         //Faltaría ver si algún otro acumulador se tiene que actualizar, mepa que no
 
         return vectorEstadoActual;
     }
+
+    /*
     private void actualizarAcumuladorTiempoLibre(VectorEstadoITV vectorEstadoITV){
 
         vectorEstadoITV.acumularTiempoLibreEmpleadosCaseta(null);
         vectorEstadoITV.acumularTiempoLibreEmpleadosNave(null);
         vectorEstadoITV.acumularTiempoLibreEmpleadosOficina(null);
-    }
-    //Cambio en un evento
-    //Otro cambio en evento
+    }*/
 
     @Override
     public Object clone() {

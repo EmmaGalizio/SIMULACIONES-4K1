@@ -73,7 +73,7 @@ public class Pseudoaleatorio {
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
+    public Object clone(){
         Pseudoaleatorio pseudoaleatorio = new Pseudoaleatorio();
         pseudoaleatorio.setAxi(axi);
         pseudoaleatorio.setRandom(random);

@@ -11,14 +11,14 @@ import lombok.Data;
 @Data
 public class ResultadoRungeKutta {
 
-    private float xm;
-    private float ym;
-    private float xmp1;
-    private float k1;
-    private float k2;
-    private float k3;
-    private float k4;
-    private float ymp1;
+    private double xm;
+    private double ym;
+    private double xmp1;
+    private double k1;
+    private double k2;
+    private double k3;
+    private double k4;
+    private double ymp1;
 
 
 }

@@ -24,6 +24,7 @@ import p.grupo.k1.simulacionestp6.controller.utils.EstadoItvSimulacion;
 import p.grupo.k1.simulacionestp6.modelo.ParametrosGenerador;
 import p.grupo.k1.simulacionestp6.modelo.colas.ParametrosItv;
 import p.grupo.k1.simulacionestp6.modelo.colas.VectorEstadoITV;
+import p.grupo.k1.simulacionestp6.modelo.rungeKutta.ResultadoSimulacion;
 
 import java.net.URL;
 import java.util.List;
@@ -127,12 +128,12 @@ public class MainFxController implements Initializable{
         parametrosGenerador.setPresicion(4);
         parametrosGenerador.setN(1);
 
-        List<VectorEstadoITV> simulacion = controladorTp6Bloqueos
+        ResultadoSimulacion resultadoSimulacion = controladorTp6Bloqueos
                                                .generarSimulacion(parametrosItv,parametrosGenerador);
 
         Stage modalStage = new Stage();
         IResultadoSImulacion modalResultadoSimulacion = setModalScene(modalStage);
-        modalResultadoSimulacion.mostrarResultadosSimulacion(simulacion);
+        modalResultadoSimulacion.mostrarResultadosSimulacion(resultadoSimulacion);
         modalStage.showAndWait();
     }
     @SneakyThrows

@@ -28,7 +28,7 @@ public class ControladorTp6Bloqueos {
     @Autowired
     CambioDistribucionExponencialNeg generadorExponencialNeg;
 
-    public List<VectorEstadoITV> generarSimulacion(ParametrosItv parametrosItv,
+    public ResultadoSimulacion generarSimulacion(ParametrosItv parametrosItv,
                                                    ParametrosGenerador parametrosGenerador){
 
         //Este método no va a retornar más el vector de estado ITV, va a retornar
@@ -37,7 +37,8 @@ public class ControladorTp6Bloqueos {
         //Ya que está también podría calcular las estadísticas
 
 
-        //FALTA CAMBIAR LA FORMA EN QUE SE CALCULAN LOS ACUMULADORES DE TIEMPO LIBRE
+        //ANDA COMO EL OJETE LO DE LOS ATAQUEEEEEEEEEESSSSSSSSSS
+        //PUTA QUE LO PARIO
 
 
         if(parametrosItv == null) throw new IllegalArgumentException("Debe indicar los parametros de la simulacion");
@@ -61,24 +62,26 @@ public class ControladorTp6Bloqueos {
         ResultadoSimulacion resultadoSimulacion = new ResultadoSimulacion();
 
         List<ResultadoRungeKutta> rungeKuttaAtaqueInicial = new LinkedList<>();
-        randomCUBase = EventoLlegadaAtaque.calcularLlegadaSiguienteAtaque(randomCUBase, generadorRandom,
-                                                                            parametrosGenerador, rungeKuttaAtaqueInicial);
 
+        EventoLlegadaAtaque primerLlegadaAtaque = new EventoLlegadaAtaque();
+        randomCUBase = primerLlegadaAtaque.calcularTiempoLlegadaSiguienteAtaque(randomCUBase, generadorRandom,
+                parametrosGenerador, rungeKuttaAtaqueInicial);
+        //primerLlegadaAtaque.setRandomMomentoAtaque(randomCUBase.getRandom());
         resultadoSimulacion.setEcDiferencialLlegadaAtaque(rungeKuttaAtaqueInicial);
+        float momentoAtaqueInicial = primerLlegadaAtaque.getTiempoHastaLlegada();
+        //randomCUBase = generadorRandom.siguientePseudoAleatoreo(randomCUBase, parametrosGenerador);
+        primerLlegadaAtaque.setMomentoEvento(momentoAtaqueInicial);
 
-        float momentoAtaqueInicial = rungeKuttaAtaqueInicial.get(rungeKuttaAtaqueInicial.size()-1).getXm();
-        momentoAtaqueInicial = momentoAtaqueInicial * 9;
-        randomCUBase = generadorRandom.siguientePseudoAleatoreo(randomCUBase, parametrosGenerador);
+        //primerLlegadaAtaque.setTiempoHastaLlegada((float)momentoAtaqueInicial);
 
-        EventoLlegadaAtaque primerLlegadaAtaque = new EventoLlegadaAtaque(momentoAtaqueInicial);
-        primerLlegadaAtaque.setTiempoHastaLlegada(momentoAtaqueInicial);
+        vectorEstadoAnterior.setLlegadaAtaque(primerLlegadaAtaque);
 
         //Crea un heap ascendente (menor en la raiz)
         TSBHeap<Evento> eventosHeap = new TSBHeap<>();
         eventosHeap.add(eventoInicial);
         eventosHeap.add(eventoFinal);
 
-        eventosHeap.add(primerLlegadaAtaque);
+        eventosHeap.add((EventoLlegadaAtaque)primerLlegadaAtaque.clone());
 
         Evento eventoActual = eventosHeap.remove();
         VectorEstadoITV vectorEstadoActual;
@@ -109,17 +112,15 @@ public class ControladorTp6Bloqueos {
             eventoActual = eventosHeap.remove();
             cantEventos++;
         }
-
+        resultadoSimulacion.setSimulacionItv(simulacionItv);
         resultadoSimulacion.setEcDiferencialFinBloqueoLlegadas(simulacionItv.get(simulacionItv.size()-1)
                                                                                 .getEcDiferencialBloqueoLlegadas());
         resultadoSimulacion.setEcDiferencialFinBloqueoNaveUno(simulacionItv.get(simulacionItv.size()-1)
                                                                                 .getEcDiferencialBloqueoNave());
         resultadoSimulacion.calcularEstadisticas(simulacionItv.get(simulacionItv.size()-1));
-        //return resultadoSimulacion;
-        return simulacionItv;
+        return resultadoSimulacion;
+        //return simulacionItv;
     }
-
-
 
     private Pseudoaleatorio generarEventoInicial(IGeneradorRandom generadorRandom,
                                                  ParametrosGenerador parametrosGenerador,
@@ -147,13 +148,12 @@ public class ControladorTp6Bloqueos {
         vectorEstadoITV.setColaNave(new ArrayDeque<>());
         vectorEstadoITV.setColaCaseta(new ArrayDeque<>());
         vectorEstadoITV.setProximaLlegadaCliente(eventoInicial);
-        vectorEstadoITV.setNombreEvento(eventoInicial.getNombreEvento());
+        vectorEstadoITV.setNombreEvento("Inicializacion");
         vectorEstadoITV.setEmpleadosNave(this.generarEmpleadosNave(parametrosItv));
         vectorEstadoITV.setEmpleadosCaseta(this.generarEmpleadosCaseta(parametrosItv));
         vectorEstadoITV.setEmpleadosOficina(this.generarEmpleadosOficina(parametrosItv));
         vectorEstadoITV.setClientes(new LinkedList<>());
         this.inicializarVectoresDeEventos(vectorEstadoITV,parametrosItv);
-
 
         return vectorEstadoITV;
     }

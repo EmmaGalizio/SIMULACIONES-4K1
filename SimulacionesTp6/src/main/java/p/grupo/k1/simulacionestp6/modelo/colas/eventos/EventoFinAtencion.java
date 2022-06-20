@@ -45,6 +45,7 @@ public class EventoFinAtencion extends Evento{
         VectorEstadoITV vectorEstadoActual = (VectorEstadoITV) estadoAnterior.clone();
         vectorEstadoActual.setReloj(this.momentoEvento);
         vectorEstadoActual.setNombreEvento(this.nombreEvento);
+        vectorEstadoActual.validarEliminacionLlegadaAtaque(estadoAnterior);
         Servidor oficinistaAnterior = cliente.getServidorActual();
         Cliente clienteActual = vectorEstadoActual.buscarClientePorId(cliente.getNumeroCliente());
         Servidor oficinista = vectorEstadoActual.buscarOficinistaPorId(oficinistaAnterior.getId());
@@ -59,7 +60,7 @@ public class EventoFinAtencion extends Evento{
             oficinista.setClienteActual(null);
             vectorEstadoActual.actualizarEventoFinAtencion(null,oficinista);
             vectorEstadoActual.getFinAtencionOficina()[oficinista.getId()-1]=null;
-            vectorEstadoActual.setMomentoUltimaLiberacionOficina(this.momentoEvento);
+            //vectorEstadoActual.setMomentoUltimaLiberacionOficina(this.momentoEvento);
         } else{
             siguienteClienteCola = vectorEstadoActual.buscarClientePorId(siguienteClienteCola.getNumeroCliente());
             siguienteClienteCola.setEstado(EstadoCliente.getInstanceAtencionOficina());
@@ -94,6 +95,7 @@ public class EventoFinAtencion extends Evento{
         vectorEstadoActual.acumularTiempoEnSistema(clienteActual);
 
         vectorEstadoActual.setSiguientePseudoCU(randomCUBase);
+        vectorEstadoActual.acumularTiempoLibreServidores(estadoAnterior);
         return vectorEstadoActual;
     }
 

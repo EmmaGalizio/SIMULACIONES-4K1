@@ -10,6 +10,7 @@ import p.grupo.k1.simulacionestp6.dto.VectorEstadoDtoActual;
 import p.grupo.k1.simulacionestp6.modelo.colas.VectorEstadoITV;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import p.grupo.k1.simulacionestp6.modelo.rungeKutta.ResultadoSimulacion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,13 +55,12 @@ public class ResultadoFxController implements IResultadoSImulacion{
 
 
     @Override
-    public void mostrarResultadosSimulacion(List<VectorEstadoITV> resultadoSimulacion) {
+    public void mostrarResultadosSimulacion(ResultadoSimulacion resultadoSimulacion) {
 
         tv_SimItv.getColumns().clear();
-        List<VectorEstadoDtoActual> resultadoActual = this.mapVectorEstado(resultadoSimulacion);
+        List<VectorEstadoDtoActual> resultadoActual = this.mapVectorEstado(resultadoSimulacion.getSimulacionItv());
 
-        VectorEstadoITV vectorFinSim = resultadoSimulacion.get(resultadoSimulacion.size()-1);
-        this.calcularEstadisticas(vectorFinSim); //Falta terminar
+        this.calcularEstadisticas(resultadoSimulacion); //Falta terminar
         //Esto debe ir al último
         tv_SimItv.getItems().addAll(resultadoActual);
         tv_SimItv.refresh();
@@ -80,12 +80,10 @@ public class ResultadoFxController implements IResultadoSImulacion{
         VectorEstadoDtoActual vectorActual = new VectorEstadoDtoActual();
         //
         //revisar set de las colas
-
         vectorActual.setColaCaseta(vector.getColaCaseta().size()); // revisar
         vectorActual.setColaNave(vector.getColaNave().size()); //revisar
         vectorActual.setColaOficina(vector.getColaOficina().size()); //revisar
-        //set primitivos
-
+        // set primitivos
         vectorActual.setNombreEvento(vector.getNombreEvento());
         vectorActual.setReloj(vector.getReloj());
         vectorActual.setContadorVehiculos(vector.getContadorVehiculos());
@@ -114,13 +112,15 @@ public class ResultadoFxController implements IResultadoSImulacion{
         //set eventos
         vectorActual.setFinInspeccion1(vector.getFinInspeccion()[0]);
         vectorActual.setFinInspeccion2(vector.getFinInspeccion()[1]);
-
         vectorActual.setFinAtencionOficina1(vector.getFinAtencionOficina()[0]);
         vectorActual.setFinAtencionOficina2(vector.getFinAtencionOficina()[1]);
-
         vectorActual.setEventoLlegadaCliente(vector.getProximaLlegadaCliente()); //revisar
         vectorActual.setFinAtencionCaseta(vector.getFinAtencionCaseta()[0]); //revisar
         vectorActual.setFinSimulacion(vector.getFinSimulacion()); //revisar
+        vectorActual.setLlegadaAtaque(vector.getLlegadaAtaque());
+        vectorActual.setFinBloqueoLlegada(vector.getFinBloqueoLlegada());
+        vectorActual.setFinBloqueoNaveUno(vector.getFinBloqueoNaveUno());
+
         //set empleados
         vectorActual.setEmpleadoCaseta(vector.getEmpleadosCaseta().get(0));
         vectorActual.setInspector1(vector.getEmpleadosNave().get(0));
@@ -145,7 +145,9 @@ public class ResultadoFxController implements IResultadoSImulacion{
         //Eventos LLegada Cliente
 
         TableColumn<VectorEstadoDtoActual,String> MomentoEventoLLegadaCliente = new TableColumn<>();
-        MomentoEventoLLegadaCliente.setCellValueFactory(cellData -> cellData.getValue().getEventoLlegadaCliente()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getEventoLlegadaCliente().getMomentoEvento())));
+        MomentoEventoLLegadaCliente.setCellValueFactory(cellData -> cellData.getValue().getEventoLlegadaCliente()==null ?
+                            new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue()
+                                                                            .getEventoLlegadaCliente().getMomentoEvento())));
         MomentoEventoLLegadaCliente.setText("Momento Evento Llegada Cliente");
 
         TableColumn<VectorEstadoDtoActual,String> RNDEventoLLegadaCliente = new TableColumn<>();
@@ -225,6 +227,60 @@ public class ResultadoFxController implements IResultadoSImulacion{
         TableColumn<VectorEstadoDtoActual,String> TiempoFinAtencionOficina2 = new TableColumn<>();
         TiempoFinAtencionOficina2.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionOficina2()==null ? new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue().getFinAtencionOficina2().getTiempoAtencionOficina())));
         TiempoFinAtencionOficina2.setText("Tiempo Fin Atencion Oficina 2");
+
+        //Eventos bloqueos
+        TableColumn<VectorEstadoDtoActual,String> randomLlegadaAtaqueColumna = new TableColumn<>();
+        randomLlegadaAtaqueColumna.setCellValueFactory(cellData -> cellData.getValue().getLlegadaAtaque() ==null ?
+                new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue()
+                .getLlegadaAtaque().getRandomMomentoAtaque())));
+        randomLlegadaAtaqueColumna.setText("RND Llegada Ataque");
+
+        TableColumn<VectorEstadoDtoActual,String> tiempoLlegadaAtaqueColumna = new TableColumn<>();
+        tiempoLlegadaAtaqueColumna.setCellValueFactory(cellData -> cellData.getValue().getLlegadaAtaque() ==null ?
+                new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue()
+                .getLlegadaAtaque().getTiempoHastaLlegada())));
+        tiempoLlegadaAtaqueColumna.setText("T. Llegada Ataque");
+
+        TableColumn<VectorEstadoDtoActual,String> momentoLlegadaAtaqueColumna = new TableColumn<>();
+        momentoLlegadaAtaqueColumna.setCellValueFactory(cellData -> cellData.getValue().getLlegadaAtaque() ==null ?
+                new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue()
+                .getLlegadaAtaque().getMomentoEvento())));
+        momentoLlegadaAtaqueColumna.setText("Momento. Llegada Ataque");
+        TableColumn<VectorEstadoDtoActual,String> rndTipoAtaqueColumna = new TableColumn<>();
+        rndTipoAtaqueColumna.setCellValueFactory(cellData -> cellData.getValue().getLlegadaAtaque() ==null ?
+                new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue()
+                .getLlegadaAtaque().getRandomTipoAtaque())));
+        rndTipoAtaqueColumna.setText("RND Tipo Ataque");
+        TableColumn<VectorEstadoDtoActual,String> tipoAtaqueColumna = new TableColumn<>();
+        tipoAtaqueColumna.setCellValueFactory(cellData -> cellData.getValue().getLlegadaAtaque() ==null || cellData.getValue()
+                .getLlegadaAtaque().getTipoAtaque() == null?
+                new SimpleStringProperty("") : new SimpleStringProperty(cellData.getValue()
+                .getLlegadaAtaque().getTipoAtaque()));
+        tipoAtaqueColumna.setText("Tipo Ataque");
+        //Evento Fin Ataque Llegadas
+        TableColumn<VectorEstadoDtoActual,String> tiempoFinAtaqueLlegadasColumna = new TableColumn<>();
+        tiempoFinAtaqueLlegadasColumna.setCellValueFactory(cellData -> cellData.getValue().getFinBloqueoLlegada() ==null ?
+                new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue()
+                .getFinBloqueoLlegada().getDuracionBloqueo())));
+        tiempoFinAtaqueLlegadasColumna.setText("Durac. Bloq. Lleg.");
+        TableColumn<VectorEstadoDtoActual,String> momentoFinAtaqueLlegadasColumna = new TableColumn<>();
+        momentoFinAtaqueLlegadasColumna.setCellValueFactory(cellData -> cellData.getValue().getFinBloqueoLlegada() ==null ?
+                new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue()
+                .getFinBloqueoLlegada().getMomentoEvento())));
+        momentoFinAtaqueLlegadasColumna.setText("Fin. Bloq. Lleg.");
+
+        //Evento Fin Ataque Servidor
+        TableColumn<VectorEstadoDtoActual,String> tiempoFinAtaqueServidorColumna = new TableColumn<>();
+        tiempoFinAtaqueServidorColumna.setCellValueFactory(cellData -> cellData.getValue().getFinBloqueoNaveUno() ==null ?
+                new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue()
+                .getFinBloqueoNaveUno().getDuracionBloqueo())));
+        tiempoFinAtaqueServidorColumna.setText("Durac. Bloq. Nave 1.");
+
+        TableColumn<VectorEstadoDtoActual,String> momentoFinAtaqueServidorColumna = new TableColumn<>();
+        momentoFinAtaqueServidorColumna.setCellValueFactory(cellData -> cellData.getValue().getFinBloqueoNaveUno() ==null ?
+                new SimpleStringProperty("") : new SimpleStringProperty(Float.toString(cellData.getValue()
+                .getFinBloqueoNaveUno().getMomentoEvento())));
+        momentoFinAtaqueServidorColumna.setText("Fin. Bloq. Nave 1");
 
         //Evento Fin de la simulacion
 
@@ -370,6 +426,9 @@ public class ResultadoFxController implements IResultadoSImulacion{
 
 
       tv_SimItv.getColumns().addAll(nombreEvColumna, relojColumna,RNDEventoLLegadaCliente,TiempoEventoLlegadaCliente,MomentoEventoLLegadaCliente,
+              randomLlegadaAtaqueColumna, tiempoLlegadaAtaqueColumna, momentoLlegadaAtaqueColumna, rndTipoAtaqueColumna,
+              tipoAtaqueColumna, tiempoFinAtaqueLlegadasColumna, momentoFinAtaqueLlegadasColumna,
+              tiempoFinAtaqueServidorColumna, momentoFinAtaqueServidorColumna,
               RNDEventoFinAtencionCaseta,TiempoEventoFinAtencionCaseta,MomentoFinAtencionCaseta,
               RNDEventoFinInspeccion1, tiempoEventoFinInspeccion1,MomentoFinInspeccion1,
               RNDEventoFinInspeccion2, tiempoEventoFinInspeccion2,  MomentoFinInspeccion2,
@@ -391,45 +450,19 @@ public class ResultadoFxController implements IResultadoSImulacion{
 
     }
 
-    private void calcularEstadisticas(VectorEstadoITV vectorEstadoITV){
+    private void calcularEstadisticas(ResultadoSimulacion resultadoSimulacion){
 
-        //Al ser el último evento, es un evento de fin de simulación, tiene el reloj seteado a
-        //La cantidad de minutos seteados para cortar la simulacion
-        float tiempoMedioOfi = vectorEstadoITV.getAcumuladorTiempoEsperaOficina() / vectorEstadoITV.getContadorVehiculosAtencionFinalizada();
-        //Se debería hacer con los atendidos en la oficina, pero como al salir de la oficina
-        //se termina la tención, entonces es lo mismo poner los clientes con at. finalizada
-
-        float tiempoMedioAtOfi = vectorEstadoITV.getAcumuladorTiempoAtencionOficina()/vectorEstadoITV.getContadorVehiculosAtencionFinalizada();
-
-        float tiempoMedioPermanencia = vectorEstadoITV.getAcumuladorTiempoAtencion()/vectorEstadoITV.getContadorVehiculosAtencionFinalizada();
-
-        float porcLibreCaseta = vectorEstadoITV.getAcumuladorTiempoLibreEmpleadosCaseta()*100/ vectorEstadoITV.getReloj();
-        float porcLibreNave = vectorEstadoITV.getAcumuladorTiempoLibreEmpleadosNave()*100/ vectorEstadoITV.getReloj();
-        float porcLibreOfi = vectorEstadoITV.getAcumuladorTiempoLibreEmpleadosOficina()*100/ vectorEstadoITV.getReloj();
-
-        float tiempoMedioColaCaseta = vectorEstadoITV.getAcumuladorTiempoEsperaColaCaseta()/vectorEstadoITV.getContadorClientesAtendidosCaseta();
-        float tiempoMedioColaNave = vectorEstadoITV.getAcumuladorTiempoEsperaColaNave()/vectorEstadoITV.getContadorClientesAtendidosNave();
-
-        int cantTotalLlegadas = vectorEstadoITV.getContadorVehiculos()+ vectorEstadoITV.getContadorClientesNoAtendidos();
-        //Se calcula sobre el total de llegadas, teniendo en cuenta atendidos y no atendidos
-        float porcentajeAtFin = ((float)vectorEstadoITV.getContadorVehiculosAtencionFinalizada()*100) /cantTotalLlegadas;
-
-        float porcentajeNoAt = ((float)vectorEstadoITV.getContadorClientesNoAtendidos()*100)/cantTotalLlegadas;
-
-        float longMediaColaNave = ((float)vectorEstadoITV.getAcumuladorLongitudColaNave())/vectorEstadoITV.getContadorClientesAtendidosNave();
-
-        tf_longitudMediaColaNave.setText(Float.toString(longMediaColaNave));
-        tf_porcentajeAtFinalizada.setText(Float.toString(porcentajeAtFin));
-        tf_porcentajeNoAtendidos.setText(Float.toString(porcentajeNoAt));
-        tf_tiempoMedioAtOficina.setText(Float.toString(tiempoMedioAtOfi));
-        tf_tiempoMedioColaCaseta.setText(Float.toString(tiempoMedioColaCaseta));
-        tf_tiempoMedioColaNave.setText(Float.toString(tiempoMedioColaNave));
-        tf_porcOcupCaseta.setText(Float.toString(porcLibreCaseta));
-        tf_porcOcupNave.setText(Float.toString(porcLibreNave));
-        tf_porcOcupOficina.setText(Float.toString(porcLibreOfi));
-        tf_tiempoMedioPermanencia.setText(Float.toString(tiempoMedioPermanencia));
-        tf_tiempoMedOficina.setText(Float.toString(tiempoMedioOfi));
-
+        tf_longitudMediaColaNave.setText(Float.toString(resultadoSimulacion.getLongitudMediaColaNave()));
+        tf_porcentajeAtFinalizada.setText(Float.toString(resultadoSimulacion.getPorcAtencionFinalizada()));
+        tf_porcentajeNoAtendidos.setText(Float.toString(resultadoSimulacion.getPorcNoAtendidos()));
+        tf_tiempoMedioAtOficina.setText(Float.toString(resultadoSimulacion.getTiempoMedioAtencionOficina()));
+        tf_tiempoMedioColaCaseta.setText(Float.toString(resultadoSimulacion.getTiempoMedioColaCaseta()));
+        tf_tiempoMedioColaNave.setText(Float.toString(resultadoSimulacion.getTiempoMedioColaNave()));
+        tf_porcOcupCaseta.setText(Float.toString(resultadoSimulacion.getPorcTiempoLibreCaseta()));
+        tf_porcOcupNave.setText(Float.toString(resultadoSimulacion.getPorcTiempoLibreNave()));
+        tf_tiempoMedioPermanencia.setText(Float.toString(resultadoSimulacion.getTiempoMedioPermanenciaSistema()));
+        tf_tiempoMedOficina.setText(Float.toString(resultadoSimulacion.getTiempoMedioOficina()));
+        tf_porcOcupOficina.setText(Float.toString(resultadoSimulacion.getPorcTiempoLibreOficina()));
     }
 
 }

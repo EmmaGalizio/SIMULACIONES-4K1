@@ -84,9 +84,9 @@ public class VectorEstadoITV {
 
     private float acumuladorLongColaNaveXTiempoLong; //Con este se calcula realmente la longitud media de la cola
     private float momentoUltimaModColaNave;
-    private float momentoUltimaLiberacionNave;
-    private float momentoUltimaLiberacionCaseta;
-    private float momentoUltimaLiberacionOficina;
+    //private float momentoUltimaLiberacionNave;
+    //private float momentoUltimaLiberacionCaseta;
+    //private float momentoUltimaLiberacionOficina;
 
     private List<ResultadoRungeKutta> ecDiferencialBloqueoLlegadas;
     private List<ResultadoRungeKutta> ecDiferencialBloqueoNave;
@@ -120,9 +120,9 @@ public class VectorEstadoITV {
         nuevoVector.setAcumuladorLongitudColaNave(acumuladorLongitudColaNave);
         nuevoVector.setAcumuladorLongColaNaveXTiempoLong(acumuladorLongColaNaveXTiempoLong);
         nuevoVector.setMomentoUltimaModColaNave(momentoUltimaModColaNave);
-        nuevoVector.setMomentoUltimaLiberacionCaseta(momentoUltimaLiberacionCaseta);
-        nuevoVector.setMomentoUltimaLiberacionNave(momentoUltimaLiberacionNave);
-        nuevoVector.setMomentoUltimaLiberacionOficina(momentoUltimaLiberacionOficina);
+        //nuevoVector.setMomentoUltimaLiberacionCaseta(momentoUltimaLiberacionCaseta);
+        //nuevoVector.setMomentoUltimaLiberacionNave(momentoUltimaLiberacionNave);
+        //nuevoVector.setMomentoUltimaLiberacionOficina(momentoUltimaLiberacionOficina);
         nuevoVector.setEcDiferencialBloqueoLlegadas(ecDiferencialBloqueoLlegadas);
         nuevoVector.setEcDiferencialBloqueoNave(ecDiferencialBloqueoNave);
         //No es necesario clonarlo ni nada de eso porque un string es inmutable
@@ -178,32 +178,38 @@ public class VectorEstadoITV {
 
         for(int i = 0; i < finAtencionOficina.length; i++){
             if(this.finAtencionOficina[i] != null) {
-                //finAtencionOficina[i] = (EventoFinAtencion) this.finAtencionOficina[i].clone();
-                finAtencionOficina[i] = this.finAtencionOficina[i];
+                finAtencionOficina[i] = (EventoFinAtencion) this.finAtencionOficina[i].clone();
+                //finAtencionOficina[i] = this.finAtencionOficina[i];
 
             }
         }
         for(int i = 0; i < finInspeccion.length; i++){
             if(this.finInspeccion[i] != null) {
-                //finInspeccion[i] = (EventoFinInspeccion) this.finInspeccion[i].clone();
-                finInspeccion[i] = this.finInspeccion[i];
+                finInspeccion[i] = (EventoFinInspeccion) this.finInspeccion[i].clone();
+                //finInspeccion[i] = this.finInspeccion[i];
             }
         }
         for(int i = 0; i < finAtencionCaseta.length; i++){
             if(this.finAtencionCaseta[i] != null) {
-                //finAtencionCaseta[i] = (EventoFinAtencionCaseta) this.finAtencionCaseta[i].clone();
-                finAtencionCaseta[i] = this.finAtencionCaseta[i];
+                finAtencionCaseta[i] = (EventoFinAtencionCaseta) this.finAtencionCaseta[i].clone();
+                //finAtencionCaseta[i] = this.finAtencionCaseta[i];
             }
         }
-        //EventoLlegadaAtaque nuevaLlegadaAtaque = (EventoLlegadaAtaque) this.llegadaAtaque.clone();
+        if(this.llegadaAtaque != null) {
+            EventoLlegadaAtaque nuevaLlegadaAtaque = (EventoLlegadaAtaque) this.llegadaAtaque.clone();
+            nuevoVector.setLlegadaAtaque(nuevaLlegadaAtaque);
+        }
         //EventoLlegadaAtaque nuevaLlegadaAtaque = this.llegadaAtaque:
-        //EventoFinBloqueoLlegada nuevoFinBloqueoLlegada = (EventoFinBloqueoLlegada) this.finBloqueoLlegada.clone();
+        if(this.finBloqueoLlegada != null) {
+            EventoFinBloqueoLlegada nuevoFinBloqueoLlegada = (EventoFinBloqueoLlegada) this.finBloqueoLlegada.clone();
+            nuevoVector.setFinBloqueoLlegada(nuevoFinBloqueoLlegada);
+        }
         //EventoFinBloqueoLlegada nuevoFinBloqueoLlegada =  this.finBloqueoLlegada;
-        //EventoFinBloqueoNaveUno nuevoFinBoqueoNave = (EventoFinBloqueoNaveUno) this.finBloqueoNaveUno.clone();
-        //EventoFinBloqueoNaveUno nuevoFinBoqueoNave =  this.finBloqueoNaveUno;
-        nuevoVector.setLlegadaAtaque(llegadaAtaque);
-        nuevoVector.setFinBloqueoLlegada(finBloqueoLlegada);
-        nuevoVector.setFinBloqueoNaveUno(finBloqueoNaveUno);
+        if(this.finBloqueoNaveUno != null) {
+            EventoFinBloqueoNaveUno nuevoFinBoqueoNave = (EventoFinBloqueoNaveUno) this.finBloqueoNaveUno.clone();
+            //EventoFinBloqueoNaveUno nuevoFinBoqueoNave =  this.finBloqueoNaveUno;
+            nuevoVector.setFinBloqueoNaveUno(nuevoFinBoqueoNave);
+        }
         nuevoVector.setFinInspeccion(finInspeccion);
         nuevoVector.setFinAtencionOficina(finAtencionOficina);
         nuevoVector.setFinAtencionCaseta(finAtencionCaseta);
@@ -282,7 +288,7 @@ public class VectorEstadoITV {
     public void actualizarEventoFinAtencionNave(EventoFinInspeccion eventoFinInspeccion, Servidor empleadoNaveLibre) {
         finInspeccion[empleadoNaveLibre.getId()-1] = eventoFinInspeccion;
     }
-
+/*
     public void acumularTiempoLibreEmpleadosCaseta(Servidor empleadoCaseta){
         acumuladorTiempoLibreEmpleadosCaseta+= (this.reloj - this.momentoUltimaLiberacionCaseta);
     }
@@ -293,7 +299,7 @@ public class VectorEstadoITV {
     public void acumularTiempoLibreEmpleadosOficina(Servidor empleadoOficina){
         acumuladorTiempoLibreEmpleadosOficina+= (this.reloj - this.momentoUltimaLiberacionOficina);
     }
-
+*/
     public void agregarClienteColaOficina(Cliente clienteActual) {
         if(colaOficina == null) colaOficina = new ArrayDeque<>();
         colaOficina.add(clienteActual);
@@ -390,5 +396,49 @@ public class VectorEstadoITV {
 
     public boolean bloqueoLlegadasActivo(){
         return this.finBloqueoLlegada != null && this.finBloqueoLlegada.getMomentoEvento() > this.reloj;
+    }
+
+    //Este debe ser la nueva forma en que se calcula el acumulador de tiempo libre.
+    //Se calcula en todos los eventos, al final de cada procesarEvento se deve llamar a este método, en lugar
+    //De hacerlo solo cuando se modifica el estado del servidor.
+    //Lo ideal sería primero borrar los acumuladores hechos para la otra forma de cálculo e ir viendo en donde
+    //es necesario sacar los calculos a medida que aparezcan errores.
+    public void acumularTiempoLibreServidores(VectorEstadoITV estadoAnterior){
+
+        acumuladorTiempoLibreEmpleadosCaseta = acumularTiempoLibreServidores(estadoAnterior.getEmpleadosCaseta(),
+                                                                            acumuladorTiempoLibreEmpleadosCaseta,
+                                                                            estadoAnterior.getReloj());
+        acumuladorTiempoLibreEmpleadosNave = acumularTiempoLibreServidores(estadoAnterior.getEmpleadosNave(),
+                acumuladorTiempoLibreEmpleadosNave,
+                estadoAnterior.getReloj());
+        acumuladorTiempoLibreEmpleadosOficina = acumularTiempoLibreServidores(estadoAnterior.getEmpleadosOficina(),
+                acumuladorTiempoLibreEmpleadosOficina,
+                estadoAnterior.getReloj());
+
+
+
+    }
+    private float acumularTiempoLibreServidores(List<? extends Servidor> empleados,
+                                                            float acumulador, float relojAnterior){
+
+        boolean empleadoLibre = false;
+        for(Servidor empleado : empleados){
+            if(empleado.estaLibre()){
+                empleadoLibre = true;
+                break;
+            }
+        }
+        if(empleadoLibre){
+            acumulador += this.reloj - relojAnterior;
+        }
+        return acumulador;
+    }
+
+    public void validarEliminacionLlegadaAtaque(VectorEstadoITV estadoAnterior){
+
+        if(estadoAnterior.getLlegadaAtaque() == null || estadoAnterior.getLlegadaAtaque().getMomentoEvento() < this.reloj){
+            this.llegadaAtaque = null;
+        }
+
     }
 }

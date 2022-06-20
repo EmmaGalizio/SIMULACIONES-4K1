@@ -3,6 +3,9 @@ package p.grupo.k1.simulacionestp6.dto;
 import p.grupo.k1.simulacionestp6.modelo.colas.eventos.*;
 import p.grupo.k1.simulacionestp6.modelo.colas.servidor.Servidor;
 import lombok.Data;
+import p.grupo.k1.simulacionestp6.modelo.rungeKutta.eventos.EventoFinBloqueoLlegada;
+import p.grupo.k1.simulacionestp6.modelo.rungeKutta.eventos.EventoFinBloqueoNaveUno;
+import p.grupo.k1.simulacionestp6.modelo.rungeKutta.eventos.EventoLlegadaAtaque;
 
 @Data
 public class VectorEstadoDtoTresOficinas {
@@ -17,6 +20,9 @@ public class VectorEstadoDtoTresOficinas {
     private EventoFinAtencion finAtencionOficina2;
     private EventoFinAtencion finAtencionOficina3;
     private EventoFinSimulacion finSimulacion;
+    private EventoLlegadaAtaque llegadaAtaque;
+    private EventoFinBloqueoLlegada finBloqueoLlegada;
+    private EventoFinBloqueoNaveUno finBloqueoNaveUno;
     private Servidor empleadoCaseta;
     private Servidor inspector1;
     private Servidor inspector2;

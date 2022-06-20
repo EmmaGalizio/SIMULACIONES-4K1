@@ -27,18 +27,12 @@ public class EventoLlegadaAtaque extends Evento {
     private String tipoAtaque;
     private float randomTipoAtaque;
     private float tiempoHastaLlegada;
+    private float randomMomentoAtaque;
 
     public EventoLlegadaAtaque() {
         this.nombreEvento = "Llegada Ataque";
     }
 
-    public EventoLlegadaAtaque(float momentoAtaque, float randomTipoAtaque) {
-        this.randomTipoAtaque = randomTipoAtaque;
-        calcularTipoAtaque(randomTipoAtaque);
-        this.momentoEvento = momentoAtaque;
-        this.nombreEvento = "Llegada Ataque";
-
-    }
     public EventoLlegadaAtaque(float momentoAtaque){
         this.momentoEvento = momentoAtaque;
         this.nombreEvento = "Llegada Ataque";
@@ -55,9 +49,11 @@ public class EventoLlegadaAtaque extends Evento {
         VectorEstadoITV estadoActual = (VectorEstadoITV) estadoAnterior.clone();
         estadoActual.setReloj(this.momentoEvento);
         estadoActual.setNombreEvento(this.nombreEvento);
+        EventoLlegadaAtaque llegadaActual = estadoActual.getLlegadaAtaque();
+        //estadoActual.setLlegadaAtaque(null);
         randomCUBase = generadorRandom.siguientePseudoAleatoreo(randomCUBase, parametrosGenerador);
-        randomTipoAtaque = randomCUBase.getRandom();
-        calcularTipoAtaque(randomTipoAtaque);
+        llegadaActual.setRandomTipoAtaque(randomCUBase.getRandom());
+        calcularTipoAtaque(llegadaActual.getRandomTipoAtaque(),llegadaActual);
 
         EventoFinBloqueoLlegada eventoFinBloqueoLlegada = null;
         EventoFinBloqueoNaveUno eventoFinBloqueoNaveUno = null;
@@ -66,23 +62,23 @@ public class EventoLlegadaAtaque extends Evento {
 
         //En el momento en que se calcula el fin del evento se setea el momentoEvento
         //Del evento de fin de ataque correspondiente
-        if(randomTipoAtaque < PROB_ACUM_LLEGADAS){
+        if(llegadaActual.getRandomTipoAtaque() < PROB_ACUM_LLEGADAS){
             eventoFinBloqueoLlegada = new EventoFinBloqueoLlegada();
             eventoFinBloqueoLlegada.setT0(this.momentoEvento);
             ecDifFinBloqueoLlegada = eventoFinBloqueoLlegada.calcularFinEvento(parametrosGenerador.getPresicion());
-            float finAtaque = ecDifFinBloqueoLlegada.get(ecDifFinBloqueoLlegada.size()-1).getXm();
+            double finAtaque = ecDifFinBloqueoLlegada.get(ecDifFinBloqueoLlegada.size()-1).getXm();
             finAtaque *= 5;
             finAtaque = truncar(finAtaque, parametrosGenerador.getPresicion());
-            eventoFinBloqueoLlegada.setMomentoEvento(this.momentoEvento + finAtaque);
+            eventoFinBloqueoLlegada.setMomentoEvento((float)(this.momentoEvento + finAtaque));
 
         }else{
             eventoFinBloqueoNaveUno = new EventoFinBloqueoNaveUno();
             eventoFinBloqueoNaveUno.setT0(this.momentoEvento);
             ecDifFinBloqueoNave = eventoFinBloqueoNaveUno.calcularFinEvento(parametrosGenerador.getPresicion());
-            float finAtaque = ecDifFinBloqueoNave.get(ecDifFinBloqueoNave.size()-1).getXm();
+            double finAtaque = ecDifFinBloqueoNave.get(ecDifFinBloqueoNave.size()-1).getXm();
             finAtaque *= 2;
             finAtaque = truncar(finAtaque, parametrosGenerador.getPresicion());
-            eventoFinBloqueoNaveUno.setMomentoEvento(this.momentoEvento + finAtaque);
+            eventoFinBloqueoNaveUno.setMomentoEvento((float)(this.momentoEvento + finAtaque));
             this.interrumpirServidor(estadoActual, eventoFinBloqueoNaveUno, heapEventos);
         }
         estadoActual.setFinBloqueoLlegada(eventoFinBloqueoLlegada);
@@ -90,6 +86,7 @@ public class EventoLlegadaAtaque extends Evento {
         estadoActual.setEcDiferencialBloqueoLlegadas(ecDifFinBloqueoLlegada);
         estadoActual.setEcDiferencialBloqueoNave(ecDifFinBloqueoNave);
         estadoActual.setSiguientePseudoCU(randomCUBase);
+        estadoActual.acumularTiempoLibreServidores(estadoAnterior);
         heapEventos.add((eventoFinBloqueoLlegada != null) ? eventoFinBloqueoLlegada: eventoFinBloqueoNaveUno);
         return estadoActual;
     }
@@ -107,22 +104,28 @@ public class EventoLlegadaAtaque extends Evento {
         //Por eso es necesario eliminar el elemento de la raiz del heap e insertarlo de nuevo
         //Para que se re ordene el primer elemento.
         EventoFinInspeccion finInspeccionNave1 = estadoActual.getFinInspeccion()[0];
+
         if(finInspeccionNave1 != null){
+            Evento finInspeccionCopiaHeap = heapEventos.getElementCopy(finInspeccionNave1);
             float nuevoFinInspeccion = finInspeccionNave1.getMomentoEvento();
             nuevoFinInspeccion += eventoFinBloqueoNaveUno.getDuracionBloqueo();
             finInspeccionNave1.setMomentoEvento(nuevoFinInspeccion);
+            finInspeccionCopiaHeap.setMomentoEvento(nuevoFinInspeccion);
         }
         //Al hacer esto, en caso de que finInspeccionNave1 esté en la raiz del heap se actualiza
         //Y se vuelve a reorganizar
+        //No deberia hacer falta, se agrega un nuevo elemento al final del metodo procesrEvento
+        //así que ahí se reordenaría el heap
         Evento siguienteEvento = heapEventos.remove();
         heapEventos.add(siguienteEvento);
     }
 
 
-    public void calcularTipoAtaque(float randomTipoAtaque) {
+    public void calcularTipoAtaque(float randomTipoAtaque, EventoLlegadaAtaque llegadaActual) {
 
-        tipoAtaque = (randomTipoAtaque < PROB_ACUM_LLEGADAS) ?
+        String tipo = (randomTipoAtaque < PROB_ACUM_LLEGADAS) ?
                 ATAQUE_LLEGADAS : ATAQUE_SERVIDOR;
+        llegadaActual.setTipoAtaque(tipo);
     }
 
     @Override
@@ -130,22 +133,29 @@ public class EventoLlegadaAtaque extends Evento {
         EventoLlegadaAtaque nuevoEvento = new EventoLlegadaAtaque();
         nuevoEvento.setNombreEvento(this.getNombreEvento());
         nuevoEvento.setMomentoEvento(this.getMomentoEvento());
+        nuevoEvento.setTiempoHastaLlegada(this.getTiempoHastaLlegada());
+        nuevoEvento.setRandomMomentoAtaque(this.getRandomMomentoAtaque());
+        nuevoEvento.setRandomTipoAtaque(this.getRandomTipoAtaque());
+        nuevoEvento.setTipoAtaque(this.getTipoAtaque());
         return nuevoEvento;
     }
 
-    public static Pseudoaleatorio calcularLlegadaSiguienteAtaque(Pseudoaleatorio randomBaseCU,
-                                                          IGeneradorRandom generadorRandom,
-                                                          ParametrosGenerador parametrosGenerador,
-                                                          List<ResultadoRungeKutta> tablaRungeKutta){
-        float A = EventoLlegadaAtaque.A_LLEGADAS; // es una constante, hay que ver cuando ocurre
+    public Pseudoaleatorio calcularTiempoLlegadaSiguienteAtaque(Pseudoaleatorio randomBaseCU,
+                                                                IGeneradorRandom generadorRandom,
+                                                                ParametrosGenerador parametrosGenerador,
+                                                                List<ResultadoRungeKutta> tablaRungeKutta){
+        double A = EventoLlegadaAtaque.A_LLEGADAS; // es una constante, hay que ver cuando ocurre
+        A = truncar(A, parametrosGenerador.getPresicion());
         //la llegada del vehículo 80 en el TP5
         Pseudoaleatorio siguienteRandom = generadorRandom
                 .siguientePseudoAleatoreo(randomBaseCU,parametrosGenerador);
         float B = siguienteRandom.getRandom();
-        float puntoCorte = 2*A;
-        float h = 0.01f;
-        float t = 0;
-        float k1,k2,k3,k4;
+        this.setRandomMomentoAtaque(B);
+        double puntoCorte = 2*A;
+        puntoCorte = truncar(puntoCorte, parametrosGenerador.getPresicion());
+        double h = 0.0100;
+        double t = 0;
+        double k1,k2,k3,k4;
 
         ResultadoRungeKutta resultadoRungeKutta;
 
@@ -169,16 +179,30 @@ public class EventoLlegadaAtaque extends Evento {
             A = truncar(A, parametrosGenerador.getPresicion());
             resultadoRungeKutta.setYmp1(A);
             t+=h;
+            t = truncar(t, 2);
             resultadoRungeKutta.setXmp1(t);
             tablaRungeKutta.add(resultadoRungeKutta);
         }while(resultadoRungeKutta.getYm() < puntoCorte);
+
+        double tiempoHastaAtaque = tablaRungeKutta.get(tablaRungeKutta.size()-1).getXm();
+        tiempoHastaAtaque*= 9;
+        tiempoHastaAtaque = truncar(tiempoHastaAtaque, parametrosGenerador.getPresicion());
+        this.tiempoHastaLlegada = (float) tiempoHastaAtaque;
         return siguienteRandom;
     }
 
-    public static float truncar(float f, float presicion){
-        int multiplicador = (int)Math.pow(10, presicion);
+    public double truncar(double f, float presicion){
+        double multiplicador = Math.pow(10, presicion);
         int aux = (int)(f * multiplicador);
-        return (float)aux / multiplicador;
+        //return (double)aux / multiplicador;
+        return Math.round(f*multiplicador)/multiplicador;
     }
 
+    public float getRandomMomentoAtaque() {
+        return randomMomentoAtaque;
+    }
+
+    public void setRandomMomentoAtaque(float randomMomentoAtaque) {
+        this.randomMomentoAtaque = randomMomentoAtaque;
+    }
 }
