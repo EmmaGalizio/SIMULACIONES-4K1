@@ -83,8 +83,12 @@ public class EventoLlegadaAtaque extends Evento {
         }
         estadoActual.setFinBloqueoLlegada(eventoFinBloqueoLlegada);
         estadoActual.setFinBloqueoNaveUno(eventoFinBloqueoNaveUno);
-        estadoActual.setEcDiferencialBloqueoLlegadas(ecDifFinBloqueoLlegada);
-        estadoActual.setEcDiferencialBloqueoNave(ecDifFinBloqueoNave);
+        if(ecDifFinBloqueoLlegada != null) {
+            estadoActual.setEcDiferencialBloqueoLlegadas(ecDifFinBloqueoLlegada);
+        }
+        if(ecDifFinBloqueoNave != null) {
+            estadoActual.setEcDiferencialBloqueoNave(ecDifFinBloqueoNave);
+        }
         estadoActual.setSiguientePseudoCU(randomCUBase);
         estadoActual.acumularTiempoLibreServidores(estadoAnterior);
         heapEventos.add((eventoFinBloqueoLlegada != null) ? eventoFinBloqueoLlegada: eventoFinBloqueoNaveUno);

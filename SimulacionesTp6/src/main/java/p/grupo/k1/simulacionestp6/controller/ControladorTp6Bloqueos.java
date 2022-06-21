@@ -90,11 +90,24 @@ public class ControladorTp6Bloqueos {
         EventoFinAtencion finAtencionCliente = null;
         List<VectorEstadoITV> simulacionItv = new LinkedList<>();
         simulacionItv.add(vectorEstadoAnterior);
+        boolean ecBloqueoLlegCargada = false, ecBloqueoNaveCargada = false;
 
         while(true){
             vectorEstadoActual = eventoActual.procesarEvento(vectorEstadoAnterior,parametrosGenerador
                     ,randomCUBase,generadorRandom,parametrosItv,generadorExponencialNeg, eventosHeap);
 
+            if(!ecBloqueoLlegCargada && vectorEstadoActual.getEcDiferencialBloqueoLlegadas() != null){
+                resultadoSimulacion.setEcDiferencialFinBloqueoLlegadas(vectorEstadoActual.getEcDiferencialBloqueoLlegadas());
+                ecBloqueoLlegCargada = true;
+            }
+            if(!ecBloqueoNaveCargada && vectorEstadoActual.getEcDiferencialBloqueoNave() != null){
+                resultadoSimulacion.setEcDiferencialFinBloqueoNaveUno(vectorEstadoActual.getEcDiferencialBloqueoNave());
+                ecBloqueoNaveCargada = true;
+            }
+            //Una vez que las listas de las ecuaciones estén cargadas en el objeto resultado no tiene sentido
+            //Mantenerlas en memoria durante toda la simulación ocupando memoria de gusto.
+            vectorEstadoActual.setEcDiferencialBloqueoLlegadas(null);
+            vectorEstadoActual.setEcDiferencialBloqueoNave(null);
 
             if(finAtencionCliente != null){
                 vectorEstadoActual.eliminarClienteAtendido(finAtencionCliente.getClienteAtencionFinalizada());
@@ -113,10 +126,10 @@ public class ControladorTp6Bloqueos {
             cantEventos++;
         }
         resultadoSimulacion.setSimulacionItv(simulacionItv);
-        resultadoSimulacion.setEcDiferencialFinBloqueoLlegadas(simulacionItv.get(simulacionItv.size()-1)
-                                                                                .getEcDiferencialBloqueoLlegadas());
-        resultadoSimulacion.setEcDiferencialFinBloqueoNaveUno(simulacionItv.get(simulacionItv.size()-1)
-                                                                                .getEcDiferencialBloqueoNave());
+        //resultadoSimulacion.setEcDiferencialFinBloqueoLlegadas(simulacionItv.get(simulacionItv.size()-1)
+        //                                                                        .getEcDiferencialBloqueoLlegadas());
+        //resultadoSimulacion.setEcDiferencialFinBloqueoNaveUno(simulacionItv.get(simulacionItv.size()-1)
+        //                                                                        .getEcDiferencialBloqueoNave());
         resultadoSimulacion.calcularEstadisticas(simulacionItv.get(simulacionItv.size()-1));
         return resultadoSimulacion;
         //return simulacionItv;

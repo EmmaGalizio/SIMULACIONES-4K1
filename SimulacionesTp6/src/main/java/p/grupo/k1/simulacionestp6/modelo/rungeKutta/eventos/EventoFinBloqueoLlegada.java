@@ -136,6 +136,7 @@ public class EventoFinBloqueoLlegada extends Evento {
             Lmp1 = truncar(Lmp1,presicion);
             resultadoRungeKutta.setYmp1(Lmp1);
             t = t+h;
+            t = truncar(t, presicion);
             resultadoRungeKutta.setXmp1(t);
 
             ecDiferencial.add(resultadoRungeKutta);

@@ -162,6 +162,7 @@ public class EventoFinBloqueoNaveUno extends Evento {
             Smp1 = truncar(Smp1,presicion);
             resultadoRungeKutta.setYmp1(Smp1);
             t = t+h;
+            t = truncar(t, presicion);
             resultadoRungeKutta.setXmp1(t);
 
 

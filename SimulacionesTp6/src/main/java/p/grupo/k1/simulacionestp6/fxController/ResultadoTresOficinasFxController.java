@@ -11,6 +11,7 @@ import p.grupo.k1.simulacionestp6.dto.VectorEstadoDtoTresOficinas;
 import p.grupo.k1.simulacionestp6.modelo.colas.VectorEstadoITV;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import p.grupo.k1.simulacionestp6.modelo.rungeKutta.ResultadoRungeKutta;
 import p.grupo.k1.simulacionestp6.modelo.rungeKutta.ResultadoSimulacion;
 
 import java.util.ArrayList;
@@ -53,6 +54,12 @@ public class ResultadoTresOficinasFxController implements IResultadoSImulacion{
     private TextField tf_porcOcupNave;
     @FXML
     private TextField tf_porcOcupOficina;
+    @FXML
+    private TableView<ResultadoRungeKutta> tv_ecLlegadaAtaque;
+    @FXML
+    private TableView<ResultadoRungeKutta> tv_ecDuracionBloqLlegadas;
+    @FXML
+    private TableView<ResultadoRungeKutta> tv_ecDuracionBloqNave;
 
 
     @Override
@@ -66,6 +73,15 @@ public class ResultadoTresOficinasFxController implements IResultadoSImulacion{
         tv_SimItv.getItems().addAll(resultadoActual);
         tv_SimItv.refresh();
         this.generarColumnasSimulacion(); //Falta terminar el método generarColumnasSimulacion
+        this.generarColumnasLlegadaAtaque();
+        this.generarColumnasDuracionBloqLlegadas();
+        this.generarColumnasDuracionBloqNave();
+        tv_ecLlegadaAtaque.getItems().addAll(resultadoSimulacion.getEcDiferencialLlegadaAtaque());
+        tv_ecDuracionBloqLlegadas.getItems().addAll(resultadoSimulacion.getEcDiferencialFinBloqueoLlegadas());
+        tv_ecDuracionBloqNave.getItems().addAll(resultadoSimulacion.getEcDiferencialFinBloqueoNaveUno());
+        tv_ecDuracionBloqNave.refresh();
+        tv_ecDuracionBloqLlegadas.refresh();
+        tv_ecLlegadaAtaque.refresh();
     }
 
     private List<VectorEstadoDtoTresOficinas> mapVectorEstado(List<VectorEstadoITV> resultado) {
@@ -494,6 +510,98 @@ public class ResultadoTresOficinasFxController implements IResultadoSImulacion{
 
         tv_SimItv.refresh();
 
+    }
+    private void generarColumnasLlegadaAtaque(){
+
+        TableColumn<ResultadoRungeKutta, Double> tmColumna = new TableColumn<>();
+        tmColumna.setCellValueFactory(new PropertyValueFactory<>("xm"));
+        tmColumna.setText("Tm");
+        TableColumn<ResultadoRungeKutta, Double> amColumna = new TableColumn<>();
+        amColumna.setCellValueFactory(new PropertyValueFactory<>("ym"));
+        amColumna.setText("Am");
+        TableColumn<ResultadoRungeKutta, Double> tmp1Columna = new TableColumn<>();
+        tmp1Columna.setCellValueFactory(new PropertyValueFactory<>("xmp1"));
+        tmp1Columna.setText("Tm+1");
+        TableColumn<ResultadoRungeKutta, Double> k1Columna = new TableColumn<>();
+        k1Columna.setCellValueFactory(new PropertyValueFactory<>("k1"));
+        k1Columna.setText("K1");
+        TableColumn<ResultadoRungeKutta, Double> k2Columna = new TableColumn<>();
+        k2Columna.setCellValueFactory(new PropertyValueFactory<>("k2"));
+        k2Columna.setText("K2");
+        TableColumn<ResultadoRungeKutta, Double> k3Columna = new TableColumn<>();
+        k3Columna.setCellValueFactory(new PropertyValueFactory<>("k3"));
+        k3Columna.setText("K3");
+        TableColumn<ResultadoRungeKutta, Double> k4Columna = new TableColumn<>();
+        k4Columna.setCellValueFactory(new PropertyValueFactory<>("k4"));
+        k4Columna.setText("K4");
+        TableColumn<ResultadoRungeKutta, Double> amp1Columna = new TableColumn<>();
+        amp1Columna.setCellValueFactory(new PropertyValueFactory<>("ymp1"));
+        amp1Columna.setText("Am+1");
+
+        tv_ecLlegadaAtaque.getColumns().addAll(tmColumna, amColumna, tmp1Columna, k1Columna,
+                k2Columna, k3Columna, k4Columna, amp1Columna);
+        tv_ecLlegadaAtaque.refresh();
+    }
+    private void generarColumnasDuracionBloqLlegadas(){
+
+        TableColumn<ResultadoRungeKutta, Double> tmColumna = new TableColumn<>();
+        tmColumna.setCellValueFactory(new PropertyValueFactory<>("xm"));
+        tmColumna.setText("Tm");
+        TableColumn<ResultadoRungeKutta, Double> lmColumna = new TableColumn<>();
+        lmColumna.setCellValueFactory(new PropertyValueFactory<>("ym"));
+        lmColumna.setText("Lm");
+        TableColumn<ResultadoRungeKutta, Double> tmp1Columna = new TableColumn<>();
+        tmp1Columna.setCellValueFactory(new PropertyValueFactory<>("xmp1"));
+        tmp1Columna.setText("Tm+1");
+        TableColumn<ResultadoRungeKutta, Double> k1Columna = new TableColumn<>();
+        k1Columna.setCellValueFactory(new PropertyValueFactory<>("k1"));
+        k1Columna.setText("K1");
+        TableColumn<ResultadoRungeKutta, Double> k2Columna = new TableColumn<>();
+        k2Columna.setCellValueFactory(new PropertyValueFactory<>("k2"));
+        k2Columna.setText("K2");
+        TableColumn<ResultadoRungeKutta, Double> k3Columna = new TableColumn<>();
+        k3Columna.setCellValueFactory(new PropertyValueFactory<>("k3"));
+        k3Columna.setText("K3");
+        TableColumn<ResultadoRungeKutta, Double> k4Columna = new TableColumn<>();
+        k4Columna.setCellValueFactory(new PropertyValueFactory<>("k4"));
+        k4Columna.setText("K4");
+        TableColumn<ResultadoRungeKutta, Double> lmp1Columna = new TableColumn<>();
+        lmp1Columna.setCellValueFactory(new PropertyValueFactory<>("ymp1"));
+        lmp1Columna.setText("Lm+1");
+
+        tv_ecDuracionBloqLlegadas.getColumns().addAll(tmColumna, lmColumna, tmp1Columna, k1Columna,
+                k2Columna, k3Columna, k4Columna, lmp1Columna);
+        tv_ecDuracionBloqLlegadas.refresh();
+    }
+    private void generarColumnasDuracionBloqNave(){
+
+        TableColumn<ResultadoRungeKutta, Double> tmColumna = new TableColumn<>();
+        tmColumna.setCellValueFactory(new PropertyValueFactory<>("xm"));
+        tmColumna.setText("Tm");
+        TableColumn<ResultadoRungeKutta, Double> smColumna = new TableColumn<>();
+        smColumna.setCellValueFactory(new PropertyValueFactory<>("ym"));
+        smColumna.setText("Sm");
+        TableColumn<ResultadoRungeKutta, Double> tmp1Columna = new TableColumn<>();
+        tmp1Columna.setCellValueFactory(new PropertyValueFactory<>("xmp1"));
+        tmp1Columna.setText("Tm+1");
+        TableColumn<ResultadoRungeKutta, Double> k1Columna = new TableColumn<>();
+        k1Columna.setCellValueFactory(new PropertyValueFactory<>("k1"));
+        k1Columna.setText("K1");
+        TableColumn<ResultadoRungeKutta, Double> k2Columna = new TableColumn<>();
+        k2Columna.setCellValueFactory(new PropertyValueFactory<>("k2"));
+        k2Columna.setText("K2");
+        TableColumn<ResultadoRungeKutta, Double> k3Columna = new TableColumn<>();
+        k3Columna.setCellValueFactory(new PropertyValueFactory<>("k3"));
+        k3Columna.setText("K3");
+        TableColumn<ResultadoRungeKutta, Double> k4Columna = new TableColumn<>();
+        k4Columna.setCellValueFactory(new PropertyValueFactory<>("k4"));
+        k4Columna.setText("K4");
+        TableColumn<ResultadoRungeKutta, Double> smp1Columna = new TableColumn<>();
+        smp1Columna.setCellValueFactory(new PropertyValueFactory<>("ymp1"));
+        smp1Columna.setText("Sm+1");
+        tv_ecDuracionBloqNave.getColumns().addAll(tmColumna, smColumna, tmp1Columna, k1Columna,
+                k2Columna, k3Columna, k4Columna, smp1Columna);
+        tv_ecDuracionBloqNave.refresh();
     }
     private void calcularEstadisticas(ResultadoSimulacion resultadoSimulacion){
 
