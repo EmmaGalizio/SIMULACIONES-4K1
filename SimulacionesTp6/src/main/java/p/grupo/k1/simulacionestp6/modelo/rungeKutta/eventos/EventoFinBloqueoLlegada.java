@@ -96,7 +96,7 @@ public class EventoFinBloqueoLlegada extends Evento {
         //NO ANDA ESTA ECUACION PORONGA!!!!!!!!!!!!
 
         double Lm;
-        double h = 0.01;
+        double h = 0.25;
         h = truncar(h,2);
         double t = 0;
         double k1,k2,k3,k4;
