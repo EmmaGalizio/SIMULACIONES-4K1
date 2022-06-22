@@ -66,19 +66,20 @@ public class EventoLlegadaAtaque extends Evento {
             eventoFinBloqueoLlegada = new EventoFinBloqueoLlegada();
             eventoFinBloqueoLlegada.setT0(this.momentoEvento);
             ecDifFinBloqueoLlegada = eventoFinBloqueoLlegada.calcularFinEvento(parametrosGenerador.getPresicion());
-            double finAtaque = ecDifFinBloqueoLlegada.get(ecDifFinBloqueoLlegada.size()-1).getXm();
-            finAtaque *= 5;
-            finAtaque = truncar(finAtaque, parametrosGenerador.getPresicion());
-            eventoFinBloqueoLlegada.setMomentoEvento((float)(this.momentoEvento + finAtaque));
+            //double finAtaque = ecDifFinBloqueoLlegada.get(ecDifFinBloqueoLlegada.size()-1).getXm();
+            //finAtaque *= 5;
+            //finAtaque = truncar(finAtaque, parametrosGenerador.getPresicion());
+            //double momentoFinAtaque = truncar(this.momentoEvento+finAtaque, parametrosGenerador.getPresicion());
+            //eventoFinBloqueoLlegada.setMomentoEvento((float)(momentoFinAtaque));
 
         }else{
             eventoFinBloqueoNaveUno = new EventoFinBloqueoNaveUno();
             eventoFinBloqueoNaveUno.setT0(this.momentoEvento);
             ecDifFinBloqueoNave = eventoFinBloqueoNaveUno.calcularFinEvento(parametrosGenerador.getPresicion());
-            double finAtaque = ecDifFinBloqueoNave.get(ecDifFinBloqueoNave.size()-1).getXm();
-            finAtaque *= 2;
-            finAtaque = truncar(finAtaque, parametrosGenerador.getPresicion());
-            eventoFinBloqueoNaveUno.setMomentoEvento((float)(this.momentoEvento + finAtaque));
+            //double finAtaque = ecDifFinBloqueoNave.get(ecDifFinBloqueoNave.size()-1).getXm();
+            //finAtaque *= 2;
+            //finAtaque = truncar(finAtaque, parametrosGenerador.getPresicion());
+            //eventoFinBloqueoNaveUno.setMomentoEvento((float)(this.momentoEvento + finAtaque));
             this.interrumpirServidor(estadoActual, eventoFinBloqueoNaveUno, heapEventos);
         }
         estadoActual.setFinBloqueoLlegada(eventoFinBloqueoLlegada);

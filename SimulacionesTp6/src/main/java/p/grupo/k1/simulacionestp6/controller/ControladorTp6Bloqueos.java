@@ -31,16 +31,6 @@ public class ControladorTp6Bloqueos {
     public ResultadoSimulacion generarSimulacion(ParametrosItv parametrosItv,
                                                    ParametrosGenerador parametrosGenerador){
 
-        //Este método no va a retornar más el vector de estado ITV, va a retornar
-        //Un resultado que tenga además de la lista de vectores, también las
-        //listas que representan las tablas de runge kutta.
-        //Ya que está también podría calcular las estadísticas
-
-
-        //ANDA COMO EL OJETE LO DE LOS ATAQUEEEEEEEEEESSSSSSSSSS
-        //PUTA QUE LO PARIO
-
-
         if(parametrosItv == null) throw new IllegalArgumentException("Debe indicar los parametros de la simulacion");
         parametrosItv.validar();
         if(parametrosGenerador == null){
@@ -126,13 +116,8 @@ public class ControladorTp6Bloqueos {
             cantEventos++;
         }
         resultadoSimulacion.setSimulacionItv(simulacionItv);
-        //resultadoSimulacion.setEcDiferencialFinBloqueoLlegadas(simulacionItv.get(simulacionItv.size()-1)
-        //                                                                        .getEcDiferencialBloqueoLlegadas());
-        //resultadoSimulacion.setEcDiferencialFinBloqueoNaveUno(simulacionItv.get(simulacionItv.size()-1)
-        //                                                                        .getEcDiferencialBloqueoNave());
         resultadoSimulacion.calcularEstadisticas(simulacionItv.get(simulacionItv.size()-1));
         return resultadoSimulacion;
-        //return simulacionItv;
     }
 
     private Pseudoaleatorio generarEventoInicial(IGeneradorRandom generadorRandom,

@@ -29,7 +29,7 @@ public class EventoFinBloqueoNaveUno extends Evento {
     private float t0;
 
     public EventoFinBloqueoNaveUno(){
-        this.nombreEvento = "Bloqueo Inspector 1";
+        this.nombreEvento = "Fin Bloqueo Inspector 1";
     }
     
     @Override
@@ -127,8 +127,8 @@ public class EventoFinBloqueoNaveUno extends Evento {
      */
     public List<ResultadoRungeKutta> calcularFinEvento(float presicion) {
         double Sm;
-        double h = 0.01f;
-        double t = 0;
+        double h = (this.t0 < 5000) ? 0.01f : 0.25f;
+        double t , tmp1=0;
         double k1,k2,k3,k4;
         double Smp1 = this.t0;
         double puntoCorte = this.t0 * 1.35f;
@@ -139,47 +139,48 @@ public class EventoFinBloqueoNaveUno extends Evento {
 
         do{
             Sm = Smp1;
+            t = tmp1;
 
-            resultadoRungeKutta = new ResultadoRungeKutta();
-            resultadoRungeKutta.setXm(t);
-            resultadoRungeKutta.setYm(Sm);
 
             k1 = (0.2f * Sm) + 3 - t;
             k1 = truncar(k1, presicion);
-            resultadoRungeKutta.setK1(k1);
 
             k2 = (0.2f * (Sm+(0.5f*h*k1))) + 3 - (t+(0.5f*h));
             k2 = truncar(k2,presicion);
             k3 = (0.2f * (Sm+(0.5f*h*k2))) + 3 - (t+(0.5f*h));
             k3 = truncar(k3,presicion);
-
             k4 = (0.2f * (Sm+(h*k3))) + 3 - (t+h);
             k4 = truncar(k4, presicion);
-            resultadoRungeKutta.setK2(k2);
-            resultadoRungeKutta.setK3(k3);
-            resultadoRungeKutta.setK4(k4);
             Smp1 = Sm + (h/6)*(k1+ (2*k2)+(2*k3)+k4);
             Smp1 = truncar(Smp1,presicion);
-            resultadoRungeKutta.setYmp1(Smp1);
-            t = t+h;
-            t = truncar(t, presicion);
-            resultadoRungeKutta.setXmp1(t);
 
+            tmp1 = t+h;
+            tmp1 = truncar(tmp1, presicion);
+            if(this.t0 < 1000) {
 
-            ecDiferencial.add(resultadoRungeKutta);
+                resultadoRungeKutta = new ResultadoRungeKutta();
+                resultadoRungeKutta.setXm(t);
+                resultadoRungeKutta.setYm(Sm);
+                resultadoRungeKutta.setK1(k1);
+                resultadoRungeKutta.setK2(k2);
+                resultadoRungeKutta.setK3(k3);
+                resultadoRungeKutta.setK4(k4);
+                resultadoRungeKutta.setXmp1(tmp1);
+                resultadoRungeKutta.setYmp1(Smp1);
+                ecDiferencial.add(resultadoRungeKutta);
+            }
         }while(Sm < puntoCorte);
-
-        t = ecDiferencial.get(ecDiferencial.size()-1).getXm();
 
         this.duracionBloqueo = (float)t*2;
         this.duracionBloqueo = (float)truncar(this.duracionBloqueo, presicion);
         this.momentoEvento = (float)(this.t0 + (t*2));
         this.momentoEvento = (float)truncar(this.momentoEvento, presicion);
+        System.gc();
         return  ecDiferencial;
     }
 
-    private double truncar(double f, float presicion){
-        double multiplicador = Math.pow(10, presicion);
+    private double truncar(double f, float precision){
+        double multiplicador = Math.pow(10, precision);
         int aux = (int)(f * multiplicador);
         //return (double)aux / multiplicador;
         return Math.round(f*multiplicador)/multiplicador;

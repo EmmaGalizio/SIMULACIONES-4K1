@@ -414,13 +414,9 @@ public class VectorEstadoITV {
         acumuladorTiempoLibreEmpleadosOficina = acumularTiempoLibreServidores(estadoAnterior.getEmpleadosOficina(),
                 acumuladorTiempoLibreEmpleadosOficina,
                 estadoAnterior.getReloj());
-
-
-
     }
     private float acumularTiempoLibreServidores(List<? extends Servidor> empleados,
                                                             float acumulador, float relojAnterior){
-
         boolean empleadoLibre = false;
         for(Servidor empleado : empleados){
             if(empleado.estaLibre()){
