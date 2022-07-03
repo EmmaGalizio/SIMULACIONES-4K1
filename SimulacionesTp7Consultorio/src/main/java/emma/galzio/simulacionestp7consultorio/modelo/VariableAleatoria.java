@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class VaribaleAleatoria {
+public class VariableAleatoria {
 
     private float randomGenerado;
     private Pseudoaleatorio siguienteRandomBase;

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import emma.galzio.simulacionestp7consultorio.modelo.ParametrosCambioDistribucion;
 import emma.galzio.simulacionestp7consultorio.modelo.ParametrosGenerador;
 import emma.galzio.simulacionestp7consultorio.modelo.Pseudoaleatorio;
-import emma.galzio.simulacionestp7consultorio.modelo.VaribaleAleatoria;
+import emma.galzio.simulacionestp7consultorio.modelo.VariableAleatoria;
 import emma.galzio.simulacionestp7consultorio.modelo.bondadAjuste.Intervalo;
 import emma.galzio.simulacionestp7consultorio.controller.generadorRandom.IGeneradorRandom;
 import emma.galzio.simulacionestp7consultorio.controller.utils.ConstantesCambioDistribucion;
@@ -44,7 +44,7 @@ public class CambioDistribucionPoisson implements ICambioDistribucion{
         return randomsPosson;
     }
 
-    private VaribaleAleatoria generarRandomPoisson(float a, Pseudoaleatorio randomUnif,
+    private VariableAleatoria generarRandomPoisson(float a, Pseudoaleatorio randomUnif,
                                                    IGeneradorRandom generador, ParametrosGenerador parametrosGenerador){
 
         float p = 1;
@@ -54,7 +54,7 @@ public class CambioDistribucionPoisson implements ICambioDistribucion{
             x++;
             randomUnif = generador.siguientePseudoAleatoreo(randomUnif,parametrosGenerador);
         }while(p >= a);
-        return new VaribaleAleatoria(x,randomUnif);
+        return new VariableAleatoria(x,randomUnif);
 
     }
 
@@ -155,7 +155,7 @@ public class CambioDistribucionPoisson implements ICambioDistribucion{
      * y el random uniforme 0-1 que se utilizará como base para generar el próximo random de Poisson
      */
     @Override
-    public VaribaleAleatoria siguienteRandom(ParametrosCambioDistribucion parametros,
+    public VariableAleatoria siguienteRandom(ParametrosCambioDistribucion parametros,
                                              ParametrosGenerador parametrosGenerador,
                                              Pseudoaleatorio randomUnifBase) {
 

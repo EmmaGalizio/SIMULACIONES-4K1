@@ -15,7 +15,7 @@ import java.io.IOException;
 @Component
 public class StageInitializer implements ApplicationListener<StageReadyEvent> {
 
-    @Value("classpath:/fxml/main.fxml")
+    @Value("${sim.tp7.scene.Main}")
     private Resource sceneResource;
     private final ApplicationContext applicationContext;
 
@@ -30,7 +30,7 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
             Stage stage = event.getStage();
             StageManager stageManager = applicationContext.getBean(StageManager.class,stage,applicationContext);
 
-            stageManager.loadStageParentScene(sceneResource.getURL(),500,600);
+            stageManager.loadStageParentScene(sceneResource.getURL());
             stageManager.showStage();
 
         } catch (IOException e) {

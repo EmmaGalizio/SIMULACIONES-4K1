@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import emma.galzio.simulacionestp7consultorio.modelo.ParametrosCambioDistribucion;
 import emma.galzio.simulacionestp7consultorio.modelo.ParametrosGenerador;
 import emma.galzio.simulacionestp7consultorio.modelo.Pseudoaleatorio;
-import emma.galzio.simulacionestp7consultorio.modelo.VaribaleAleatoria;
+import emma.galzio.simulacionestp7consultorio.modelo.VariableAleatoria;
 import emma.galzio.simulacionestp7consultorio.modelo.bondadAjuste.Intervalo;
 import emma.galzio.simulacionestp7consultorio.controller.generadorRandom.IGeneradorRandom;
 import emma.galzio.simulacionestp7consultorio.controller.utils.ConstantesCambioDistribucion;
@@ -143,7 +143,7 @@ public class CambioDistribucionExponencialNeg implements ICambioDistribucion{
     }
 
     @Override
-    public VaribaleAleatoria siguienteRandom(ParametrosCambioDistribucion parametrosCambioDistribucion,
+    public VariableAleatoria siguienteRandom(ParametrosCambioDistribucion parametrosCambioDistribucion,
                                              ParametrosGenerador parametrosGenerador,
                                              Pseudoaleatorio randomCUBase) {
 
@@ -163,6 +163,6 @@ public class CambioDistribucionExponencialNeg implements ICambioDistribucion{
         int randomAux = (int)(random*multiplicador);
         random = (float)randomAux/multiplicador;
         randomCUBase = generadorRandom.siguientePseudoAleatoreo(randomCUBase,parametrosGenerador);
-        return new VaribaleAleatoria(random,randomCUBase);
+        return new VariableAleatoria(random,randomCUBase);
     }
 }

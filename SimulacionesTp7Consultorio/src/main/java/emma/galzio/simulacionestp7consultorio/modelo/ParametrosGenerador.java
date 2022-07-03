@@ -10,17 +10,17 @@ public class ParametrosGenerador {
     private int g;
     private int k;
     private int c;
-    private int presicion;
+    private int precision;
     private String metodoGeneradorRandom;
 
     public ParametrosGenerador() {
     }
 
-    public ParametrosGenerador(int n, int presicion) {
+    public ParametrosGenerador(int n, int precision) {
         this.n = n;
     }
 
-    public ParametrosGenerador(int n, int x0, int g, int k, int c,int presicion) {
+    public ParametrosGenerador(int n, int x0, int g, int k, int c,int precision) {
         this.n = n;
         this.x0 = x0;
         this.g = g;
@@ -28,7 +28,7 @@ public class ParametrosGenerador {
         this.c = c;
     }
 
-    public ParametrosGenerador(int n, int x0, int g, int k,int presicion) {
+    public ParametrosGenerador(int n, int x0, int g, int k,int precision) {
         this.n = n;
         this.x0 = x0;
         this.g = g;

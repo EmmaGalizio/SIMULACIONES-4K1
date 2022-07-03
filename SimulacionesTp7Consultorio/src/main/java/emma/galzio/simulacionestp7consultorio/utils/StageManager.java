@@ -38,11 +38,28 @@ public class StageManager {
         //y no la inyección de dependencias por defecto de JavaFx
         fxmlLoader.setControllerFactory(applicationContext::getBean);
         Parent parent = fxmlLoader.load();
-
         stage.setScene(new Scene(parent, width ,height));
         stage.centerOnScreen();
         //stage.setMaximized(true);
 
+    }
+    public void loadStageParentScene(URL fxmlUrl) throws IOException{
+        FXMLLoader fxmlLoader = new FXMLLoader(fxmlUrl);
+        //Este paso no hace falta normalmente con JavaFx, pero se hace para indicarle
+        //al loader de donde sacar el controlador del fxml, así usa el ApplicationContext de spring
+        //y no la inyección de dependencias por defecto de JavaFx
+        fxmlLoader.setControllerFactory(applicationContext::getBean);
+        Parent parent = fxmlLoader.load();
+        stage.setScene(new Scene(parent));
+        stage.centerOnScreen();
+    }
+
+    public void resize(int width, int height){
+        stage.setWidth(width);
+        stage.setHeight(height);
+    }
+    public void maximize(){
+        stage.setMaximized(true);
     }
 
     public void showStage(){

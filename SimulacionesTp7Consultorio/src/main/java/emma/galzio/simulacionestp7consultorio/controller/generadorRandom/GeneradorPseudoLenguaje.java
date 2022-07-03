@@ -18,7 +18,7 @@ public class GeneradorPseudoLenguaje implements IGeneradorRandom{
         if(parametros == null) parametros = new ParametrosGenerador(30,4);
         if(parametros.getN() <=0 || parametros.getN() > 10000) parametros.setN(30);
         Pseudoaleatorio[] pseudoaleatorios = new Pseudoaleatorio[parametros.getN()];
-        int multiplicador = (int) Math.pow(10, parametros.getPresicion());
+        int multiplicador = (int) Math.pow(10, parametros.getPrecision());
         if(random == null) {
             random = new Random();
         }
@@ -35,7 +35,7 @@ public class GeneradorPseudoLenguaje implements IGeneradorRandom{
         if(random == null) {
             random = new Random();
         }
-        int multiplicador = (int) Math.pow(10, parametros.getPresicion());
+        int multiplicador = (int) Math.pow(10, parametros.getPrecision());
         float frandom = random.nextFloat();
         int randAux = (int)(frandom*multiplicador);
         return new Pseudoaleatorio(0, ((float)randAux/multiplicador));
