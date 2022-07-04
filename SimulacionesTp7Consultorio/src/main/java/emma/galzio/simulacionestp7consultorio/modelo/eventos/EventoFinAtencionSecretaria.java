@@ -8,6 +8,7 @@ import emma.galzio.simulacionestp7consultorio.modelo.cliente.EstadoCliente;
 import emma.galzio.simulacionestp7consultorio.modelo.cliente.Paciente;
 import emma.galzio.simulacionestp7consultorio.modelo.cliente.PacienteEstudio;
 import emma.galzio.simulacionestp7consultorio.modelo.estructurasDatos.TSBHeap;
+import emma.galzio.simulacionestp7consultorio.utils.CommonFunc;
 import lombok.Data;
 
 import java.util.Map;
@@ -85,11 +86,11 @@ public class EventoFinAtencionSecretaria extends Evento{
                         estadoActual.getTecnico().estaLibre() &&
                         estadoActual.getSecretaria().estaLibre()){
                 EventoFinJornada eventoFinJornada = new EventoFinJornada();
-                float momentoFinJornada = (!estadoActual.esFinDeJornada()) ?
+                double momentoFinJornada = (!estadoActual.esFinDeJornada()) ?
                                                         estadoActual.getMomentoInicioJornada() + (5*60.0f):
                                                         this.momentoEvento;
-                momentoFinJornada = (float)truncar(momentoFinJornada,
-                        parametrosConsultorio.getParametrosSecretaria().getPrecision());
+                //momentoFinJornada = (float)truncar(momentoFinJornada,4);
+                momentoFinJornada = CommonFunc.round(momentoFinJornada,4);
                 eventoFinJornada.setMomentoEvento(momentoFinJornada);
                 estadoActual.setFinJornada(eventoFinJornada);
                 heapEventos.add(eventoFinJornada);

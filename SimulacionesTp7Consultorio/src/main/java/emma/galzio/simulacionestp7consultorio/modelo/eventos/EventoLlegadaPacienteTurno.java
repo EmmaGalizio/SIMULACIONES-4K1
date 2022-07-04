@@ -7,6 +7,7 @@ import emma.galzio.simulacionestp7consultorio.modelo.*;
 import emma.galzio.simulacionestp7consultorio.modelo.cliente.EstadoCliente;
 import emma.galzio.simulacionestp7consultorio.modelo.cliente.PacienteTurno;
 import emma.galzio.simulacionestp7consultorio.modelo.estructurasDatos.TSBHeap;
+import emma.galzio.simulacionestp7consultorio.utils.CommonFunc;
 import lombok.Data;
 
 import java.util.Map;
@@ -68,9 +69,10 @@ public class EventoLlegadaPacienteTurno extends Evento{
         if(estadoActual.llegadaEstudioPospuesta() && estadoActual.llegadaTurnoPospuesta()
                 && estadoActual.getSecretaria().estaLibre() && estadoActual.getTecnico().estaLibre()){
             EventoFinJornada eventoFinJornada = new EventoFinJornada();
-            float momentoFinJornada = estadoActual.getMomentoInicioJornada() + (5*60.0f);
-            momentoFinJornada = (float)truncar(momentoFinJornada,
-                    parametrosConsultorio.getParametrosSecretaria().getPrecision());
+            double momentoFinJornada = estadoActual.getMomentoInicioJornada() + (5*60.0f);
+            //momentoFinJornada = (float)truncar(momentoFinJornada,
+            //        parametrosConsultorio.getParametrosSecretaria().getPrecision());
+            momentoFinJornada = CommonFunc.round(momentoFinJornada,4);
             eventoFinJornada.setMomentoEvento(momentoFinJornada);
             estadoActual.setFinJornada(eventoFinJornada);
             heapEventos.add(eventoFinJornada);
@@ -96,16 +98,20 @@ public class EventoLlegadaPacienteTurno extends Evento{
                 parametrosConsultorio.getParametrosLlegadaTurno(),
                 parametrosConsultorio.getRandomBaseCULlegadaTurno());
         parametrosConsultorio.setRandomBaseCULlegadaTurno(variableAleatoria.getSiguienteRandomBase());
-        float tiempoLlegada = variableAleatoria.getRandomGenerado();
-        float momentoLlegada = this.momentoEvento + tiempoLlegada;
-        momentoLlegada = (float) truncar(momentoLlegada, presicion);
+        double tiempoLlegada = variableAleatoria.getRandomGenerado();
+        tiempoLlegada = CommonFunc.round(tiempoLlegada, 4);
+        double momentoLlegada = this.momentoEvento + tiempoLlegada;
+        //momentoLlegada = (float) truncar(momentoLlegada, 4);
         float finalDia = (estadoActual.getDia()-1)*24*60.0f + (13*60.0f);
         if(momentoLlegada >= finalDia){
-            float inicioSiguienteDia = estadoActual.getDia()*24*60.0f + (60*8.0f);
-            inicioSiguienteDia = (float)truncar(inicioSiguienteDia, presicion);
+            double inicioSiguienteDia = estadoActual.getDia()*24*60.0f + (60*8.0f);
+            //inicioSiguienteDia = (float)truncar(inicioSiguienteDia, 4);
+            inicioSiguienteDia = CommonFunc.round(inicioSiguienteDia,4);
             momentoLlegada = inicioSiguienteDia + tiempoLlegada;
-            momentoLlegada = (float) truncar(momentoLlegada, presicion);
+            //momentoLlegada = (float) truncar(momentoLlegada, 4);
         }
+        //momentoLlegada = (float) truncar(momentoLlegada, 4);
+        momentoLlegada = CommonFunc.round(momentoLlegada, 4);
         siguienteLlegada.setTiempoHastaEvento(tiempoLlegada);
         siguienteLlegada.setMomentoEvento(momentoLlegada);
 
@@ -113,7 +119,7 @@ public class EventoLlegadaPacienteTurno extends Evento{
     }
 
     public double truncar(double f, float precision){
-        double multiplicador = Math.pow(10, precision);
+        double multiplicador = (int)Math.pow(10, precision);
         return Math.round(f*multiplicador)/multiplicador;
     }
 }

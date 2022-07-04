@@ -6,6 +6,7 @@ import emma.galzio.simulacionestp7consultorio.controller.utils.ConstantesCambioD
 import emma.galzio.simulacionestp7consultorio.modelo.*;
 import emma.galzio.simulacionestp7consultorio.modelo.cliente.Paciente;
 import emma.galzio.simulacionestp7consultorio.modelo.estructurasDatos.TSBHeap;
+import emma.galzio.simulacionestp7consultorio.utils.CommonFunc;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,8 +15,8 @@ import java.util.Map;
 @Getter@Setter
 public abstract class Evento implements Comparable<Evento> {
 
-    protected float momentoEvento;
-    protected float tiempoHastaEvento;
+    protected double momentoEvento;
+    protected double tiempoHastaEvento;
     //Con el paciente es suficiente, no hace falta una referencia al servidor acá, ni en Paciente porque
     //El servidor que está atendiendo al paciente depende del evento que se está procesando.
     protected Paciente paciente;
@@ -28,20 +29,21 @@ public abstract class Evento implements Comparable<Evento> {
                                                        ParametrosConsultorio parametrosConsultorio,
                                                        TSBHeap<Evento> heapEventos);
 
-    public void calcularMomentoEvento(float momentoActual, float presicion){
+    public void calcularMomentoEvento(double momentoActual, float presicion){
         presicion = (presicion >= 1) ? presicion : 4;
         momentoEvento = tiempoHastaEvento + momentoActual;
-        momentoEvento = (float) truncar(momentoEvento, presicion);
+        //momentoEvento = (float) truncar(momentoEvento, 4);
+        momentoEvento =  CommonFunc.round(momentoEvento,4);
     }
 
     public double truncar(double f, float precision){
-        double multiplicador = Math.pow(10, precision);
+        double multiplicador = (int)Math.pow(10, precision);
         return Math.round(f*multiplicador)/multiplicador;
     }
 
     @Override
     public int compareTo(Evento evento) {
-        return Float.compare(momentoEvento, evento.getMomentoEvento());
+        return Double.compare(momentoEvento, evento.getMomentoEvento());
     }
 
     protected final EventoFinAtencionSecretaria calcularFinAtencionSecretaria(ParametrosConsultorio parametrosConsultorio,
@@ -63,8 +65,8 @@ public abstract class Evento implements Comparable<Evento> {
                 parametrosConsultorio.getParametrosSecretaria(), randomBase);
 
         parametrosConsultorio.setRandomBaseCUSecretaria(variableAleatoria.getSiguienteRandomBase());
-        float tiempoAtencion = variableAleatoria.getRandomGenerado();
-
+        double tiempoAtencion = variableAleatoria.getRandomGenerado();
+        tiempoAtencion = CommonFunc.round(tiempoAtencion,4);
         finAtencionSecretaria.setTiempoHastaEvento(tiempoAtencion);
         finAtencionSecretaria.calcularMomentoEvento(this.momentoEvento,
                                             parametrosConsultorio.getParametrosSecretaria().getPrecision());
@@ -78,7 +80,7 @@ public abstract class Evento implements Comparable<Evento> {
         EventoFinEstudio finEstudio = new EventoFinEstudio();
 
 
-        int precision = parametrosConsultorio.getParametrosTecnico().getPrecision();
+        int precision = 4;
 
         ICambioDistribucion generadorVariableAleatoria = generadoresVariableAleatoria
                 .get(ConstantesCambioDistribucion.NORMAL_CONVOLUCION);
@@ -92,9 +94,11 @@ public abstract class Evento implements Comparable<Evento> {
                 parametrosConsultorio.getRandomBaseCUTecnico());
 
         parametrosConsultorio.setRandomBaseCUTecnico(variableAleatoria.getSiguienteRandomBase());
-        float tiempoAtencion = variableAleatoria.getRandomGenerado();
-        float momentoFinAtencion = tiempoAtencion + this.momentoEvento;
-        momentoFinAtencion = (float)truncar(momentoFinAtencion, precision);
+        double tiempoAtencion = variableAleatoria.getRandomGenerado();
+        tiempoAtencion = CommonFunc.round(tiempoAtencion,4);
+        double momentoFinAtencion = tiempoAtencion + this.momentoEvento;
+        //momentoFinAtencion = (float)truncar(momentoFinAtencion, precision);
+        momentoFinAtencion = CommonFunc.round(momentoFinAtencion,4);
         finEstudio.setTiempoHastaEvento(tiempoAtencion);
         finEstudio.setMomentoEvento(momentoFinAtencion);
 

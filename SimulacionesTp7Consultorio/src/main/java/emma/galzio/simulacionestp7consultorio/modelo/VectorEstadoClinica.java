@@ -5,6 +5,7 @@ import emma.galzio.simulacionestp7consultorio.modelo.cliente.PacienteEstudio;
 import emma.galzio.simulacionestp7consultorio.modelo.eventos.*;
 import emma.galzio.simulacionestp7consultorio.modelo.servidor.Secretaria;
 import emma.galzio.simulacionestp7consultorio.modelo.servidor.Tecnico;
+import emma.galzio.simulacionestp7consultorio.utils.CommonFunc;
 import lombok.Data;
 
 import java.util.*;
@@ -12,11 +13,11 @@ import java.util.*;
 @Data
 public class VectorEstadoClinica {
 
-    private float reloj;
+    private double reloj;
     private int dia;
-    private float minutoDelDia;
+    private double minutoDelDia;
     private String nombreEvento;
-    private float momentoInicioJornada;
+    private double momentoInicioJornada;
     private EventoLlegadaPacienteTurno llegadaPacienteTurno;
     private EventoLlegadaPacienteEstudio llegadaPacienteEstudio;
     private EventoFinAtencionSecretaria finAtencionSecretaria;
@@ -83,6 +84,7 @@ public class VectorEstadoClinica {
     public void calcularDiaYMinutos(){
         dia = (int)(reloj / (60*24)) + 1;
         minutoDelDia = reloj % (60*24);
+        minutoDelDia = CommonFunc.round(minutoDelDia,4);
     }
 
     public Paciente obtenerSiguientePacienteEnColaSecretaria(){
@@ -129,7 +131,8 @@ public class VectorEstadoClinica {
     public void acumularTiempoLibreSecretaria(VectorEstadoClinica estadoAnterior){
         if(estadoAnterior.getSecretaria().estaLibre()){
             acumuladorTiempoLibreSecretaria+= this.reloj - estadoAnterior.getReloj();
-            acumuladorTiempoLibreSecretaria = truncar(acumuladorTiempoLibreSecretaria,4);
+            //acumuladorTiempoLibreSecretaria = truncar(acumuladorTiempoLibreSecretaria,4);
+            acumuladorTiempoLibreSecretaria = CommonFunc.round(acumuladorTiempoLibreSecretaria,4);
         }
     }
 
@@ -157,13 +160,16 @@ public class VectorEstadoClinica {
     public void acumularTiempoEsperaTecnico(PacienteEstudio pacienteEstudio, int precision) {
         acumuladorTiempoTotalEsperaTecnico+= pacienteEstudio.getMomentoInicioAtencionTecnico()
                                                         - pacienteEstudio.getMomentoLlegada();
-        acumuladorTiempoTotalEsperaTecnico = truncar(acumuladorTiempoTotalEsperaTecnico,
-                                                        precision);
+        //acumuladorTiempoTotalEsperaTecnico = truncar(acumuladorTiempoTotalEsperaTecnico,
+         //                                               precision);
+        acumuladorTiempoTotalEsperaTecnico = CommonFunc.round(acumuladorTiempoTotalEsperaTecnico,
+                4);
     }
     public void acumularTiempoEsperaColaTecnico(PacienteEstudio pacienteEstudio, int precision){
         acumuladorTiempoColaTecnico+= pacienteEstudio.getMomentoInicioAtencionTecnico() -
                                         pacienteEstudio.getMomentoLlegadaColaTecnico();
-        acumuladorTiempoColaTecnico = truncar(acumuladorTiempoColaTecnico, precision);
+        //acumuladorTiempoColaTecnico = truncar(acumuladorTiempoColaTecnico, precision);
+        acumuladorTiempoColaTecnico = CommonFunc.round(acumuladorTiempoColaTecnico, 4);
     }
 
     public boolean esFinDeJornada() {
@@ -202,7 +208,8 @@ public class VectorEstadoClinica {
         if(finJornada == null) return;
         acumuladorTiempoJornadasLaborales+= this.reloj - this.momentoInicioJornada;
         int presicion = parametrosConsultorio.getParametrosTecnico().getPrecision();
-        acumuladorTiempoJornadasLaborales = truncar(acumuladorTiempoJornadasLaborales,presicion);
+        //acumuladorTiempoJornadasLaborales = truncar(acumuladorTiempoJornadasLaborales,presicion);
+        acumuladorTiempoJornadasLaborales = CommonFunc.round(acumuladorTiempoJornadasLaborales,4);
     }
 
     public void reiniciarContadoresDiarios() {
@@ -212,6 +219,7 @@ public class VectorEstadoClinica {
 
     public void acumularTiempoPermanenciaPacienteEstudio(PacienteEstudio paciente, int precision) {
         acumuladorPermanenciaConTurno+= this.reloj - paciente.getMomentoLlegada();
-        acumuladorPermanenciaConTurno = truncar(acumuladorPermanenciaConTurno, precision);
+        //acumuladorPermanenciaConTurno = truncar(acumuladorPermanenciaConTurno, precision);
+        acumuladorPermanenciaConTurno = CommonFunc.round(acumuladorPermanenciaConTurno, 4);
     }
 }

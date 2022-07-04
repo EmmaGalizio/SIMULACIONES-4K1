@@ -6,6 +6,7 @@ import emma.galzio.simulacionestp7consultorio.controller.utils.MetodoGeneradorRa
 import emma.galzio.simulacionestp7consultorio.modelo.ParametrosConsultorio;
 import emma.galzio.simulacionestp7consultorio.modelo.ParametrosGenerador;
 import emma.galzio.simulacionestp7consultorio.modelo.VectorEstadoClinica;
+import emma.galzio.simulacionestp7consultorio.utils.CommonFunc;
 import emma.galzio.simulacionestp7consultorio.utils.StageManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -209,8 +210,10 @@ public class MainFxController implements Initializable {
         int primeraFila = Integer.parseInt(tf_primeraFila.getText().trim());
         int cantFilas = Integer.parseInt(tf_cantidadFilas.getText().trim());
 
-        parametrosConsultorio.setLambdaLlegadaTurno((float)truncar(1/mediaLlegadasTurno,4));
-        parametrosConsultorio.setLambdaLlegadaEstudio((float)truncar(1/mediaLlegadasEstudio,4));
+        //parametrosConsultorio.setLambdaLlegadaTurno((float)truncar(1/mediaLlegadasTurno,4));
+        //parametrosConsultorio.setLambdaLlegadaEstudio((float)truncar(1/mediaLlegadasEstudio,4));
+        parametrosConsultorio.setLambdaLlegadaTurno((float) CommonFunc.round(1/mediaLlegadasTurno,4));
+        parametrosConsultorio.setLambdaLlegadaEstudio((float)CommonFunc.round(1/mediaLlegadasEstudio,4));
         parametrosConsultorio.setUnifASecretaria(secretariaUnifA);
         parametrosConsultorio.setUnifBSecretaria(secretariaUnifB);
         parametrosConsultorio.setMediaAtTecnico(tecnicoUnifA);

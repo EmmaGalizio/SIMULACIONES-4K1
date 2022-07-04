@@ -10,7 +10,7 @@ public abstract class Paciente {
 
     protected int id;
     protected EstadoCliente estado;
-    protected float momentoLlegada;
+    protected double momentoLlegada;
     protected String tipoPaciente;
 
     public abstract boolean tieneTurno();

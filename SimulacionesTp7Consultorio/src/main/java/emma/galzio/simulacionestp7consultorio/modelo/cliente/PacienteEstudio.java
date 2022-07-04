@@ -6,8 +6,8 @@ import java.util.Objects;
 
 @Data
 public class PacienteEstudio extends Paciente {
-    private float momentoLlegadaColaTecnico;
-    private float momentoInicioAtencionTecnico;
+    private double momentoLlegadaColaTecnico;
+    private double momentoInicioAtencionTecnico;
 
     public PacienteEstudio(){
         this.tipoPaciente = "c/Turno";

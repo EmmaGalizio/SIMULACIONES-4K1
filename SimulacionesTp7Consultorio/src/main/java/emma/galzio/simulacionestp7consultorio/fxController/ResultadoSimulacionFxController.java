@@ -1,6 +1,7 @@
 package emma.galzio.simulacionestp7consultorio.fxController;
 
 import emma.galzio.simulacionestp7consultorio.modelo.VectorEstadoClinica;
+import emma.galzio.simulacionestp7consultorio.utils.CommonFunc;
 import emma.galzio.simulacionestp7consultorio.utils.StageManager;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -75,21 +76,25 @@ public class ResultadoSimulacionFxController  implements Initializable {
         //Falta calcular estadísticas
         double mediaPermPacEstudio = estadoClinica.getAcumuladorPermanenciaConTurno() /
                                                     estadoClinica.getCantEstudiosFinalizados();
-        mediaPermPacEstudio = truncar(mediaPermPacEstudio,4);
+        //mediaPermPacEstudio = truncar(mediaPermPacEstudio,4);
+        mediaPermPacEstudio = CommonFunc.round(mediaPermPacEstudio,4);
 
         double mediaTotalEsperaEstudio = estadoClinica.getAcumuladorTiempoTotalEsperaTecnico() /
                                             estadoClinica.getCantEstudiosFinalizados();
-        mediaTotalEsperaEstudio =  truncar(mediaTotalEsperaEstudio,4);
+        //mediaTotalEsperaEstudio =  truncar(mediaTotalEsperaEstudio,4);
+        mediaTotalEsperaEstudio =  CommonFunc.round(mediaTotalEsperaEstudio,4);
 
         double mediaEsperaColaEstudio = estadoClinica.getAcumuladorTiempoColaTecnico() /
                                         estadoClinica.getCantEstudiosFinalizados();
-        mediaEsperaColaEstudio =  truncar(mediaEsperaColaEstudio,4);
+        //mediaEsperaColaEstudio =  truncar(mediaEsperaColaEstudio,4);
+        mediaEsperaColaEstudio =  CommonFunc.round(mediaEsperaColaEstudio,4);
 
         double porcOcupSecretaria = ((estadoClinica.getAcumuladorTiempoLibreSecretaria()* 100) /
                                     estadoClinica.getAcumuladorTiempoJornadasLaborales());
-        porcOcupSecretaria = truncar(porcOcupSecretaria, 4);
+        //porcOcupSecretaria = truncar(porcOcupSecretaria, 4);
         porcOcupSecretaria = 100.0f - porcOcupSecretaria;
-        porcOcupSecretaria =  truncar(porcOcupSecretaria, 4);
+        //porcOcupSecretaria =  truncar(porcOcupSecretaria, 4);
+        porcOcupSecretaria = CommonFunc.round(porcOcupSecretaria, 4);
 
         tf_porcOcupSecretaria.setText(Double.toString(porcOcupSecretaria));
         tf_promedioPermanencia.setText(Double.toString(mediaPermPacEstudio));
@@ -102,16 +107,16 @@ public class ResultadoSimulacionFxController  implements Initializable {
         nombreEvColumna.setCellValueFactory(new PropertyValueFactory<>("nombreEvento"));
         nombreEvColumna.setText("Nom.Ev.");
 
-        TableColumn<VectorEstadoClinica, Float> relojColumna = new TableColumn<>();
+        TableColumn<VectorEstadoClinica, Double> relojColumna = new TableColumn<>();
         relojColumna.setCellValueFactory(new PropertyValueFactory<>("reloj"));
         relojColumna.setText("Reloj (min)");
-        TableColumn<VectorEstadoClinica, Float> diaColumna = new TableColumn<>();
+        TableColumn<VectorEstadoClinica, Double> diaColumna = new TableColumn<>();
         diaColumna.setCellValueFactory(new PropertyValueFactory<>("dia"));
         diaColumna.setText("Día");
-        TableColumn<VectorEstadoClinica, Float> minutoDiaColumna = new TableColumn<>();
+        TableColumn<VectorEstadoClinica, Double> minutoDiaColumna = new TableColumn<>();
         minutoDiaColumna.setCellValueFactory(new PropertyValueFactory<>("minutoDelDia"));
         minutoDiaColumna.setText("Minuto Dia");
-        TableColumn<VectorEstadoClinica, Float> momentoInicioJornadaColumna = new TableColumn<>();
+        TableColumn<VectorEstadoClinica, Double> momentoInicioJornadaColumna = new TableColumn<>();
         momentoInicioJornadaColumna.setCellValueFactory(new PropertyValueFactory<>("momentoInicioJornada"));
         momentoInicioJornadaColumna.setText("Inicio Jornada (min)");
 
@@ -124,13 +129,13 @@ public class ResultadoSimulacionFxController  implements Initializable {
 
         TableColumn<VectorEstadoClinica,String> tiempoLlegadaPacTurnoColumna = new TableColumn<>();
         tiempoLlegadaPacTurnoColumna.setCellValueFactory(cellData -> cellData.getValue().getLlegadaPacienteTurno()==null ? new SimpleStringProperty("") :
-                new SimpleStringProperty(Float.toString(cellData.getValue()
+                new SimpleStringProperty(Double.toString(cellData.getValue()
                         .getLlegadaPacienteTurno().getTiempoHastaEvento())));
         tiempoLlegadaPacTurnoColumna.setText("Tiempo Llegada s/Turno");
 
         TableColumn<VectorEstadoClinica,String> momentoLlegadaPacTurnoColumna = new TableColumn<>();
         momentoLlegadaPacTurnoColumna.setCellValueFactory(cellData -> cellData.getValue().getLlegadaPacienteTurno()==null ? new SimpleStringProperty("") :
-                new SimpleStringProperty(Float.toString(cellData.getValue()
+                new SimpleStringProperty(Double.toString(cellData.getValue()
                         .getLlegadaPacienteTurno().getMomentoEvento())));
         momentoLlegadaPacTurnoColumna.setText("Sig. Llegada s/Turno");
 
@@ -143,13 +148,13 @@ public class ResultadoSimulacionFxController  implements Initializable {
 
         TableColumn<VectorEstadoClinica,String> tiempoLlegadaPacEstudioColumna = new TableColumn<>();
         tiempoLlegadaPacEstudioColumna.setCellValueFactory(cellData -> cellData.getValue().getLlegadaPacienteEstudio()==null ? new SimpleStringProperty("") :
-                new SimpleStringProperty(Float.toString(cellData.getValue()
+                new SimpleStringProperty(Double.toString(cellData.getValue()
                         .getLlegadaPacienteEstudio().getTiempoHastaEvento())));
         tiempoLlegadaPacEstudioColumna.setText("Tiempo Llegada c/Turno");
 
         TableColumn<VectorEstadoClinica,String> momentoLlegadaPacEstudioColumna = new TableColumn<>();
         momentoLlegadaPacEstudioColumna.setCellValueFactory(cellData -> cellData.getValue().getLlegadaPacienteEstudio()==null ? new SimpleStringProperty("") :
-                new SimpleStringProperty(Float.toString(cellData.getValue()
+                new SimpleStringProperty(Double.toString(cellData.getValue()
                         .getLlegadaPacienteEstudio().getMomentoEvento())));
         momentoLlegadaPacEstudioColumna.setText("Sig. Llegada c/Turno");
 
@@ -162,13 +167,13 @@ public class ResultadoSimulacionFxController  implements Initializable {
 
         TableColumn<VectorEstadoClinica,String> tiempoFinAtSecretariaColumna = new TableColumn<>();
         tiempoFinAtSecretariaColumna.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionSecretaria()==null ? new SimpleStringProperty("") :
-                new SimpleStringProperty(Float.toString(cellData.getValue()
+                new SimpleStringProperty(Double.toString(cellData.getValue()
                         .getFinAtencionSecretaria().getTiempoHastaEvento())));
         tiempoFinAtSecretariaColumna.setText("Tiempo At. Sec");
 
         TableColumn<VectorEstadoClinica,String> momentoFinAtSecretariaColumna = new TableColumn<>();
         momentoFinAtSecretariaColumna.setCellValueFactory(cellData -> cellData.getValue().getFinAtencionSecretaria()==null ? new SimpleStringProperty("") :
-                new SimpleStringProperty(Float.toString(cellData.getValue()
+                new SimpleStringProperty(Double.toString(cellData.getValue()
                         .getFinAtencionSecretaria().getMomentoEvento())));
         momentoFinAtSecretariaColumna.setText("Fin At. Sec.");
 
@@ -181,25 +186,25 @@ public class ResultadoSimulacionFxController  implements Initializable {
 
         TableColumn<VectorEstadoClinica,String> tiempoFinAtTecnicoColumna = new TableColumn<>();
         tiempoFinAtTecnicoColumna.setCellValueFactory(cellData -> cellData.getValue().getFinEstudio()==null ? new SimpleStringProperty("") :
-                new SimpleStringProperty(Float.toString(cellData.getValue()
+                new SimpleStringProperty(Double.toString(cellData.getValue()
                         .getFinEstudio().getTiempoHastaEvento())));
         tiempoFinAtTecnicoColumna.setText("Tiempo At. Tec.");
 
         TableColumn<VectorEstadoClinica,String> momentoFinAtTecnicoColumna = new TableColumn<>();
         momentoFinAtTecnicoColumna.setCellValueFactory(cellData -> cellData.getValue().getFinEstudio()==null ? new SimpleStringProperty("") :
-                new SimpleStringProperty(Float.toString(cellData.getValue()
+                new SimpleStringProperty(Double.toString(cellData.getValue()
                         .getFinEstudio().getMomentoEvento())));
         momentoFinAtTecnicoColumna.setText("Fin At. Tec.");
 
         //Evento inicio jornada
         TableColumn<VectorEstadoClinica,String> eventoInicioJornadaColumna = new TableColumn<>();
         eventoInicioJornadaColumna.setCellValueFactory(cellData -> cellData.getValue().getInicioJornada()==null ? new SimpleStringProperty("") :
-                new SimpleStringProperty(Float.toString(cellData.getValue()
+                new SimpleStringProperty(Double.toString(cellData.getValue()
                         .getInicioJornada().getMomentoEvento())));
         eventoInicioJornadaColumna.setText("Ev. Inicio Jornada");
         TableColumn<VectorEstadoClinica,String> eventoFinJornadaColumna = new TableColumn<>();
         eventoFinJornadaColumna.setCellValueFactory(cellData -> cellData.getValue().getFinJornada()==null ? new SimpleStringProperty("") :
-                new SimpleStringProperty(Float.toString(cellData.getValue()
+                new SimpleStringProperty(Double.toString(cellData.getValue()
                         .getFinJornada().getMomentoEvento())));
         eventoFinJornadaColumna.setText("Ev. Fin Jornada");
 
