@@ -28,8 +28,11 @@ public class EventoFinJornada extends Evento{
         estadoActual.setNombreEvento(this.nombreEvento);
         estadoActual.acumularTiempoLibreSecretaria(estadoAnterior);
         estadoActual.acumularMinutosJornadaLaboral(parametrosConsultorio);
+        //estadoActual.reiniciarContadoresDiarios();
         estadoActual.getSecretaria().setEstado(EstadosServidor.getInstanceFueraHorario());
         estadoActual.getTecnico().setEstado(EstadosServidor.getInstanceFueraHorario());
+        estadoActual.getTecnico().setPacienteActual(null);
+        estadoActual.getSecretaria().setPacienteActual(null);
         estadoActual.setFinJornada(null);
         EventoInicioJornada siguienteInicioJornada = new EventoInicioJornada();
         float inicioJornada = (estadoActual.getDia()*24*60.0f) + (8*60.0f);

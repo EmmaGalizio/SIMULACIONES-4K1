@@ -26,6 +26,7 @@ public class EventoInicioJornada extends Evento{
         estadoActual.calcularDiaYMinutos();
         estadoActual.setInicioJornada(null);
         estadoActual.setFinJornada(null);
+        estadoActual.reiniciarContadoresDiarios();
         estadoActual.setMomentoInicioJornada(this.momentoEvento);
         estadoActual.setNombreEvento(this.nombreEvento);
         estadoActual.getTecnico().liberar();

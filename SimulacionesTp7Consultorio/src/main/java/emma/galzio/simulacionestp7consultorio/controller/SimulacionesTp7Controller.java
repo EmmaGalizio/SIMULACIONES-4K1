@@ -41,36 +41,50 @@ public class SimulacionesTp7Controller {
         ICambioDistribucion generadorExponencial = generadoresVariableAleatoria.get(ConstantesCambioDistribucion.EXP_NEG);
 
         VectorEstadoClinica vectorEstadoAnterior = generarVectorInicial(parametrosConsultorio,generadorExponencial,
-                                                                            heapEventos);
+                                                                            generadorRandom ,heapEventos);
         VectorEstadoClinica vectorEstadoActual;
         List<VectorEstadoClinica> resultadoSimulacion = new LinkedList<>();
         resultadoSimulacion.add(vectorEstadoAnterior);
+        parametrosConsultorio.setRandomBaseCUTecnico(generadorRandom
+                                            .siguientePseudoAleatoreo(parametrosConsultorio.getParametrosTecnico()));
+        parametrosConsultorio.setRandomBaseCUSecretaria(generadorRandom
+                .siguientePseudoAleatoreo(parametrosConsultorio.getParametrosSecretaria()));
 
         int filaInicial = parametrosConsultorio.getPrimeraFila();
         int filaFinal = filaInicial + parametrosConsultorio.getCantFilasMostrar();
         int cantEventos = 1;
 
         Evento eventoActual = heapEventos.remove();
-        do{
+
+        //do {
+        while(true){
             vectorEstadoActual = eventoActual.procesarEvento(vectorEstadoAnterior,
-                                                                generadorRandom,
-                                                                generadoresVariableAleatoria,
-                                                                parametrosConsultorio,
-                                                                heapEventos);
+                    generadorRandom,
+                    generadoresVariableAleatoria,
+                    parametrosConsultorio,
+                    heapEventos);
 
             Paciente pacienteAtencionFinalizada = vectorEstadoActual.getPacienteAtencionFinalizada();
-            if(pacienteAtencionFinalizada != null) vectorEstadoActual.destruirPaciente(pacienteAtencionFinalizada);
-
-            eventoActual = heapEventos.remove();
+            if (pacienteAtencionFinalizada != null) vectorEstadoActual.destruirPaciente(pacienteAtencionFinalizada);
+            if (cantEventos >= filaInicial && cantEventos <= filaFinal) {
+                resultadoSimulacion.add(vectorEstadoActual);
+            }
+            vectorEstadoAnterior = vectorEstadoActual;
             cantEventos++;
-        }while(eventoActual.getMomentoEvento() <= momentoCorte && eventoActual instanceof EventoFinJornada);
-        if(cantEventos >= filaFinal) resultadoSimulacion.add(vectorEstadoActual);
+            if((eventoActual.getMomentoEvento() >= momentoCorte && eventoActual instanceof EventoFinJornada) ||
+                                                                                            heapEventos.isEmpty()){                break;
+            }
+            eventoActual = heapEventos.remove();
+        }
+        //}while(eventoActual.getMomentoEvento() <= momentoCorte && !(eventoActual instanceof EventoFinJornada));
+        if(cantEventos > filaFinal) resultadoSimulacion.add(vectorEstadoActual);
 
         return resultadoSimulacion;
     }
 
     private VectorEstadoClinica generarVectorInicial(ParametrosConsultorio parametrosConsultorio,
                                                     ICambioDistribucion generadorVariableAleatoria,
+                                                    IGeneradorRandom generadorRandom,
                                                     TSBHeap<Evento> heapEventos){
 
         VectorEstadoClinica vectorInicial = new VectorEstadoClinica();
@@ -85,8 +99,10 @@ public class SimulacionesTp7Controller {
         vectorInicial.setTecnico(new Tecnico());
         vectorInicial.liberarTecnico();
 
-        this.generarLlegadaPacienteTurno(vectorInicial, parametrosConsultorio, generadorVariableAleatoria, heapEventos);
-        this.generarLlegadaPacienteEstudio(vectorInicial, parametrosConsultorio, generadorVariableAleatoria, heapEventos);
+        this.generarLlegadaPacienteTurno(vectorInicial, parametrosConsultorio, generadorVariableAleatoria,
+                                                                                    generadorRandom, heapEventos);
+        this.generarLlegadaPacienteEstudio(vectorInicial, parametrosConsultorio, generadorVariableAleatoria,
+                                                                                        generadorRandom, heapEventos);
 
 
 
@@ -96,40 +112,52 @@ public class SimulacionesTp7Controller {
     private void generarLlegadaPacienteTurno(VectorEstadoClinica vectorEstadoClinica,
                                              ParametrosConsultorio parametrosConsultorio,
                                              ICambioDistribucion generadorVariableAleatoria,
+                                             IGeneradorRandom generadorRandom,
                                              TSBHeap<Evento> heapEventos){
         EventoLlegadaPacienteTurno primerLlegadaPacienteTurno = new EventoLlegadaPacienteTurno();
         ParametrosCambioDistribucion parametrosCambioDistribucion = new ParametrosCambioDistribucion();
         parametrosCambioDistribucion.setPresicion(parametrosConsultorio.getParametrosSecretaria().getPrecision());
         parametrosCambioDistribucion.setLambda(parametrosConsultorio.getLambdaLlegadaTurno());
+        if(parametrosConsultorio.getRandomBaseCULlegadaTurno() == null){
+            parametrosConsultorio.setRandomBaseCULlegadaTurno(generadorRandom
+                                            .siguientePseudoAleatoreo(parametrosConsultorio.getParametrosLlegadaTurno()));
+        }
         VariableAleatoria variableAleatoriaTurno = generadorVariableAleatoria.siguienteRandom(parametrosCambioDistribucion,
                 parametrosConsultorio.getParametrosLlegadaTurno(),
                 parametrosConsultorio.getRandomBaseCULlegadaTurno());
 
         primerLlegadaPacienteTurno.setTiempoHastaEvento(variableAleatoriaTurno.getRandomGenerado());
-        primerLlegadaPacienteTurno.calcularMomentoEvento(0,parametrosCambioDistribucion.getPresicion());
+        primerLlegadaPacienteTurno.calcularMomentoEvento(8*60.0f,parametrosCambioDistribucion.getPresicion());
         //Actualizacion random llegada paciente sin turno
+        primerLlegadaPacienteTurno.setRandomLlegadaPacienteTurno(parametrosConsultorio.getRandomBaseCULlegadaTurno()
+                .getRandom());
         parametrosConsultorio.setRandomBaseCULlegadaTurno(variableAleatoriaTurno.getSiguienteRandomBase());
-        primerLlegadaPacienteTurno.setRandomLlegadaPacienteTurno(variableAleatoriaTurno
-                .getSiguienteRandomBase().getRandom());
+
         heapEventos.add(primerLlegadaPacienteTurno);
         vectorEstadoClinica.setLlegadaPacienteTurno(primerLlegadaPacienteTurno);
     }
     private void generarLlegadaPacienteEstudio(VectorEstadoClinica vectorEstadoClinica,
                                              ParametrosConsultorio parametrosConsultorio,
                                              ICambioDistribucion generadorVariableAleatoria,
+                                             IGeneradorRandom generadorRandom,
                                              TSBHeap<Evento> heapEventos){
         EventoLlegadaPacienteEstudio primerLlegadaPacienteEstudio = new EventoLlegadaPacienteEstudio();
         ParametrosCambioDistribucion parametrosCambioDistribucion = new ParametrosCambioDistribucion();
         parametrosCambioDistribucion.setPresicion(parametrosConsultorio.getParametrosSecretaria().getPrecision());
         parametrosCambioDistribucion.setLambda(parametrosConsultorio.getLambdaLlegadaEstudio());
+        if(parametrosConsultorio.getRandomBaseCULlegadaEstudio() == null) {
+            parametrosConsultorio.setRandomBaseCULlegadaEstudio(generadorRandom
+                        .siguientePseudoAleatoreo(parametrosConsultorio.getParametrosLlegadaEstudio()));
+        }
         VariableAleatoria variableAleatoriaEstudio = generadorVariableAleatoria.siguienteRandom(parametrosCambioDistribucion,
                 parametrosConsultorio.getParametrosLlegadaEstudio(),
                 parametrosConsultorio.getRandomBaseCULlegadaEstudio());
         primerLlegadaPacienteEstudio.setTiempoHastaEvento(variableAleatoriaEstudio.getRandomGenerado());
-        primerLlegadaPacienteEstudio.calcularMomentoEvento(0,parametrosCambioDistribucion.getPresicion());
+        primerLlegadaPacienteEstudio.calcularMomentoEvento(8*60.f,parametrosCambioDistribucion.getPresicion());
+        primerLlegadaPacienteEstudio.setRandomLlegadaPacienteEstudio(parametrosConsultorio
+                .getRandomBaseCULlegadaEstudio().getRandom());
         parametrosConsultorio.setRandomBaseCULlegadaEstudio(variableAleatoriaEstudio.getSiguienteRandomBase());
-        primerLlegadaPacienteEstudio.setRandomLlegadaPacienteEstudio(variableAleatoriaEstudio
-                                                                .getSiguienteRandomBase().getRandom());
+
         heapEventos.add(primerLlegadaPacienteEstudio);
         vectorEstadoClinica.setLlegadaPacienteEstudio(primerLlegadaPacienteEstudio);
     }

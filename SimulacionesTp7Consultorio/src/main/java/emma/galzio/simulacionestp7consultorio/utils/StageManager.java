@@ -30,7 +30,7 @@ public class StageManager {
         return stage;
     }
 
-    public void loadStageParentScene(URL fxmlUrl, int width, int height) throws IOException {
+    public <T> T loadStageParentScene(URL fxmlUrl, int width, int height) throws IOException {
         //Obtiene el recurso correspondiente al archivo fxml
         FXMLLoader fxmlLoader = new FXMLLoader(fxmlUrl);
         //Este paso no hace falta normalmente con JavaFx, pero se hace para indicarle
@@ -41,9 +41,10 @@ public class StageManager {
         stage.setScene(new Scene(parent, width ,height));
         stage.centerOnScreen();
         //stage.setMaximized(true);
+        return fxmlLoader.getController();
 
     }
-    public void loadStageParentScene(URL fxmlUrl) throws IOException{
+    public <T> T loadStageParentScene(URL fxmlUrl) throws IOException{
         FXMLLoader fxmlLoader = new FXMLLoader(fxmlUrl);
         //Este paso no hace falta normalmente con JavaFx, pero se hace para indicarle
         //al loader de donde sacar el controlador del fxml, así usa el ApplicationContext de spring
@@ -52,6 +53,7 @@ public class StageManager {
         Parent parent = fxmlLoader.load();
         stage.setScene(new Scene(parent));
         stage.centerOnScreen();
+        return fxmlLoader.getController();
     }
 
     public void resize(int width, int height){

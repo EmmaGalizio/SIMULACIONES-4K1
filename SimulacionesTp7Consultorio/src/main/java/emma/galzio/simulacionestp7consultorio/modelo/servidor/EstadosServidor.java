@@ -1,7 +1,10 @@
 package emma.galzio.simulacionestp7consultorio.modelo.servidor;
 
+import lombok.Data;
+
 import java.util.Objects;
 
+@Data
 public class EstadosServidor {
 
     public static final String SERVIDOR_OCUPADO = "Ocupado";

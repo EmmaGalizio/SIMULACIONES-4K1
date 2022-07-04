@@ -34,17 +34,6 @@ public class EventoLlegadaPacienteEstudio extends Evento{
         estadoActual.setLlegadaPacienteEstudio(siguienteLlegada);
         heapEventos.add(siguienteLlegada);
 
-        if(estadoActual.llegadaEstudioPospuesta() && estadoActual.llegadaTurnoPospuesta()
-            && estadoActual.getSecretaria().estaLibre() && estadoActual.getTecnico().estaLibre()){
-            EventoFinJornada eventoFinJornada = new EventoFinJornada();
-            float momentoFinJornada = estadoActual.getMomentoInicioJornada() + (13*60.0f);
-            momentoFinJornada = (float)truncar(momentoFinJornada,
-                    parametrosConsultorio.getParametrosSecretaria().getPrecision());
-            eventoFinJornada.setMomentoEvento(momentoFinJornada);
-            eventoFinJornada.setNombreEvento("Final de Jornada");
-            estadoActual.setFinJornada(eventoFinJornada);
-            heapEventos.add(eventoFinJornada);
-        }
 
         PacienteEstudio pacienteEstudio = new PacienteEstudio();
         pacienteEstudio.setMomentoLlegada(this.momentoEvento);
@@ -57,12 +46,24 @@ public class EventoLlegadaPacienteEstudio extends Evento{
         } else{
             pacienteEstudio.setEstado(EstadoCliente.getInstanceAtencionSecretaria());
             estadoActual.getSecretaria().ocupar();
+            estadoActual.getSecretaria().setPacienteActual(pacienteEstudio);
 
             EventoFinAtencionSecretaria finAtencionSecretaria = calcularFinAtencionSecretaria(parametrosConsultorio,
                                                                                     generadoresVariableAleatoria);
             finAtencionSecretaria.setPaciente(pacienteEstudio);
             estadoActual.setFinAtencionSecretaria(finAtencionSecretaria);
             heapEventos.add(finAtencionSecretaria);
+        }
+        if(estadoActual.llegadaEstudioPospuesta() && estadoActual.llegadaTurnoPospuesta()
+                && estadoActual.getSecretaria().estaLibre() && estadoActual.getTecnico().estaLibre()){
+            EventoFinJornada eventoFinJornada = new EventoFinJornada();
+            float momentoFinJornada = estadoActual.getMomentoInicioJornada() + (5*60.0f);
+            momentoFinJornada = (float)truncar(momentoFinJornada,
+                    parametrosConsultorio.getParametrosSecretaria().getPrecision());
+            eventoFinJornada.setMomentoEvento(momentoFinJornada);
+            //eventoFinJornada.setNombreEvento("Final de Jornada");
+            estadoActual.setFinJornada(eventoFinJornada);
+            heapEventos.add(eventoFinJornada);
         }
         return estadoActual;
     }
@@ -73,11 +74,11 @@ public class EventoLlegadaPacienteEstudio extends Evento{
         int presicion = parametrosConsultorio.getParametrosSecretaria().getPrecision();
 
         EventoLlegadaPacienteEstudio siguienteLlegada = new EventoLlegadaPacienteEstudio();
+        siguienteLlegada.setRandomLlegadaPacienteEstudio(parametrosConsultorio.getRandomBaseCULlegadaEstudio().getRandom());
 
         ParametrosCambioDistribucion parametrosCambioDistribucion = new ParametrosCambioDistribucion();
         parametrosCambioDistribucion.setLambda(parametrosConsultorio.getLambdaLlegadaEstudio());
         parametrosCambioDistribucion.setPresicion(parametrosConsultorio.getParametrosSecretaria().getPrecision());
-
         ICambioDistribucion generadorVariableAleatoria = generadoresVariableAleatoria
                 .get(ConstantesCambioDistribucion.EXP_NEG);
         VariableAleatoria variableAleatoria = generadorVariableAleatoria.siguienteRandom(parametrosCambioDistribucion,
@@ -89,7 +90,7 @@ public class EventoLlegadaPacienteEstudio extends Evento{
         float momentoLlegada = this.momentoEvento + tiempoLlegada;
         momentoLlegada = (float) truncar(momentoLlegada, presicion);
         float finalDia = (estadoActual.getDia()-1)*24*60.0f + (13*60.0f);
-        if(momentoLlegada >= finalDia || estadoActual.getCantLlegadasEstudio() >= parametrosConsultorio.getTurnosDisponiblesDiario()){
+        if(momentoLlegada >= finalDia || estadoActual.getCantLlegadasEstudioDiaActual() >= parametrosConsultorio.getTurnosDisponiblesDiario()){
             float inicioSiguienteDia = estadoActual.getDia()*24*60.0f + (60*8.0f);
             inicioSiguienteDia = (float)truncar(inicioSiguienteDia, presicion);
             momentoLlegada = inicioSiguienteDia + tiempoLlegada;
@@ -97,7 +98,6 @@ public class EventoLlegadaPacienteEstudio extends Evento{
         }
         siguienteLlegada.setTiempoHastaEvento(tiempoLlegada);
         siguienteLlegada.setMomentoEvento(momentoLlegada);
-        siguienteLlegada.setRandomLlegadaPacienteEstudio(variableAleatoria.getSiguienteRandomBase().getRandom());
         return siguienteLlegada;
     }
 }

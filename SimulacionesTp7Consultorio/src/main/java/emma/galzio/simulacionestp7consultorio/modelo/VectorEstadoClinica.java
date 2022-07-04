@@ -31,13 +31,16 @@ public class VectorEstadoClinica {
     private Tecnico tecnico;
     private int cantLlegadasTurno;
     private int cantLlegadasEstudio;
+    private int cantLlegadasTurnoDiaActual;
+    private int cantLlegadasEstudioDiaActual;
     private int cantAtencionFinalizadas;
     private int cantEstudiosFinalizados;
     private double acumuladorTiempoJornadasLaborales;
-    private float acumuladorPermanenciaConTurno;
-    private float acumuladorTiempoTotalEsperaTecnico;
-    private float acumuladorTiempoColaTecnico;
-    private float acumuladorTiempoLibreSecretaria;
+    private double acumuladorPermanenciaConTurno;
+    private double acumuladorTiempoTotalEsperaTecnico;
+    private double acumuladorTiempoColaTecnico;
+    private double acumuladorTiempoLibreSecretaria;
+    private List<Paciente> pacientes;
 
     private Paciente pacienteAtencionFinalizada;
 
@@ -45,27 +48,35 @@ public class VectorEstadoClinica {
     //Al procesarlos no importa si se modifica el estado del paciente en el estado anterior.
     //Si bien no habria mucha diferencia en la memoria, porque nunca va a haber más de 30 pacientes al mismo tiempo
     //En el sistema, y no se mantienen más de dos vectores de estado a la vez, excepto por los que están en la lista a mostrar.
-    private List<Paciente> pacientes;
 
 
     @Override
     public Object clone(){
 
         VectorEstadoClinica nuevoVector = new VectorEstadoClinica();
-        nuevoVector.setAcumuladorTiempoColaTecnico(acumuladorTiempoColaTecnico);
-        nuevoVector.setAcumuladorPermanenciaConTurno(acumuladorPermanenciaConTurno);
-        nuevoVector.setAcumuladorTiempoLibreSecretaria(acumuladorTiempoLibreSecretaria);
-        nuevoVector.setAcumuladorTiempoTotalEsperaTecnico(acumuladorTiempoTotalEsperaTecnico);
         nuevoVector.setSecretaria((Secretaria)secretaria.clone());
         nuevoVector.setTecnico((Tecnico) tecnico.clone());
         nuevoVector.setLlegadaPacienteEstudio(llegadaPacienteEstudio);
         nuevoVector.setLlegadaPacienteTurno(llegadaPacienteTurno);
         nuevoVector.setFinAtencionSecretaria(finAtencionSecretaria);
         nuevoVector.setFinEstudio(finEstudio);
+        nuevoVector.setFinJornada(finJornada);
+        nuevoVector.setInicioJornada(inicioJornada);
         nuevoVector.setColaSecretaria(new ArrayDeque<>(colaSecretaria));
         nuevoVector.setColaTecnico(new ArrayDeque<>(colaTecnico));
         nuevoVector.setPacientes(pacientes);
         nuevoVector.setMomentoInicioJornada(momentoInicioJornada);
+        nuevoVector.setAcumuladorTiempoColaTecnico(acumuladorTiempoColaTecnico);
+        nuevoVector.setAcumuladorPermanenciaConTurno(acumuladorPermanenciaConTurno);
+        nuevoVector.setAcumuladorTiempoLibreSecretaria(acumuladorTiempoLibreSecretaria);
+        nuevoVector.setAcumuladorTiempoTotalEsperaTecnico(acumuladorTiempoTotalEsperaTecnico);
+        nuevoVector.setAcumuladorTiempoJornadasLaborales(acumuladorTiempoJornadasLaborales);
+        nuevoVector.setCantAtencionFinalizadas(cantAtencionFinalizadas);
+        nuevoVector.setCantEstudiosFinalizados(cantEstudiosFinalizados);
+        nuevoVector.setCantLlegadasEstudio(cantLlegadasEstudio);
+        nuevoVector.setCantLlegadasTurno(cantLlegadasTurno);
+        nuevoVector.setCantLlegadasEstudioDiaActual(cantLlegadasEstudioDiaActual);
+        nuevoVector.setCantLlegadasTurnoDiaActual(cantLlegadasTurnoDiaActual);
         return nuevoVector;
     }
 
@@ -118,7 +129,7 @@ public class VectorEstadoClinica {
     public void acumularTiempoLibreSecretaria(VectorEstadoClinica estadoAnterior){
         if(estadoAnterior.getSecretaria().estaLibre()){
             acumuladorTiempoLibreSecretaria+= this.reloj - estadoAnterior.getReloj();
-            acumuladorTiempoLibreSecretaria = (float)truncar(acumuladorTiempoLibreSecretaria,4);
+            acumuladorTiempoLibreSecretaria = truncar(acumuladorTiempoLibreSecretaria,4);
         }
     }
 
@@ -128,10 +139,13 @@ public class VectorEstadoClinica {
     }
 
     public void incrementarLlegadasTurno(){
+
         cantLlegadasTurno++;
+        cantLlegadasTurnoDiaActual++;
     }
     public void incrementerLlegadasEstudio(){
         cantLlegadasEstudio++;
+        cantLlegadasEstudioDiaActual++;
     }
     public void incrementarAtencionFinalizada(){
         cantAtencionFinalizadas++;
@@ -143,13 +157,13 @@ public class VectorEstadoClinica {
     public void acumularTiempoEsperaTecnico(PacienteEstudio pacienteEstudio, int precision) {
         acumuladorTiempoTotalEsperaTecnico+= pacienteEstudio.getMomentoInicioAtencionTecnico()
                                                         - pacienteEstudio.getMomentoLlegada();
-        acumuladorTiempoTotalEsperaTecnico = (float)truncar(acumuladorTiempoTotalEsperaTecnico,
+        acumuladorTiempoTotalEsperaTecnico = truncar(acumuladorTiempoTotalEsperaTecnico,
                                                         precision);
     }
     public void acumularTiempoEsperaColaTecnico(PacienteEstudio pacienteEstudio, int precision){
         acumuladorTiempoColaTecnico+= pacienteEstudio.getMomentoInicioAtencionTecnico() -
                                         pacienteEstudio.getMomentoLlegadaColaTecnico();
-        acumuladorTiempoColaTecnico = (float)truncar(acumuladorTiempoColaTecnico, precision);
+        acumuladorTiempoColaTecnico = truncar(acumuladorTiempoColaTecnico, precision);
     }
 
     public boolean esFinDeJornada() {
@@ -188,6 +202,16 @@ public class VectorEstadoClinica {
         if(finJornada == null) return;
         acumuladorTiempoJornadasLaborales+= this.reloj - this.momentoInicioJornada;
         int presicion = parametrosConsultorio.getParametrosTecnico().getPrecision();
-        acumuladorTiempoJornadasLaborales = (float) truncar(acumuladorTiempoJornadasLaborales,presicion);
+        acumuladorTiempoJornadasLaborales = truncar(acumuladorTiempoJornadasLaborales,presicion);
+    }
+
+    public void reiniciarContadoresDiarios() {
+        cantLlegadasEstudioDiaActual = 0;
+        cantLlegadasTurnoDiaActual = 0;
+    }
+
+    public void acumularTiempoPermanenciaPacienteEstudio(PacienteEstudio paciente, int precision) {
+        acumuladorPermanenciaConTurno+= this.reloj - paciente.getMomentoLlegada();
+        acumuladorPermanenciaConTurno = truncar(acumuladorPermanenciaConTurno, precision);
     }
 }

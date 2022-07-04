@@ -143,6 +143,8 @@ public class GeneradorLinealFxController implements Initializable {
 
             stageManager.loadStageParentScene(mainSceneResource.getURL());
 
+            //mainFxController.seleccionarMetodoGenerador(MetodoGeneradorRandom.getInstanceLineal());
+
 
         }catch(NumberFormatException e){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -151,6 +153,8 @@ public class GeneradorLinealFxController implements Initializable {
             alert.showAndWait();
         }
     }
+
+    //Problemas con el HEAP!!!!! la puta que lo parió!!!!!!
 
 
     @FXML

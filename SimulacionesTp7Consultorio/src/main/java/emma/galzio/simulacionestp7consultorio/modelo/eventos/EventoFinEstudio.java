@@ -34,6 +34,8 @@ public class EventoFinEstudio extends Evento{
         estadoActual.incrementarEstudiosFinalizados();
         estadoActual.incrementarAtencionFinalizada();
         estadoActual.setPacienteAtencionFinalizada(paciente);
+        estadoActual.acumularTiempoPermanenciaPacienteEstudio((PacienteEstudio) paciente,
+                                                        parametrosConsultorio.getParametrosTecnico().getPrecision());
 
         int precision = parametrosConsultorio.getParametrosTecnico().getPrecision();
 
@@ -42,6 +44,7 @@ public class EventoFinEstudio extends Evento{
 
             PacienteEstudio siguientePaciente = (PacienteEstudio) estadoActual.obtenerSiguientePacienteEnColaTecnico();
             siguientePaciente.setMomentoInicioAtencionTecnico(this.momentoEvento);
+            estadoActual.getTecnico().setPacienteActual(siguientePaciente);
 
             estadoActual.acumularTiempoEsperaColaTecnico(siguientePaciente, precision);
             estadoActual.acumularTiempoEsperaTecnico(siguientePaciente,precision);
@@ -54,13 +57,25 @@ public class EventoFinEstudio extends Evento{
         } else{
             estadoActual.liberarTecnico();
             estadoActual.setFinEstudio(null);
-            if(estadoActual.getSecretaria().estaLibre() && estadoActual.horarioFinJornadaExcedido()){
+            if(estadoActual.getSecretaria().estaLibre() && estadoActual.esFinDeJornada()){
                 EventoFinJornada eventoFinJornada = new EventoFinJornada();
 
                 eventoFinJornada.setMomentoEvento(this.momentoEvento);
                 estadoActual.setFinJornada(eventoFinJornada);
                 heapEventos.add(eventoFinJornada);
+            }else{
+                if(estadoActual.llegadaEstudioPospuesta() && estadoActual.llegadaTurnoPospuesta() &&
+                        estadoActual.getSecretaria().estaLibre()){
+                    EventoFinJornada eventoFinJornada = new EventoFinJornada();
+                    float momentoFinJornada = estadoActual.getMomentoInicioJornada() + (5*60.0f);
+                    momentoFinJornada = (float)truncar(momentoFinJornada,
+                            parametrosConsultorio.getParametrosSecretaria().getPrecision());
+                    eventoFinJornada.setMomentoEvento(momentoFinJornada);
+                    estadoActual.setFinJornada(eventoFinJornada);
+                    heapEventos.add(eventoFinJornada);
+                }
             }
+
         }
         return estadoActual;
     }

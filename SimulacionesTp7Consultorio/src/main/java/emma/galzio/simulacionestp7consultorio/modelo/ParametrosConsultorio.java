@@ -9,8 +9,8 @@ public class ParametrosConsultorio {
     private float lambdaLlegadaEstudio;
     private float unifASecretaria;
     private float unifBSecretaria;
-    private float unifATecnico;
-    private float unifBTecnico;
+    private float mediaAtTecnico;
+    private float desvEstTecnico;
     private int turnosDisponiblesDiario;
     private ParametrosGenerador parametrosLlegadaTurno;
     private ParametrosGenerador parametrosLlegadaEstudio;

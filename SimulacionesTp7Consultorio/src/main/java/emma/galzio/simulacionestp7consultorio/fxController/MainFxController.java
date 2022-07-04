@@ -1,17 +1,16 @@
 package emma.galzio.simulacionestp7consultorio.fxController;
 
+import emma.galzio.simulacionestp7consultorio.controller.SimulacionesTp7Controller;
 import emma.galzio.simulacionestp7consultorio.controller.utils.ConstantesGenerador;
 import emma.galzio.simulacionestp7consultorio.controller.utils.MetodoGeneradorRandom;
 import emma.galzio.simulacionestp7consultorio.modelo.ParametrosConsultorio;
 import emma.galzio.simulacionestp7consultorio.modelo.ParametrosGenerador;
+import emma.galzio.simulacionestp7consultorio.modelo.VectorEstadoClinica;
 import emma.galzio.simulacionestp7consultorio.utils.StageManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.*;
 import javafx.util.converter.IntegerStringConverter;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
@@ -31,7 +30,7 @@ public class MainFxController implements Initializable {
 
 
     @FXML
-    private TextField tf_tecnicoB;
+    private TextField tf_tecnicoDesvEst;
 
     @FXML
     private TextField tf_mediaLlegadasConTurno;
@@ -40,7 +39,7 @@ public class MainFxController implements Initializable {
     private TextField tf_cantidadFilas;
 
     @FXML
-    private TextField tf_tecnicoA;
+    private TextField tf_tecnicoMedia;
 
     @FXML
     private TextField tf_primeraFila;
@@ -66,6 +65,8 @@ public class MainFxController implements Initializable {
     private TextField tf_secreatariaA;
 
     @Autowired
+    private SimulacionesTp7Controller simulacionesTp7Controller;
+    @Autowired
     private StageManager stageManager;
     @Value("${sim.tp7.scene.generadorLineal}")
     private Resource sceneGeneradorLineal;
@@ -85,22 +86,34 @@ public class MainFxController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        cb_metodoGenerador.getItems().addAll(MetodoGeneradorRandom.getInstanceLenguaje(),
-                MetodoGeneradorRandom.getInstanceLineal(),MetodoGeneradorRandom.getInstanceMultiplicativo());
-        cb_metodoGenerador.getSelectionModel().select(0);
+        if(cb_metodoGenerador.getItems().isEmpty()) {
+            cb_metodoGenerador.getItems().addAll(MetodoGeneradorRandom.getInstanceLenguaje(),
+                    MetodoGeneradorRandom.getInstanceLineal(), MetodoGeneradorRandom.getInstanceMultiplicativo());
+            cb_metodoGenerador.getSelectionModel().select(0);
+        }
 
-        metodoGeneradorSeleccionado = cb_metodoGenerador.getSelectionModel().getSelectedItem();
-        parametrosLlegadasConTurno = new ParametrosGenerador();
-        parametrosLlegadasConTurno.setMetodoGeneradorRandom(ConstantesGenerador.LENGUAJE);
-        parametrosLlegadasConTurno.setPrecision(4);
-        parametrosSecretaria = parametrosLlegadasConTurno;
-        parametrosTecnico = parametrosLlegadasConTurno;
-        parametrosLlegadasSinTurno = parametrosLlegadasConTurno;
-
+        if(parametrosTecnico == null && parametrosSecretaria == null &&
+                parametrosLlegadasConTurno == null && parametrosLlegadasSinTurno == null) {
+            metodoGeneradorSeleccionado = cb_metodoGenerador.getSelectionModel().getSelectedItem();
+            parametrosLlegadasConTurno = new ParametrosGenerador();
+            parametrosLlegadasConTurno.setMetodoGeneradorRandom(ConstantesGenerador.LENGUAJE);
+            parametrosLlegadasConTurno.setPrecision(4);
+            parametrosSecretaria = parametrosLlegadasConTurno;
+            parametrosTecnico = parametrosLlegadasConTurno;
+            parametrosLlegadasSinTurno = parametrosLlegadasConTurno;
+        }
         this.setIntegerTextFieldsFilter();
         this.setTextFieldsFloatFilter();
+    }
 
-
+    public void seleccionarMetodoGenerador(MetodoGeneradorRandom metodoGeneradorRandom){
+        MetodoGeneradorRandom metodoEnComboBox = null;
+        for(MetodoGeneradorRandom metodo : cb_metodoGenerador.getItems()){
+            if(metodo.getMetodo().equals(metodoGeneradorRandom.getMetodo())){
+                metodoEnComboBox = metodo;
+            }
+        }
+        if(metodoEnComboBox != null) cb_metodoGenerador.getSelectionModel().select(metodoEnComboBox);
     }
 
     private void setTextFieldsFloatFilter(){
@@ -109,8 +122,8 @@ public class MainFxController implements Initializable {
         tf_mediaLlegadasSinTurno.setTextFormatter(new TextFormatter<Float>(floatFilter));
         tf_secreatariaA.setTextFormatter(new TextFormatter<Float>(floatFilter));
         tf_secretariaB.setTextFormatter(new TextFormatter<Float>(floatFilter));
-        tf_tecnicoA.setTextFormatter(new TextFormatter<Float>(floatFilter));
-        tf_tecnicoB.setTextFormatter(new TextFormatter<Float>(floatFilter));
+        tf_tecnicoMedia.setTextFormatter(new TextFormatter<Float>(floatFilter));
+        tf_tecnicoDesvEst.setTextFormatter(new TextFormatter<Float>(floatFilter));
     }
 
 
@@ -152,10 +165,30 @@ public class MainFxController implements Initializable {
     }
 
     @FXML
+    @SneakyThrows
     void generarSimulacion(ActionEvent event){
 
-        ParametrosConsultorio parametrosConsultorio = cargarParametros();
+        try {
+            ParametrosConsultorio parametrosConsultorio = cargarParametros();
+            List<VectorEstadoClinica> resultadoSim = simulacionesTp7Controller.generarSimulacion(parametrosConsultorio);
+            ResultadoSimulacionFxController resultadoFxController = stageManager.loadStageParentScene(sceneResultados.getURL());
+            resultadoFxController.mostrarResultadosSimulacion(resultadoSim);
 
+        }catch(NumberFormatException nfe){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            Label label = new Label("Todos los campos son obligatorios y mayores a 0");
+            label.setWrapText(true);
+            alert.setTitle("Error");
+            //alert.setContentText("Todos los campos son obligatorios mayores a 0");
+            alert.getDialogPane().setContent(label);
+            alert.showAndWait();
+        }catch(IllegalArgumentException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            Label label = new Label(e.getMessage());
+            label.setWrapText(true);
+            alert.getDialogPane().setContent(label);
+            alert.showAndWait();
+        }
     }
 
     private ParametrosConsultorio cargarParametros() {
@@ -165,9 +198,27 @@ public class MainFxController implements Initializable {
         parametrosConsultorio.setParametrosTecnico(parametrosTecnico);
         parametrosConsultorio.setParametrosLlegadaEstudio(parametrosLlegadasConTurno);
         parametrosConsultorio.setParametrosLlegadaTurno(parametrosLlegadasSinTurno);
+        float mediaLlegadasTurno = Float.parseFloat(tf_mediaLlegadasSinTurno.getText().trim());
+        float mediaLlegadasEstudio = Float.parseFloat(tf_mediaLlegadasConTurno.getText().trim());
+        float secretariaUnifA = Float.parseFloat(tf_secreatariaA.getText().trim());
+        float secretariaUnifB = Float.parseFloat(tf_secretariaB.getText().trim());
+        float tecnicoUnifA = Float.parseFloat(tf_tecnicoMedia.getText().trim());
+        float tecnicoUnifB = Float.parseFloat(tf_tecnicoDesvEst.getText().trim());
+        int nroTurnosDiarios = Integer.parseInt(tf_cantTurnos.getText().trim());
+        int cantDiasSim = Integer.parseInt(tf_cantDiasSim.getText().trim());
+        int primeraFila = Integer.parseInt(tf_primeraFila.getText().trim());
+        int cantFilas = Integer.parseInt(tf_cantidadFilas.getText().trim());
 
-        //Falta cargar los campos de texto
-
+        parametrosConsultorio.setLambdaLlegadaTurno((float)truncar(1/mediaLlegadasTurno,4));
+        parametrosConsultorio.setLambdaLlegadaEstudio((float)truncar(1/mediaLlegadasEstudio,4));
+        parametrosConsultorio.setUnifASecretaria(secretariaUnifA);
+        parametrosConsultorio.setUnifBSecretaria(secretariaUnifB);
+        parametrosConsultorio.setMediaAtTecnico(tecnicoUnifA);
+        parametrosConsultorio.setDesvEstTecnico(tecnicoUnifB);
+        parametrosConsultorio.setTurnosDisponiblesDiario(nroTurnosDiarios);
+        parametrosConsultorio.setDiasASimular(cantDiasSim);
+        parametrosConsultorio.setPrimeraFila(primeraFila);
+        parametrosConsultorio.setCantFilasMostrar(cantFilas);
 
         return parametrosConsultorio;
     }
@@ -242,5 +293,9 @@ public class MainFxController implements Initializable {
 
     public void setParametrosTecnico(ParametrosGenerador parametrosTecnico) {
         this.parametrosTecnico = parametrosTecnico;
+    }
+    public double truncar(double f, float precision){
+        double multiplicador = Math.pow(10, precision);
+        return Math.round(f*multiplicador)/multiplicador;
     }
 }

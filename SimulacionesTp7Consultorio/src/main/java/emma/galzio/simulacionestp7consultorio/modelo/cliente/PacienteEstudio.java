@@ -9,6 +9,9 @@ public class PacienteEstudio extends Paciente {
     private float momentoLlegadaColaTecnico;
     private float momentoInicioAtencionTecnico;
 
+    public PacienteEstudio(){
+        this.tipoPaciente = "c/Turno";
+    }
 
     @Override
     public boolean tieneTurno() {

@@ -30,47 +30,50 @@ public class EventoLlegadaPacienteTurno extends Evento{
         estadoActual.setReloj(this.momentoEvento);
         estadoActual.calcularDiaYMinutos();
         estadoActual.setNombreEvento(this.nombreEvento);
-        estadoActual.incrementarLlegadasTurno();
         estadoActual.acumularTiempoLibreSecretaria(estadoAnterior);
+        estadoActual.incrementarLlegadasTurno();
 
         EventoLlegadaPacienteTurno siguienteLlegada = calcularSiguienteLlegada(estadoActual,
                 parametrosConsultorio, generadoresVariableAleatoria);
         estadoActual.setLlegadaPacienteTurno(siguienteLlegada);
         heapEventos.add(siguienteLlegada);
 
+        //if(estadoActual.getCantLlegadasTurnoDiaActual() > parametrosConsultorio.getTurnosDisponiblesDiario()){
+        //    return estadoActual;
+        //}
+
+        if(!(estadoActual.getCantLlegadasTurnoDiaActual() > parametrosConsultorio.getTurnosDisponiblesDiario())) {
+            //Generación del evento de fin de atención de secretaria si corresponde
+            PacienteTurno pacienteTurno = new PacienteTurno();
+            pacienteTurno.setId(estadoActual.getCantLlegadasTurno());
+            pacienteTurno.setMomentoLlegada(this.momentoEvento);
+
+            estadoActual.agregarPaciente(pacienteTurno);
+
+            if (!estadoActual.getSecretaria().estaLibre()) {
+                pacienteTurno.setEstado(EstadoCliente.getInstanceEsperandoSecretaria());
+                estadoActual.agregarPacienteColaSecretaria(pacienteTurno);
+            } else {
+                pacienteTurno.setEstado(EstadoCliente.getInstanceAtencionSecretaria());
+                estadoActual.getSecretaria().ocupar();
+                estadoActual.getSecretaria().setPacienteActual(pacienteTurno);
+
+                EventoFinAtencionSecretaria finAtencionSecretaria = calcularFinAtencionSecretaria(parametrosConsultorio,
+                        generadoresVariableAleatoria);
+                finAtencionSecretaria.setPaciente(pacienteTurno);
+                estadoActual.setFinAtencionSecretaria(finAtencionSecretaria);
+                heapEventos.add(finAtencionSecretaria);
+            }
+        }
         if(estadoActual.llegadaEstudioPospuesta() && estadoActual.llegadaTurnoPospuesta()
                 && estadoActual.getSecretaria().estaLibre() && estadoActual.getTecnico().estaLibre()){
             EventoFinJornada eventoFinJornada = new EventoFinJornada();
-            float momentoFinJornada = estadoActual.getMomentoInicioJornada() + (13*60.0f);
+            float momentoFinJornada = estadoActual.getMomentoInicioJornada() + (5*60.0f);
             momentoFinJornada = (float)truncar(momentoFinJornada,
                     parametrosConsultorio.getParametrosSecretaria().getPrecision());
             eventoFinJornada.setMomentoEvento(momentoFinJornada);
             estadoActual.setFinJornada(eventoFinJornada);
             heapEventos.add(eventoFinJornada);
-        }
-
-        if(estadoActual.getCantLlegadasTurno() >= parametrosConsultorio.getTurnosDisponiblesDiario()){
-            return estadoActual;
-        }
-        //Generación del evento de fin de atención de secretaria si corresponde
-        PacienteTurno pacienteTurno = new PacienteTurno();
-        pacienteTurno.setId(estadoActual.getCantLlegadasTurno());
-        pacienteTurno.setMomentoLlegada(this.momentoEvento);
-
-        estadoActual.agregarPaciente(pacienteTurno);
-
-        if(!estadoActual.getSecretaria().estaLibre()){
-            pacienteTurno.setEstado(EstadoCliente.getInstanceEsperandoSecretaria());
-            estadoActual.agregarPacienteColaSecretaria(pacienteTurno);
-        }else{
-            pacienteTurno.setEstado(EstadoCliente.getInstanceAtencionSecretaria());
-            estadoActual.getSecretaria().ocupar();
-
-            EventoFinAtencionSecretaria finAtencionSecretaria = calcularFinAtencionSecretaria(parametrosConsultorio,
-                                                                generadoresVariableAleatoria);
-            finAtencionSecretaria.setPaciente(pacienteTurno);
-            estadoActual.setFinAtencionSecretaria(finAtencionSecretaria);
-            heapEventos.add(finAtencionSecretaria);
         }
         return estadoActual;
     }
@@ -82,6 +85,8 @@ public class EventoLlegadaPacienteTurno extends Evento{
         int presicion = parametrosConsultorio.getParametrosSecretaria().getPrecision();
 
         EventoLlegadaPacienteTurno siguienteLlegada = new EventoLlegadaPacienteTurno();
+        siguienteLlegada.setRandomLlegadaPacienteTurno(parametrosConsultorio.getRandomBaseCULlegadaTurno().getRandom());
+
         ParametrosCambioDistribucion parametrosCambioDistribucion = new ParametrosCambioDistribucion();
         parametrosCambioDistribucion.setLambda(parametrosConsultorio.getLambdaLlegadaTurno());
         parametrosCambioDistribucion.setPresicion(parametrosConsultorio.getParametrosSecretaria().getPrecision());
@@ -103,7 +108,7 @@ public class EventoLlegadaPacienteTurno extends Evento{
         }
         siguienteLlegada.setTiempoHastaEvento(tiempoLlegada);
         siguienteLlegada.setMomentoEvento(momentoLlegada);
-        siguienteLlegada.setRandomLlegadaPacienteTurno(variableAleatoria.getSiguienteRandomBase().getRandom());
+
         return siguienteLlegada;
     }
 

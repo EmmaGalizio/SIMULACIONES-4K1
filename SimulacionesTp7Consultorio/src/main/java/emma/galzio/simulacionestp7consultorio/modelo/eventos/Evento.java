@@ -58,12 +58,13 @@ public abstract class Evento implements Comparable<Evento> {
         parametrosCambioDistribucion.setUnifA(a);
         parametrosCambioDistribucion.setUnifB(b);
         parametrosCambioDistribucion.setPresicion(parametrosConsultorio.getParametrosSecretaria().getPrecision());
+        finAtencionSecretaria.setRandomAtencionSecretaria(randomBase.getRandom());
         VariableAleatoria variableAleatoria = generadorVariableAleatoria.siguienteRandom(parametrosCambioDistribucion,
-                parametrosConsultorio.getParametrosSecretaria(),
-                randomBase);
+                parametrosConsultorio.getParametrosSecretaria(), randomBase);
 
         parametrosConsultorio.setRandomBaseCUSecretaria(variableAleatoria.getSiguienteRandomBase());
         float tiempoAtencion = variableAleatoria.getRandomGenerado();
+
         finAtencionSecretaria.setTiempoHastaEvento(tiempoAtencion);
         finAtencionSecretaria.calcularMomentoEvento(this.momentoEvento,
                                             parametrosConsultorio.getParametrosSecretaria().getPrecision());
@@ -80,12 +81,12 @@ public abstract class Evento implements Comparable<Evento> {
         int precision = parametrosConsultorio.getParametrosTecnico().getPrecision();
 
         ICambioDistribucion generadorVariableAleatoria = generadoresVariableAleatoria
-                .get(ConstantesCambioDistribucion.UNIFORME);
+                .get(ConstantesCambioDistribucion.NORMAL_CONVOLUCION);
         ParametrosCambioDistribucion parametrosCambioDistribucion = new ParametrosCambioDistribucion();
-        parametrosCambioDistribucion.setUnifA(parametrosConsultorio.getUnifATecnico());
-        parametrosCambioDistribucion.setUnifB(parametrosConsultorio.getUnifBTecnico());
+        parametrosCambioDistribucion.setMedia(parametrosConsultorio.getMediaAtTecnico());
+        parametrosCambioDistribucion.setDesvEst(parametrosConsultorio.getDesvEstTecnico());
         parametrosCambioDistribucion.setPresicion(parametrosConsultorio.getParametrosTecnico().getPrecision());
-
+        finEstudio.setRandomFinEstudio(parametrosConsultorio.getRandomBaseCUTecnico().getRandom());
         VariableAleatoria variableAleatoria = generadorVariableAleatoria.siguienteRandom(parametrosCambioDistribucion,
                 parametrosConsultorio.getParametrosTecnico(),
                 parametrosConsultorio.getRandomBaseCUTecnico());
@@ -94,7 +95,6 @@ public abstract class Evento implements Comparable<Evento> {
         float tiempoAtencion = variableAleatoria.getRandomGenerado();
         float momentoFinAtencion = tiempoAtencion + this.momentoEvento;
         momentoFinAtencion = (float)truncar(momentoFinAtencion, precision);
-        finEstudio.setRandomFinEstudio(variableAleatoria.getSiguienteRandomBase().getRandom());
         finEstudio.setTiempoHastaEvento(tiempoAtencion);
         finEstudio.setMomentoEvento(momentoFinAtencion);
 

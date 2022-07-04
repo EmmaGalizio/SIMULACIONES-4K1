@@ -9,8 +9,8 @@ import java.util.Queue;
 @Data
 public class Servidor {
 
-    private Paciente pacienteActual;
-    private EstadosServidor estado;
+    protected Paciente pacienteActual;
+    protected EstadosServidor estado;
     //private Queue<Paciente> cola;
 
 

@@ -5,6 +5,9 @@ import lombok.Data;
 @Data
 public class PacienteTurno extends Paciente {
 
+    public PacienteTurno(){
+        this.tipoPaciente = "s/Turno";
+    }
 
     @Override
     public boolean tieneTurno() {

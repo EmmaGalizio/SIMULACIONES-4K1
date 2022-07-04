@@ -8,10 +8,15 @@ import lombok.Setter;
 @Setter
 public abstract class Paciente {
 
-    private int id;
-    private EstadoCliente estado;
-    private float momentoLlegada;
+    protected int id;
+    protected EstadoCliente estado;
+    protected float momentoLlegada;
+    protected String tipoPaciente;
 
     public abstract boolean tieneTurno();
+
+    public String getIdentificadorPaciente(){
+        return tipoPaciente + "-"+id;
+    }
 
 }

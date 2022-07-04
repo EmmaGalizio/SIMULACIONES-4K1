@@ -1,6 +1,7 @@
 package emma.galzio.simulacionestp7consultorio.fxController;
 
 import emma.galzio.simulacionestp7consultorio.controller.utils.ConstantesGenerador;
+import emma.galzio.simulacionestp7consultorio.controller.utils.MetodoGeneradorRandom;
 import emma.galzio.simulacionestp7consultorio.modelo.ParametrosGenerador;
 import emma.galzio.simulacionestp7consultorio.utils.StageManager;
 import javafx.event.ActionEvent;
@@ -122,6 +123,7 @@ public class GeneradorMultiplicativoFxController implements Initializable {
 
             stageManager.loadStageParentScene(mainSceneResource.getURL());
 
+            //mainFxController.seleccionarMetodoGenerador(MetodoGeneradorRandom.getInstanceMultiplicativo());
 
         }catch(NumberFormatException e){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

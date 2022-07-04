@@ -43,7 +43,8 @@ public class GeneradorPseudoMultiplicativo implements IGeneradorRandom{
 
     @Override
     public Pseudoaleatorio siguientePseudoAleatoreo(Pseudoaleatorio pseudoaleatorio, ParametrosGenerador parametros) {
-        if(pseudoaleatorio == null || parametros == null) throw new IllegalArgumentException("Se deben proporcionar parametros válidos");
+        if(parametros == null) throw new IllegalArgumentException("Se deben proporcionar parametros válidos");
+        if(pseudoaleatorio == null) return siguientePseudoAleatoreo(parametros);
         if(pseudoaleatorio.getSemilla() < 0) pseudoaleatorio.setSemilla(0);
         if(parametros.getPrecision() <= 0 || parametros.getPrecision() > 9) parametros.setPrecision(4);
         if(parametros.getG() <= 0) throw new IllegalArgumentException("G debe ser mayor a 0");
