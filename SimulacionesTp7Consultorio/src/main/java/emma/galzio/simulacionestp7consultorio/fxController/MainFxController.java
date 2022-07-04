@@ -131,7 +131,7 @@ public class MainFxController implements Initializable {
     private UnaryOperator<TextFormatter.Change> getFloatFilter(){
         return t -> {
             if (t.isReplaced())
-                if(t.getText().matches("[^0-9]"))
+                if(t.getText().matches("[^0-9]")) //"[^0-9]"
                     t.setText(t.getControlText().substring(t.getRangeStart(), t.getRangeEnd()));
 
             if (t.isAdded()) {
@@ -139,7 +139,7 @@ public class MainFxController implements Initializable {
                     if (t.getText().matches("[^0-9]")) {
                         t.setText("");
                     }
-                } else if (t.getText().matches("[^0-9.]")) {
+                } else if (t.getText().matches(".[^0-9]")) {
                     t.setText("");
                 }
             }
@@ -150,7 +150,7 @@ public class MainFxController implements Initializable {
     private UnaryOperator<TextFormatter.Change> getIntegerFilter(){
         return change -> {
             String newText = change.getControlNewText();
-            if (newText.matches("-?([1-9][0-9]*)?")) {
+            if (newText.matches("([1-9][0-9]*)?")) {
                 return change;
             }
             return null;
@@ -174,6 +174,7 @@ public class MainFxController implements Initializable {
             List<VectorEstadoClinica> resultadoSim = simulacionesTp7Controller.generarSimulacion(parametrosConsultorio);
             ResultadoSimulacionFxController resultadoFxController = stageManager.loadStageParentScene(sceneResultados.getURL());
             resultadoFxController.mostrarResultadosSimulacion(resultadoSim);
+            resultadoFxController.cargarParametros(parametrosConsultorio);
 
         }catch(NumberFormatException nfe){
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -203,8 +204,8 @@ public class MainFxController implements Initializable {
         float mediaLlegadasEstudio = Float.parseFloat(tf_mediaLlegadasConTurno.getText().trim());
         float secretariaUnifA = Float.parseFloat(tf_secreatariaA.getText().trim());
         float secretariaUnifB = Float.parseFloat(tf_secretariaB.getText().trim());
-        float tecnicoUnifA = Float.parseFloat(tf_tecnicoMedia.getText().trim());
-        float tecnicoUnifB = Float.parseFloat(tf_tecnicoDesvEst.getText().trim());
+        float mediaAtTecnico = Float.parseFloat(tf_tecnicoMedia.getText().trim());
+        float desvEstAtTecnico = Float.parseFloat(tf_tecnicoDesvEst.getText().trim());
         int nroTurnosDiarios = Integer.parseInt(tf_cantTurnos.getText().trim());
         int cantDiasSim = Integer.parseInt(tf_cantDiasSim.getText().trim());
         int primeraFila = Integer.parseInt(tf_primeraFila.getText().trim());
@@ -216,12 +217,17 @@ public class MainFxController implements Initializable {
         parametrosConsultorio.setLambdaLlegadaEstudio((float)CommonFunc.round(1/mediaLlegadasEstudio,4));
         parametrosConsultorio.setUnifASecretaria(secretariaUnifA);
         parametrosConsultorio.setUnifBSecretaria(secretariaUnifB);
-        parametrosConsultorio.setMediaAtTecnico(tecnicoUnifA);
-        parametrosConsultorio.setDesvEstTecnico(tecnicoUnifB);
+        parametrosConsultorio.setMediaAtTecnico(mediaAtTecnico);
+        parametrosConsultorio.setDesvEstTecnico(desvEstAtTecnico);
         parametrosConsultorio.setTurnosDisponiblesDiario(nroTurnosDiarios);
         parametrosConsultorio.setDiasASimular(cantDiasSim);
         parametrosConsultorio.setPrimeraFila(primeraFila);
         parametrosConsultorio.setCantFilasMostrar(cantFilas);
+
+        StringBuilder error = new StringBuilder();
+        if(mediaAtTecnico <1) error.append("El tiempo medio de atención del técnico debe ser mayor a 1 min");
+        if(desvEstAtTecnico > mediaAtTecnico) error.append("El tiempo medio de atencion del \ntecnico no puede ser menor que su desv. est.");
+        if(error.length() != 0) throw new IllegalArgumentException(error.toString());
 
         return parametrosConsultorio;
     }

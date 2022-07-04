@@ -126,6 +126,8 @@ public class CambioDistribucionUniformeAB implements ICambioDistribucion{
             throw new IllegalArgumentException("Debe indiar los limites inferior y superior");
         if(parametrosGenerador == null || parametrosGenerador.getMetodoGeneradorRandom() == null)
             throw new IllegalArgumentException("Debe indicar el método con el que desea general los randoms uniformes 0-1");
+        if(parametros.getUnifB() <= parametros.getUnifA())
+            throw new IllegalArgumentException("El valor de B debe ser mayor al de A");
         IGeneradorRandom generadorRandom = generadoresRandom
                 .get(parametrosGenerador.getMetodoGeneradorRandom());
         int multiplicador = (int)Math.pow(10, parametros.getPresicion());

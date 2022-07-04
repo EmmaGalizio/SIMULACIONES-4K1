@@ -1,5 +1,6 @@
 package emma.galzio.simulacionestp7consultorio.fxController;
 
+import emma.galzio.simulacionestp7consultorio.modelo.ParametrosConsultorio;
 import emma.galzio.simulacionestp7consultorio.modelo.VectorEstadoClinica;
 import emma.galzio.simulacionestp7consultorio.utils.CommonFunc;
 import emma.galzio.simulacionestp7consultorio.utils.StageManager;
@@ -7,10 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +25,7 @@ import java.util.Vector;
 @Component
 @Lazy
 public class ResultadoSimulacionFxController  implements Initializable {
+
 
     @Autowired
     private MainFxController mainFxController;
@@ -47,6 +46,18 @@ public class ResultadoSimulacionFxController  implements Initializable {
 
     @FXML
     private TextField tf_tiempoMedTecnico;
+    @FXML
+    public Label lbl_mediaST;
+    @FXML
+    public Label lbl_mediaCT;
+    @FXML
+    public Label lbl_ASec;
+    @FXML
+    public Label lbl_BSec;
+    @FXML
+    public Label lbl_mediaTec;
+    @FXML
+    public Label lbl_desEstTec;
 
     @Value("${sim.tp7.scene.Main}")
     private Resource mainSceneResoure;
@@ -100,6 +111,15 @@ public class ResultadoSimulacionFxController  implements Initializable {
         tf_promedioPermanencia.setText(Double.toString(mediaPermPacEstudio));
         tf_TiempoColaTecnico.setText(Double.toString(mediaEsperaColaEstudio));
         tf_tiempoMedTecnico.setText(Double.toString(mediaTotalEsperaEstudio));
+    }
+
+    public void cargarParametros(ParametrosConsultorio parametrosConsultorio){
+        lbl_BSec.setText(Float.toString(parametrosConsultorio.getUnifBSecretaria()));
+        lbl_ASec.setText(Float.toString(parametrosConsultorio.getUnifASecretaria()));
+        lbl_mediaST.setText(Double.toString(CommonFunc.round(1/parametrosConsultorio.getLambdaLlegadaTurno(),4)));
+        lbl_mediaCT.setText(Double.toString(CommonFunc.round(1/parametrosConsultorio.getLambdaLlegadaEstudio(),4)));
+        lbl_mediaTec.setText(Float.toString(parametrosConsultorio.getMediaAtTecnico()));
+        lbl_desEstTec.setText(Float.toString(parametrosConsultorio.getDesvEstTecnico()));
     }
     private void generarColumnas() {
 
@@ -218,10 +238,10 @@ public class ResultadoSimulacionFxController  implements Initializable {
         colaSecretariaColumna.setCellValueFactory(cellData -> cellData.getValue().getColaSecretaria()== null ? new SimpleStringProperty("") :
                 new SimpleStringProperty(Integer.toString(cellData.getValue().getColaSecretaria().size())));
         colaSecretariaColumna.setText("Cola Sec.");
-        //TableColumn<VectorEstadoClinica,String> pacienteActualSecColumna = new TableColumn<>();
-        //pacienteActualSecColumna.setCellValueFactory(cellData -> cellData.getValue().getSecretaria().estaLibre() ? new SimpleStringProperty("") :
-        //        new SimpleStringProperty(cellData.getValue().getSecretaria().getPacienteActual().getIdentificadorPaciente()));
-        //pacienteActualSecColumna.setText("Paciente Act.");
+        TableColumn<VectorEstadoClinica,String> pacienteActualSecColumna = new TableColumn<>();
+        pacienteActualSecColumna.setCellValueFactory(cellData -> cellData.getValue().getSecretaria().getPacienteActual() == null ? new SimpleStringProperty("") :
+                new SimpleStringProperty(cellData.getValue().getSecretaria().getPacienteActual().getIdentificadorPaciente()));
+        pacienteActualSecColumna.setText("Paciente Act.");
 
         //Servidor: Técnico
 
@@ -233,10 +253,10 @@ public class ResultadoSimulacionFxController  implements Initializable {
         colaTecnicoColumna.setCellValueFactory(cellData -> cellData.getValue().getColaTecnico()== null ? new SimpleStringProperty("") :
                 new SimpleStringProperty(Integer.toString(cellData.getValue().getColaTecnico().size())));
         colaTecnicoColumna.setText("Cola Tec.");
-        //TableColumn<VectorEstadoClinica,String> pacienteActualTecColumna = new TableColumn<>();
-        //pacienteActualTecColumna.setCellValueFactory(cellData -> cellData.getValue().getTecnico().estaLibre() ? new SimpleStringProperty("") :
-        //        new SimpleStringProperty(cellData.getValue().getTecnico().getPacienteActual().getIdentificadorPaciente()));
-        //pacienteActualTecColumna.setText("Paciente Act.");
+        TableColumn<VectorEstadoClinica,String> pacienteActualTecColumna = new TableColumn<>();
+        pacienteActualTecColumna.setCellValueFactory(cellData -> cellData.getValue().getTecnico().getPacienteActual()==null ? new SimpleStringProperty("") :
+                new SimpleStringProperty(cellData.getValue().getTecnico().getPacienteActual().getIdentificadorPaciente()));
+        pacienteActualTecColumna.setText("Paciente Act.");
 
         //Acumuladores y contadores.
 
@@ -288,8 +308,8 @@ public class ResultadoSimulacionFxController  implements Initializable {
                 randomLlegadaPacEstudioColumna, tiempoLlegadaPacEstudioColumna, momentoLlegadaPacEstudioColumna,
                 randomFinAtSecretariaColumna, tiempoFinAtSecretariaColumna, momentoFinAtSecretariaColumna,
                 randomFinAtTecnicoColumna, tiempoFinAtTecnicoColumna, momentoFinAtTecnicoColumna,
-                eventoInicioJornadaColumna, eventoFinJornadaColumna, estadoSecretaria, colaSecretariaColumna,
-                estadoTecnico, colaTecnicoColumna ,cantLlegadasTurnoColumna, cantLlegadasEstudioColumna,
+                eventoInicioJornadaColumna, eventoFinJornadaColumna, estadoSecretaria, colaSecretariaColumna, pacienteActualSecColumna,
+                estadoTecnico, colaTecnicoColumna, pacienteActualTecColumna ,cantLlegadasTurnoColumna, cantLlegadasEstudioColumna,
                 cantLlegadasTurnoDiaActualColumna, cantLlegadasEstudioDiaActualColumna, cantAtFinColumna, cantEstudiosFinColumna,
                 acTiempoJornadasColumna,acTiempoLibSecColumna, acPermEstudioColumna, acEsperaColaTecColumna, acEsperaTecnico);
         tv_resultadoSim.refresh();

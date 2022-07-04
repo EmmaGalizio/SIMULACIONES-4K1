@@ -25,6 +25,8 @@ public class Servidor {
 
     public void liberar() {
         estado = EstadosServidor.getInstanceLibre();
+        pacienteActual = null;
+
     }
     public void ocupar(){
         estado = EstadosServidor.getInstanceOcupado();

@@ -11,5 +11,4 @@ public class Secretaria extends Servidor{
         return nuevoServidor;
     }
 
-
 }

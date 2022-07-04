@@ -105,12 +105,9 @@ public class EventoLlegadaPacienteTurno extends Evento{
         float finalDia = (estadoActual.getDia()-1)*24*60.0f + (13*60.0f);
         if(momentoLlegada >= finalDia){
             double inicioSiguienteDia = estadoActual.getDia()*24*60.0f + (60*8.0f);
-            //inicioSiguienteDia = (float)truncar(inicioSiguienteDia, 4);
             inicioSiguienteDia = CommonFunc.round(inicioSiguienteDia,4);
             momentoLlegada = inicioSiguienteDia + tiempoLlegada;
-            //momentoLlegada = (float) truncar(momentoLlegada, 4);
         }
-        //momentoLlegada = (float) truncar(momentoLlegada, 4);
         momentoLlegada = CommonFunc.round(momentoLlegada, 4);
         siguienteLlegada.setTiempoHastaEvento(tiempoLlegada);
         siguienteLlegada.setMomentoEvento(momentoLlegada);

@@ -12,6 +12,7 @@ import emma.galzio.simulacionestp7consultorio.modelo.eventos.EventoLlegadaPacien
 import emma.galzio.simulacionestp7consultorio.modelo.eventos.EventoLlegadaPacienteTurno;
 import emma.galzio.simulacionestp7consultorio.modelo.servidor.Secretaria;
 import emma.galzio.simulacionestp7consultorio.modelo.servidor.Tecnico;
+import emma.galzio.simulacionestp7consultorio.utils.CommonFunc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -126,7 +127,7 @@ public class SimulacionesTp7Controller {
                 parametrosConsultorio.getParametrosLlegadaTurno(),
                 parametrosConsultorio.getRandomBaseCULlegadaTurno());
 
-        primerLlegadaPacienteTurno.setTiempoHastaEvento(variableAleatoriaTurno.getRandomGenerado());
+        primerLlegadaPacienteTurno.setTiempoHastaEvento(CommonFunc.round(variableAleatoriaTurno.getRandomGenerado(),4));
         primerLlegadaPacienteTurno.calcularMomentoEvento(8*60.0f,parametrosCambioDistribucion.getPresicion());
         //Actualizacion random llegada paciente sin turno
         primerLlegadaPacienteTurno.setRandomLlegadaPacienteTurno(parametrosConsultorio.getRandomBaseCULlegadaTurno()
@@ -152,7 +153,7 @@ public class SimulacionesTp7Controller {
         VariableAleatoria variableAleatoriaEstudio = generadorVariableAleatoria.siguienteRandom(parametrosCambioDistribucion,
                 parametrosConsultorio.getParametrosLlegadaEstudio(),
                 parametrosConsultorio.getRandomBaseCULlegadaEstudio());
-        primerLlegadaPacienteEstudio.setTiempoHastaEvento(variableAleatoriaEstudio.getRandomGenerado());
+        primerLlegadaPacienteEstudio.setTiempoHastaEvento(CommonFunc.round(variableAleatoriaEstudio.getRandomGenerado(),4));
         primerLlegadaPacienteEstudio.calcularMomentoEvento(8*60.f,parametrosCambioDistribucion.getPresicion());
         primerLlegadaPacienteEstudio.setRandomLlegadaPacienteEstudio(parametrosConsultorio
                 .getRandomBaseCULlegadaEstudio().getRandom());
