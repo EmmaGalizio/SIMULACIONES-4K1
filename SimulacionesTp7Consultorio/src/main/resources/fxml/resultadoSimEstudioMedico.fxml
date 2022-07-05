@@ -36,7 +36,7 @@
                                        <children>
                                           <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <Label minWidth="250.0" text="Tiempo Promedio Permanencia:" />
+                                                <Label minWidth="250.0" text="Tiempo Promedio Permanencia c/T:" />
                                                 <TextField fx:id="tf_promedioPermanencia" maxWidth="100.0" />
                                              </children>
                                           </HBox>
