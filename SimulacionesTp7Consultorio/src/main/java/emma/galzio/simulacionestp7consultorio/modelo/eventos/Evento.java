@@ -95,6 +95,7 @@ public abstract class Evento implements Comparable<Evento> {
 
         parametrosConsultorio.setRandomBaseCUTecnico(variableAleatoria.getSiguienteRandomBase());
         double tiempoAtencion = variableAleatoria.getRandomGenerado();
+        tiempoAtencion = Math.abs(tiempoAtencion);
         tiempoAtencion = CommonFunc.round(tiempoAtencion,4);
         double momentoFinAtencion = tiempoAtencion + this.momentoEvento;
         //momentoFinAtencion = (float)truncar(momentoFinAtencion, precision);
