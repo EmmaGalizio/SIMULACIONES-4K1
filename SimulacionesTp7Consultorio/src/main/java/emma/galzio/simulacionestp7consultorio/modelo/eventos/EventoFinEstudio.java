@@ -20,6 +20,8 @@ public class EventoFinEstudio extends Evento{
         this.nombreEvento = "Fin Estudio";
     }
 
+    //smagris@hotmail.com
+
     @Override
     public VectorEstadoClinica procesarEvento(VectorEstadoClinica estadoAnterior,
                                               IGeneradorRandom generadorRandom,

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emma.galzio.simulacionestp7consultorio.fxController.MainFxController">
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label prefHeight="52.0" prefWidth="240.0" text="Simulaciones TP7 Establecimiento de Salud" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="DejaVu Sans Bold" size="16.0" />
+               </font>
+            </Label>
+            <Separator prefWidth="200.0" />
+            <AnchorPane prefHeight="86.0" prefWidth="510.0">
+               <children>
+                  <TitledPane animated="false" collapsible="false" text="Parametros Generador Random" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label minWidth="80.0" prefHeight="36.0" prefWidth="150.0" text="Metodo Generador:" wrapText="true">
+                                       <padding>
+                                          <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+                                       </padding>
+                                    </Label>
+                                    <ComboBox fx:id="cb_metodoGenerador" onAction="#seleccionMetodoGenerador" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="10.0" />
+                                       </HBox.margin>
+                                    </ComboBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane VBox.vgrow="ALWAYS">
+               <children>
+                  <TitledPane animated="false" collapsible="false" prefHeight="252.0" text="Parametros Establecimiento" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label minWidth="350.0" prefHeight="36.0" prefWidth="250.0" text="Tiempo Medio Entre Llegadas. Pacientes s/Turno:" wrapText="true" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="tf_mediaLlegadasSinTurno" maxWidth="100.0" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </TextField>
+                                          <Label minWidth="120.0" text="(minutos/paciente)">
+                                             <padding>
+                                                <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+                                             </padding>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0">
+                                       <children>
+                                          <Label minWidth="350.0" prefHeight="36.0" prefWidth="250.0" text="Tiempo Medio Entre Llegadas. Pacientes c/Turno:" wrapText="true" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="tf_mediaLlegadasConTurno" maxWidth="100.0" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </TextField>
+                                          <Label minWidth="120.0" text="(minutos/paciente)">
+                                             <padding>
+                                                <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+                                             </padding>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0">
+                                       <children>
+                                          <Label minWidth="350.0" prefHeight="36.0" prefWidth="250.0" text="Tiempo Minimo Atencion Secretaria (A Unif.):" wrapText="true" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="tf_secreatariaA" maxWidth="100.0" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </TextField>
+                                          <Label minWidth="120.0" text="(minutos/paciente)">
+                                             <padding>
+                                                <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+                                             </padding>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0">
+                                       <children>
+                                          <Label minWidth="350.0" prefHeight="36.0" prefWidth="250.0" text="Tiempo Maximo Atencion Secretaria (B Unif.):" wrapText="true" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="tf_secretariaB" maxWidth="100.0" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </TextField>
+                                          <Label minWidth="120.0" text="(minutos/paciente)">
+                                             <padding>
+                                                <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+                                             </padding>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0">
+                                       <children>
+                                          <Label minWidth="350.0" prefHeight="36.0" prefWidth="250.0" text="Tiempo Medio Atencion Tecnico:" wrapText="true" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="tf_tecnicoMedia" maxWidth="100.0" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </TextField>
+                                          <Label minWidth="120.0" text="(minutos/paciente)">
+                                             <padding>
+                                                <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+                                             </padding>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0">
+                                       <children>
+                                          <Label minWidth="350.0" prefHeight="36.0" prefWidth="250.0" text="Desviacion Estandar Atencion Tecnico:" wrapText="true" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="tf_tecnicoDesvEst" maxWidth="100.0" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0">
+                                       <children>
+                                          <Label minWidth="350.0" prefHeight="36.0" prefWidth="250.0" text="Numero de Turnos Disponibles Por Dia:" wrapText="true" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="tf_cantTurnos" maxWidth="100.0" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </TextField>
+                                          <Label minWidth="120.0" text="(Unidades)">
+                                             <padding>
+                                                <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+                                             </padding>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="171.0" prefWidth="510.0">
+               <children>
+                  <TitledPane animated="false" collapsible="false" text="Parametros Simulacion" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0">
+                                       <children>
+                                          <Label minWidth="130.0" prefHeight="36.0" prefWidth="250.0" text="Cantidad Dias a Simular:" wrapText="true" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="tf_cantDiasSim" maxWidth="100.0" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0">
+                                       <children>
+                                          <Label minWidth="130.0" prefHeight="36.0" prefWidth="250.0" text="Primera Fila a Mostrar:" wrapText="true" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="tf_primeraFila" maxWidth="100.0" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0">
+                                       <children>
+                                          <Label minWidth="130.0" prefHeight="36.0" prefWidth="250.0" text="Cantidad de Filas a Mostrar:" wrapText="true" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="tf_cantidadFilas" maxWidth="100.0" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <Button fx:id="btn_generarSimulacion" mnemonicParsing="false" onAction="#generarSimulacion" text="Generar Simulacion">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="3.0" right="3.0" top="5.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                       </padding>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

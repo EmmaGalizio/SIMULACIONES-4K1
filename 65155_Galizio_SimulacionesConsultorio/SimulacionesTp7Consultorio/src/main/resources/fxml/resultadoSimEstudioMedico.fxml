@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane minHeight="600.0" minWidth="1000.0" style="-fx-background-color: #b0bec5;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emma.galzio.simulacionestp7consultorio.fxController.ResultadoSimulacionFxController">
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label text="Simulacion Establecimiento Medico">
+               <font>
+                  <Font name="DejaVu Sans Bold" size="17.0" />
+               </font>
+            </Label>
+            <AnchorPane prefHeight="200.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <TitledPane animated="false" collapsible="false" text="Tabla de resuen" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <content>
+                        <TableView fx:id="tv_resultadoSim" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #e2f1f8; -fx-border-color: #9e9e9e; -fx-border-style: solid; -fx-border-width: 2px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </content>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane minHeight="150.0" prefHeight="0.0">
+               <children>
+                  <TitledPane animated="false" collapsible="false" style="-fx-border-color: #9e9e9e; -fx-border-image-width: 2px;" text="Resultados" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0">
+                           <children>
+                              <VBox layoutX="10.399999618530273" layoutY="10.399999618530273" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label minWidth="250.0" text="Tiempo Promedio Permanencia c/T:" />
+                                                <TextField fx:id="tf_promedioPermanencia" maxWidth="100.0" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label minWidth="250.0" text="Tasa Ocupacion Secretaria (%):" />
+                                                <TextField fx:id="tf_porcOcupSecretaria" maxWidth="100.0" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label maxWidth="250.0" minWidth="250.0" text="Tiempo Medio Espera Atencion Tecnico:" wrapText="true" />
+                                                <TextField fx:id="tf_tiempoMedTecnico" maxWidth="100.0" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label minWidth="250.0" text="Tiempo Medio Espera Cola Tecnico:" />
+                                                <TextField fx:id="tf_TiempoColaTecnico" maxWidth="100.0" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane>
+               <children>
+                  <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <FlowPane alignment="CENTER_LEFT" columnHalignment="RIGHT" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="|Media S/T:" />
+                              <Label fx:id="lbl_mediaST" />
+                              <Label text="|Media C/T:" />
+                              <Label fx:id="lbl_mediaCT" />
+                              <Label text="|A Sec:" />
+                              <Label fx:id="lbl_ASec" />
+                              <Label text="| B Sec:" />
+                              <Label fx:id="lbl_BSec" />
+                              <Label text="| Media Tec:" />
+                              <Label fx:id="lbl_mediaTec" />
+                              <Label text="|Desv. Est. tec:" />
+                              <Label fx:id="lbl_desEstTec" />
+                           </children>
+                        </FlowPane>
+                        <Button fx:id="btn_atras" mnemonicParsing="false" onAction="#regresarMain" text="Atras">
+                           <padding>
+                              <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+                           </padding>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</AnchorPane>
